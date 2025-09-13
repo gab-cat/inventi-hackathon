@@ -19,6 +19,11 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    rules: {
+      "indent": ["error", 2],
+      "no-tabs": "error",
+      "no-mixed-spaces-and-tabs": "error",
+    },
   },
 ];
 
