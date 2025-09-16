@@ -14,7 +14,7 @@ import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
-import { FolderKanban, LayoutDashboard } from 'lucide-react';
+import { FolderKanban, LayoutDashboard, Wrench } from 'lucide-react';
 import { Label } from '../ui/label';
 import { useUser } from '@clerk/nextjs';
 
@@ -29,6 +29,11 @@ const data = {
       title: 'Dashboard',
       url: '/dashboard',
       icon: <LayoutDashboard className='h-5 w-5' />,
+    },
+    {
+      title: 'Maintenance',
+      url: '/maintenance',
+      icon: <Wrench className='h-5 w-5' />,
     },
     {
       title: 'Transactions',
