@@ -12,7 +12,7 @@ export default defineSchema({
     lastName: v.string(),
     phone: v.optional(v.string()),
     profileImage: v.optional(v.string()),
-    roles: v.array(v.string()), // ["manager", "tenant", "vendor", "field_technician"]
+    role: v.union(v.literal('manager'), v.literal('tenant'), v.literal('vendor'), v.literal('field_technician')),
     isActive: v.boolean(),
     lastLoginAt: v.optional(v.number()),
     createdAt: v.number(),
@@ -20,7 +20,7 @@ export default defineSchema({
   })
     .index('by_clerk_id', ['clerkId'])
     .index('by_email', ['email'])
-    .index('by_roles', ['roles'])
+    .index('by_role', ['role'])
     .index('by_active', ['isActive']),
 
   // Properties and units

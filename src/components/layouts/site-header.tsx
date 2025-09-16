@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { AnimatedThemeToggler } from '../ui/animated-theme-toggler';
 // import { DateFilter } from '@/features/dashboard/components/date-filter';
-import { AnimatedThemeToggler } from '../ui/animate-theme-toggler';
 
 export function SiteHeader() {
   const [mounted, setMounted] = useState(false);

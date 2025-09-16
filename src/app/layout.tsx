@@ -26,22 +26,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
-          <ClerkProvider
-            signInUrl={`/sign-in`}
-            signUpUrl={`/sign-up`}
-            signInFallbackRedirectUrl={`/dashboard`}
-            signUpFallbackRedirectUrl={`/dashboard`}
-            signUpForceRedirectUrl={`/dashboard`}
-            signInForceRedirectUrl={`/dashboard`}
-            afterSignOutUrl={`/sign-in`}
-          >
-            <ConvexClientProvider>{children}</ConvexClientProvider>
-          </ClerkProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <ClerkProvider
+      signInUrl={`/sign-in`}
+      signUpUrl={`/sign-up`}
+      signInFallbackRedirectUrl={`/dashboard`}
+      signUpFallbackRedirectUrl={`/dashboard`}
+      signUpForceRedirectUrl={`/dashboard`}
+      signInForceRedirectUrl={`/dashboard`}
+      afterSignOutUrl={`/sign-in`}
+    >
+      <ConvexClientProvider>
+        <html lang='en' suppressHydrationWarning>
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
+              {children}
+            </ThemeProvider>
+          </body>
+        </html>
+      </ConvexClientProvider>
+    </ClerkProvider>
   );
 }
