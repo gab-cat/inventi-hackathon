@@ -1,7 +1,7 @@
 'use client';
 
 import { MaintenanceRequest } from '../types';
-import { KanbanColumn } from './KanbanColumn';
+import { KanbanColumn } from './kanban-column';
 
 interface KanbanBoardProps {
   requests: MaintenanceRequest[];

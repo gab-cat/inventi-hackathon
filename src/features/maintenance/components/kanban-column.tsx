@@ -1,7 +1,7 @@
 'use client';
 
 import { MaintenanceRequest } from '../types';
-import { KanbanCard } from './KanbanCard';
+import { KanbanCard } from './kanban-card';
 
 interface KanbanColumnProps {
   title: string;

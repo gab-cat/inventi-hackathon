@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { DialogTitle } from '@/components/ui/dialog';
 import { MaintenanceRequest } from '../types';
-import { PriorityBadge } from './PriorityBadge';
+import { PriorityBadge } from './priority-badge';
 import {
   MapPin,
   User,

@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { AssignmentDialog } from '@/features/maintenance/components/AssignmentDialog';
-import { KanbanBoard } from '@/features/maintenance/components/KanbanBoard';
-import { MaintenanceDetailSheet } from '@/features/maintenance/components/MaintenanceDetailSheet';
+import { AssignmentDialog } from '@/features/maintenance/components/assignment-dialog';
+import { KanbanBoard } from '@/features/maintenance/components/kanban-board';
+import { MaintenanceDetailSheet } from '@/features/maintenance/components/maintenance-detail-sheet';
 import { useMaintenanceRequests } from '@/features/maintenance/hooks/useMaintenanceRequests';
 import { useMaintenanceKPIs } from '@/features/maintenance/hooks/useMaintenanceKPIs';
 import { useMaintenanceMutations } from '@/features/maintenance/hooks/useMaintenanceMutations';

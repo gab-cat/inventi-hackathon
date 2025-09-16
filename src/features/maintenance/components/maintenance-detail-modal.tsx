@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { StatusBadge } from './StatusBadge';
-import { PriorityBadge } from './PriorityBadge';
+import { StatusBadge } from './status-badge';
+import { PriorityBadge } from './priority-badge';
 import { X, MapPin, User, DollarSign, Clock, FileText, Image } from 'lucide-react';
 import { MaintenanceRequest } from '../types';
 
