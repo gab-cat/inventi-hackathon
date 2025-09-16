@@ -76,7 +76,10 @@ export const getMaintenanceRequestsReturns = v.object({
       updatedAt: v.number(),
       // denormalized fields for convenience
       tenantName: v.optional(v.string()),
+      tenantEmail: v.optional(v.string()),
       unitNumber: v.optional(v.string()),
+      assignedTechnicianName: v.optional(v.string()),
+      assignedTechnicianEmail: v.optional(v.string()),
     })
   ),
   isDone: v.boolean(),
@@ -189,17 +192,37 @@ export const getMaintenanceRequestsHandler = async (ctx: QueryCtx, args: Args) =
   const tenantMap = new Map(
     tenantDocs
       .filter(
-        (u): u is NonNullable<typeof u> & { firstName: string; lastName: string } =>
-          u !== null && 'firstName' in u && 'lastName' in u
+        (u): u is NonNullable<typeof u> & { firstName: string; lastName: string; email: string } =>
+          u !== null && 'firstName' in u && 'lastName' in u && 'email' in u
       )
-      .map(u => [u._id as Id<'users'>, `${u.firstName} ${u.lastName}`.trim()])
+      .map(u => [u._id as Id<'users'>, { name: `${u.firstName} ${u.lastName}`.trim(), email: u.email }])
   );
 
-  const enriched = page.map(r => ({
-    ...r,
-    tenantName: tenantMap.get(r.requestedBy) ?? undefined,
-    unitNumber: r.unitId ? unitMap.get(r.unitId) : undefined,
-  }));
+  // Get assigned technician information
+  const assignedTechnicianIds = Array.from(new Set(page.map(r => r.assignedTo).filter(Boolean))) as Array<Id<'users'>>;
+  const assignedTechnicianDocs = await Promise.all(assignedTechnicianIds.map(id => ctx.db.get(id)));
+  const assignedTechnicianMap = new Map(
+    assignedTechnicianDocs
+      .filter(
+        (u): u is NonNullable<typeof u> & { firstName: string; lastName: string; email: string } =>
+          u !== null && 'firstName' in u && 'lastName' in u && 'email' in u
+      )
+      .map(u => [u._id as Id<'users'>, { name: `${u.firstName} ${u.lastName}`.trim(), email: u.email }])
+  );
+
+  const enriched = page.map(r => {
+    const tenantInfo = tenantMap.get(r.requestedBy);
+    const assignedTechnicianInfo = r.assignedTo ? assignedTechnicianMap.get(r.assignedTo) : undefined;
+
+    return {
+      ...r,
+      tenantName: tenantInfo?.name ?? undefined,
+      tenantEmail: tenantInfo?.email ?? undefined,
+      unitNumber: r.unitId ? unitMap.get(r.unitId) : undefined,
+      assignedTechnicianName: assignedTechnicianInfo?.name ?? undefined,
+      assignedTechnicianEmail: assignedTechnicianInfo?.email ?? undefined,
+    };
+  });
 
   return {
     page: enriched,

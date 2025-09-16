@@ -3,6 +3,14 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
 import { useMaintenanceMutations } from '../hooks/useMaintenanceMutations';
 import { api } from '@convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
@@ -32,12 +40,13 @@ export function AssignmentDialog({ requestId, isOpen, onClose, onSuccess }: Assi
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'>
-      <div className='bg-background border rounded-lg p-6 w-full max-w-md'>
-        <h3 className='text-lg font-semibold mb-4'>Assign Technician</h3>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className='sm:max-w-md'>
+        <DialogHeader>
+          <DialogTitle>Assign Technician</DialogTitle>
+          <DialogDescription>Select a technician to assign to this maintenance request.</DialogDescription>
+        </DialogHeader>
 
         <div className='space-y-4'>
           <div>
@@ -58,15 +67,15 @@ export function AssignmentDialog({ requestId, isOpen, onClose, onSuccess }: Assi
           </div>
         </div>
 
-        <div className='flex justify-end gap-2 mt-6'>
+        <DialogFooter>
           <Button variant='outline' onClick={onClose}>
             Cancel
           </Button>
           <Button onClick={handleAssign} disabled={!selectedTechnician}>
             Assign
           </Button>
-        </div>
-      </div>
-    </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

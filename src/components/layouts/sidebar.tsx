@@ -13,7 +13,6 @@ import {
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
 import Image from 'next/image';
-import { useTheme } from 'next-themes';
 import { FolderKanban, LayoutDashboard, Wrench } from 'lucide-react';
 import { Label } from '../ui/label';
 import { useUser } from '@clerk/nextjs';
@@ -44,7 +43,6 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { theme } = useTheme();
   const { user } = useUser();
 
   if (!user) {
@@ -57,23 +55,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild className='data-[slot=sidebar-menu-button]:!p-1.5'>
-              {theme === 'dark' ? (
-                <Image
-                  src={'/sophons-logo-light.png'}
-                  alt='Sophons logo'
-                  height={500}
-                  width={500}
-                  className='!h-12 !w-auto'
-                />
-              ) : (
-                <Image
-                  src={'/sophons-logo-dark.png'}
-                  alt='Sophons logo'
-                  height={500}
-                  width={500}
-                  className='!h-12 !w-auto'
-                />
-              )}
+              <Image src={'/inventi-logo.svg'} alt='Sophons logo' height={500} width={500} className='!h-20 !w-30' />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

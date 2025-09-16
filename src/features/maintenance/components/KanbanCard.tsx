@@ -1,8 +1,6 @@
 'use client';
 
 import { MaintenanceRequest } from '../types';
-import { StatusBadge } from './StatusBadge';
-import { PriorityBadge } from './PriorityBadge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
@@ -66,49 +64,98 @@ export function KanbanCard({ request, onAssign, onViewDetails, onStatusChange }:
     }
   };
 
+  const getPriorityBgColor = (priority: string) => {
+    switch (priority) {
+      case 'high':
+      case 'emergency':
+        return 'bg-red-50 text-red-700';
+      case 'medium':
+        return 'bg-blue-50 text-blue-700';
+      case 'low':
+        return 'bg-green-50 text-green-700';
+      default:
+        return 'bg-gray-50 text-gray-700';
+    }
+  };
+
   const handleDragStart = (e: React.DragEvent) => {
     e.dataTransfer.setData('text/plain', request._id);
     e.dataTransfer.effectAllowed = 'move';
   };
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Don't trigger click if clicking on action buttons
+    if ((e.target as HTMLElement).closest('button')) {
+      return;
+    }
+    onViewDetails(request._id);
+  };
+
   return (
-    <Card className='hover:shadow-md transition-shadow cursor-pointer' draggable onDragStart={handleDragStart}>
+    <Card
+      className='hover:shadow-md py-0 transition-shadow cursor-pointer rounded-md'
+      draggable
+      onDragStart={handleDragStart}
+      onClick={handleCardClick}
+    >
       <CardContent className='p-3'>
         {/* Request ID and Type */}
         <div className='flex items-center justify-between mb-2'>
-          <span className='text-sm font-medium text-muted-foreground'>#{request._id.slice(-6)}</span>
+          <span className='text-xs sm:text-xs font-medium uppercase text-muted-foreground'>
+            #{request._id.slice(-6)}
+          </span>
           <span className='text-xs text-muted-foreground bg-muted px-2 py-1 rounded'>{request.requestType}</span>
         </div>
 
         {/* Title */}
-        <h4 className='font-semibold text-foreground mb-2 line-clamp-2'>{request.title}</h4>
+        <h4 className='font-semibold text-foreground mb-2 line-clamp-2 text-sm sm:text-base'>{request.title}</h4>
 
         {/* Apartment Type */}
-        <div className='text-sm text-muted-foreground mb-3'>
+        <div className='text-xs sm:text-sm text-muted-foreground mb-3'>
           {request.unitNumber ? `Unit ${request.unitNumber}` : 'General'}
         </div>
 
         {/* Priority */}
-        <div className='flex items-center gap-2 mb-3'>
-          <div className={`w-2 h-2 rounded-full ${getPriorityColor(request.priority)}`} />
-          <span className='text-sm font-medium capitalize text-foreground'>{request.priority}</span>
+        <div>
+          <div
+            className={`flex w-fit rounded-full px-2 items-center gap-1 font-medium ${getPriorityBgColor(request.priority)}`}
+          >
+            <div className={`w-2 h-2 rounded-full ${getPriorityColor(request.priority)}`} />
+            <span className={`text-xs  font-medium capitalize px-2 py-1 rounded-full`}>{request.priority}</span>
+          </div>
         </div>
 
         {/* Assigned Person */}
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center gap-2'>
-            <Avatar className='w-6 h-6'>
-              <AvatarFallback className={`text-xs text-white ${getRandomColor(request.tenantName)}`}>
-                {getInitials(request.tenantName)}
+        <div className='flex items-center justify-between border-t pt-2 mt-2'>
+          <div className='flex items-center gap-2 min-w-0 flex-1'>
+            <Avatar className='w-5 h-5 sm:w-8 sm:h-8 flex-shrink-0'>
+              <AvatarFallback
+                className={`text-xs text-white ${getRandomColor(request.assignedTechnicianName || request.tenantName)}`}
+              >
+                {getInitials(request.assignedTechnicianName || request.tenantName)}
               </AvatarFallback>
             </Avatar>
-            <span className='text-sm font-medium text-foreground'>{request.tenantName || 'Unassigned'}</span>
+            <span className='text-xs sm:text-sm font-medium text-foreground truncate'>
+              {request.assignedTechnicianName || request.tenantName || 'Unassigned'}
+            </span>
           </div>
-          <div className='flex items-center gap-1'>
-            <Button variant='ghost' size='sm' className='h-6 w-6 p-0' onClick={() => onAssign(request._id)}>
-              <UserPlus className='h-3 w-3' />
-            </Button>
-            <Button variant='ghost' size='sm' className='h-6 w-6 p-0' onClick={() => onViewDetails(request._id)}>
+          <div className='flex items-center gap-1 flex-shrink-0'>
+            {!request.assignedTo && (
+              <Button
+                variant='ghost'
+                size='sm'
+                className='h-5 w-5 sm:h-6 sm:w-6 p-0'
+                onClick={() => onAssign(request._id)}
+              >
+                <UserPlus className='h-3 w-3' />
+              </Button>
+            )}
+            <Button
+              variant='ghost'
+              size='sm'
+              className='h-5 w-5 sm:h-6 sm:w-6 p-0'
+              onClick={() => onViewDetails(request._id)}
+            >
               <MessageSquare className='h-3 w-3' />
             </Button>
           </div>

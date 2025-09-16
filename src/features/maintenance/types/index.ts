@@ -26,7 +26,10 @@ export interface MaintenanceRequest {
   updatedAt: number;
   // Denormalized fields
   tenantName?: string;
+  tenantEmail?: string;
   unitNumber?: string;
+  assignedTechnicianName?: string;
+  assignedTechnicianEmail?: string;
 }
 
 export interface MaintenanceKPIs {

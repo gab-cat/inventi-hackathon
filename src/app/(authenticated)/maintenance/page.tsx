@@ -6,12 +6,18 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { AssignmentDialog } from '@/features/maintenance/components/AssignmentDialog';
 import { KanbanBoard } from '@/features/maintenance/components/KanbanBoard';
+import { MaintenanceDetailSheet } from '@/features/maintenance/components/MaintenanceDetailSheet';
 import { useMaintenanceRequests } from '@/features/maintenance/hooks/useMaintenanceRequests';
 import { useMaintenanceKPIs } from '@/features/maintenance/hooks/useMaintenanceKPIs';
+import { useMaintenanceMutations } from '@/features/maintenance/hooks/useMaintenanceMutations';
 import { MaintenanceFilters, STATUSES, PRIORITIES, REQUEST_TYPES } from '@/features/maintenance/types';
 import { Id } from '@convex/_generated/dataModel';
-import { StatusBadge } from '@/features/maintenance/components/StatusBadge';
-import { PriorityBadge } from '@/features/maintenance/components/PriorityBadge';
+import {
+  MaintenancePageSkeleton,
+  MaintenanceTablePageSkeleton,
+  MaintenanceDetailSheetSkeleton,
+  AssignmentDialogSkeleton,
+} from '@/components/ui/skeletons';
 
 export default function MaintenancePage() {
   const [filters, setFilters] = useState<MaintenanceFilters>({});
@@ -21,10 +27,15 @@ export default function MaintenancePage() {
     isOpen: boolean;
     requestId: Id<'maintenanceRequests'> | null;
   }>({ isOpen: false, requestId: null });
+  const [detailSheet, setDetailSheet] = useState<{
+    isOpen: boolean;
+    requestId: Id<'maintenanceRequests'> | null;
+  }>({ isOpen: false, requestId: null });
   const [viewMode, setViewMode] = useState<'kanban' | 'table'>('kanban');
 
   const requests = useMaintenanceRequests(filters, pagination);
   const kpis = useMaintenanceKPIs();
+  const { updateStatus } = useMaintenanceMutations();
 
   const handleFilterChange = (key: keyof MaintenanceFilters, value: any) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -47,41 +58,46 @@ export default function MaintenancePage() {
   };
 
   const handleViewDetails = (requestId: string) => {
-    // TODO: Implement view details functionality
-    console.log('View details for request:', requestId);
+    setDetailSheet({ isOpen: true, requestId: requestId as Id<'maintenanceRequests'> });
   };
 
-  const handleStatusChange = (requestId: string, newStatus: string) => {
-    // TODO: Implement status change mutation
-    console.log('Status change:', requestId, 'to', newStatus);
-    // This would typically call a mutation to update the status in the database
+  const handleStatusChange = async (requestId: string, newStatus: string) => {
+    try {
+      await updateStatus(requestId as Id<'maintenanceRequests'>, newStatus);
+      // Refresh the data
+      setPagination({ numItems: 20, cursor: null });
+    } catch (error) {
+      console.error('Failed to update status:', error);
+    }
   };
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-4 sm:space-y-6'>
       <div>
-        <h1 className='text-xl font-bold tracking-tight'>Maintenance</h1>
-        <p className='text-muted-foreground'>Manage and track maintenance requests across all properties</p>
+        <h1 className='text-lg sm:text-xl font-bold tracking-tight'>Maintenance</h1>
+        <p className='text-sm sm:text-base text-muted-foreground'>
+          Manage and track maintenance requests across all properties
+        </p>
       </div>
 
       {/* View Mode Tabs */}
-      <div className='flex items-center gap-4'>
-        <div className='flex border-b'>
+      <div className='flex w-full items-center gap-2 sm:gap-4 overflow-x-auto'>
+        <div className='flex w-full border-b min-w-max'>
           <button
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer ${
               viewMode === 'kanban'
-                ? 'border-green-500 text-green-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
+                ? 'border-blue-500 text-blue-500'
+                : 'border-transparent text-gray-500 hover:text-blue-600'
             }`}
             onClick={() => setViewMode('kanban')}
           >
             Requests Board
           </button>
           <button
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer ${
               viewMode === 'table'
-                ? 'border-green-500 text-green-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
+                ? 'border-blue-500 text-blue-500'
+                : 'border-transparent text-gray-500 hover:text-blue-600'
             }`}
             onClick={() => setViewMode('table')}
           >
@@ -91,17 +107,19 @@ export default function MaintenancePage() {
       </div>
 
       {/* Request Board Overview */}
-      <div className='flex items-center justify-between'>
+      <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
         <div>
-          <h2 className='text-xl font-semibold'>Request Board {requests ? requests.page.length : 0} total</h2>
+          <h2 className='text-lg sm:text-xl font-semibold'>
+            Request Board {requests ? requests.page.length : 0} total
+          </h2>
         </div>
-        <div className='flex items-center gap-4'>
-          <div className='relative'>
+        <div className='flex items-center gap-2 sm:gap-4'>
+          <div className='relative flex-1 sm:flex-none'>
             <Input
               placeholder='Search tenants'
               value={search}
               onChange={e => handleSearch(e.target.value)}
-              className='w-64'
+              className='w-full sm:w-64'
             />
           </div>
         </div>
@@ -118,7 +136,9 @@ export default function MaintenancePage() {
               onStatusChange={handleStatusChange}
             />
           ) : (
-            <div className='text-center py-8 text-muted-foreground'>Loading maintenance requests...</div>
+            <div className='text-center py-8 text-muted-foreground text-sm sm:text-base'>
+              Loading maintenance requests...
+            </div>
           )}
         </div>
       ) : (
@@ -144,7 +164,7 @@ export default function MaintenancePage() {
                         </div>
                       </div>
                       <div className='flex items-center gap-2'>
-                        <Button variant='outline' size='sm'>
+                        <Button variant='outline' size='sm' onClick={() => handleViewDetails(request._id)}>
                           View Details
                         </Button>
                         <Button
@@ -188,6 +208,17 @@ export default function MaintenancePage() {
             // Refresh the data or show success message
             setPagination({ numItems: 20, cursor: null });
           }}
+        />
+      )}
+
+      {/* Detail Sheet */}
+      {detailSheet.requestId && requests && (
+        <MaintenanceDetailSheet
+          request={requests.page.find(r => r._id === detailSheet.requestId) || null}
+          isOpen={detailSheet.isOpen}
+          onClose={() => setDetailSheet({ isOpen: false, requestId: null })}
+          onAssign={handleAssign}
+          onStatusChange={handleStatusChange}
         />
       )}
     </div>

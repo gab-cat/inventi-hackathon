@@ -10,14 +10,14 @@ interface KanbanBoardProps {
   onStatusChange?: (requestId: string, newStatus: string) => void;
 }
 
-// Map statuses to Kanban columns based on the image
+// Map statuses to Kanban columns - now showing all 6 statuses
 const STATUS_MAPPING = {
-  pending: { title: 'NEW', status: 'pending' },
-  assigned: { title: 'IN PROGRESS', status: 'assigned' },
-  in_progress: { title: 'IN PROGRESS', status: 'in_progress' },
-  completed: { title: 'RESOLVED', status: 'completed' },
-  cancelled: { title: 'RESOLVED', status: 'cancelled' },
-  rejected: { title: 'RESOLVED', status: 'rejected' },
+  pending: { title: 'New', status: 'pending' },
+  assigned: { title: 'Assigned', status: 'assigned' },
+  in_progress: { title: 'In Progress', status: 'in_progress' },
+  completed: { title: 'Completed', status: 'completed' },
+  cancelled: { title: 'Cancelled', status: 'cancelled' },
+  rejected: { title: 'Rejected', status: 'rejected' },
 } as const;
 
 // Group requests by status for Kanban columns
@@ -40,59 +40,36 @@ const groupRequestsByStatus = (requests: MaintenanceRequest[]) => {
 export function KanbanBoard({ requests, onAssign, onViewDetails, onStatusChange }: KanbanBoardProps) {
   const groupedRequests = groupRequestsByStatus(requests);
 
-  // Define the columns we want to show in order
+  // Define all 6 status columns in order
   const columns = [
     { key: 'pending', ...STATUS_MAPPING.pending },
     { key: 'assigned', ...STATUS_MAPPING.assigned },
     { key: 'in_progress', ...STATUS_MAPPING.in_progress },
     { key: 'completed', ...STATUS_MAPPING.completed },
+    { key: 'cancelled', ...STATUS_MAPPING.cancelled },
+    { key: 'rejected', ...STATUS_MAPPING.rejected },
   ];
 
   return (
-    <div className='flex gap-6 overflow-x-auto pb-4'>
-      {columns.map(column => {
-        let finalRequests: MaintenanceRequest[] = [];
+    <div className='w-full overflow-x-auto'>
+      <div className='flex gap-4 min-w-max pb-4'>
+        {columns.map(column => {
+          const finalRequests = groupedRequests[column.key] || [];
 
-        switch (column.key) {
-          case 'pending':
-            finalRequests = groupedRequests['pending'] || [];
-            break;
-          case 'assigned':
-            // Combine assigned and in_progress into IN PROGRESS column
-            finalRequests = [...(groupedRequests['assigned'] || []), ...(groupedRequests['in_progress'] || [])];
-            break;
-          case 'in_progress':
-            // This column is now handled by the 'assigned' case above
-            return null;
-          case 'completed':
-            // Combine completed, cancelled, and rejected into RESOLVED column
-            finalRequests = [
-              ...(groupedRequests['completed'] || []),
-              ...(groupedRequests['cancelled'] || []),
-              ...(groupedRequests['rejected'] || []),
-            ];
-            break;
-          default:
-            finalRequests = groupedRequests[column.key] || [];
-        }
-
-        if (column.key === 'in_progress') {
-          return null; // Skip rendering this column as it's combined with 'assigned'
-        }
-
-        return (
-          <KanbanColumn
-            key={column.key}
-            title={column.title}
-            status={column.status}
-            requests={finalRequests}
-            count={finalRequests.length}
-            onAssign={onAssign}
-            onViewDetails={onViewDetails}
-            onStatusChange={onStatusChange}
-          />
-        );
-      })}
+          return (
+            <KanbanColumn
+              key={column.key}
+              title={column.title}
+              status={column.status}
+              requests={finalRequests}
+              count={finalRequests.length}
+              onAssign={onAssign}
+              onViewDetails={onViewDetails}
+              onStatusChange={onStatusChange}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
