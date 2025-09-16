@@ -126,74 +126,71 @@ export default function MaintenancePage() {
       </div>
 
       {/* Main Content */}
-      {viewMode === 'kanban' ? (
+      {!requests ? (
+        // Show skeleton while loading
+        viewMode === 'kanban' ? (
+          <MaintenancePageSkeleton />
+        ) : (
+          <MaintenanceTablePageSkeleton />
+        )
+      ) : viewMode === 'kanban' ? (
         <div className='rounded-lg'>
-          {requests ? (
-            <KanbanBoard
-              requests={requests.page}
-              onAssign={handleAssign}
-              onViewDetails={handleViewDetails}
-              onStatusChange={handleStatusChange}
-            />
-          ) : (
-            <div className='text-center py-8 text-muted-foreground text-sm sm:text-base'>
-              Loading maintenance requests...
-            </div>
-          )}
+          <KanbanBoard
+            requests={requests.page}
+            onAssign={handleAssign}
+            onViewDetails={handleViewDetails}
+            onStatusChange={handleStatusChange}
+          />
         </div>
       ) : (
-        /* Table View - Keep existing table implementation */
+        /* Table View */
         <div className='rounded-lg border bg-card'>
           <div className='p-6'>
             <h3 className='text-lg font-semibold mb-4'>Maintenance Requests</h3>
-            {requests ? (
-              <div className='space-y-4'>
-                {requests.page.map(request => (
-                  <div key={request._id} className='border rounded-lg p-4 hover:bg-muted/50 transition-colors'>
-                    <div className='flex items-start justify-between'>
-                      <div className='space-y-2'>
-                        <div className='flex items-center gap-2'>
-                          <h4 className='font-semibold'>{request.title}</h4>
-                        </div>
-                        <p className='text-sm text-muted-foreground'>{request.description}</p>
-                        <div className='flex items-center gap-4 text-sm text-muted-foreground'>
-                          <span>Tenant: {request.tenantName || 'Unknown'}</span>
-                          <span>Unit: {request.unitNumber || 'N/A'}</span>
-                          <span>Type: {request.requestType}</span>
-                          <span>Created: {new Date(request.createdAt).toLocaleDateString()}</span>
-                        </div>
-                      </div>
+            <div className='space-y-4'>
+              {requests.page.map(request => (
+                <div key={request._id} className='border rounded-lg p-4 hover:bg-muted/50 transition-colors'>
+                  <div className='flex items-start justify-between'>
+                    <div className='space-y-2'>
                       <div className='flex items-center gap-2'>
-                        <Button variant='outline' size='sm' onClick={() => handleViewDetails(request._id)}>
-                          View Details
-                        </Button>
-                        <Button
-                          variant='outline'
-                          size='sm'
-                          onClick={() => setAssignmentDialog({ isOpen: true, requestId: request._id })}
-                        >
-                          Assign
-                        </Button>
+                        <h4 className='font-semibold'>{request.title}</h4>
+                      </div>
+                      <p className='text-sm text-muted-foreground'>{request.description}</p>
+                      <div className='flex items-center gap-4 text-sm text-muted-foreground'>
+                        <span>Tenant: {request.tenantName || 'Unknown'}</span>
+                        <span>Unit: {request.unitNumber || 'N/A'}</span>
+                        <span>Type: {request.requestType}</span>
+                        <span>Created: {new Date(request.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
+                    <div className='flex items-center gap-2'>
+                      <Button variant='outline' size='sm' onClick={() => handleViewDetails(request._id)}>
+                        View Details
+                      </Button>
+                      <Button
+                        variant='outline'
+                        size='sm'
+                        onClick={() => setAssignmentDialog({ isOpen: true, requestId: request._id })}
+                      >
+                        Assign
+                      </Button>
+                    </div>
                   </div>
-                ))}
+                </div>
+              ))}
 
-                {requests.page.length === 0 && (
-                  <div className='text-center py-8 text-muted-foreground'>No maintenance requests found</div>
-                )}
+              {requests.page.length === 0 && (
+                <div className='text-center py-8 text-muted-foreground'>No maintenance requests found</div>
+              )}
 
-                {!requests.isDone && (
-                  <div className='text-center pt-4'>
-                    <Button onClick={loadMore} variant='outline'>
-                      Load More
-                    </Button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className='text-center py-8 text-muted-foreground'>Loading maintenance requests...</div>
-            )}
+              {!requests.isDone && (
+                <div className='text-center pt-4'>
+                  <Button onClick={loadMore} variant='outline'>
+                    Load More
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -212,15 +209,22 @@ export default function MaintenancePage() {
       )}
 
       {/* Detail Sheet */}
-      {detailSheet.requestId && requests && (
-        <MaintenanceDetailSheet
-          request={requests.page.find(r => r._id === detailSheet.requestId) || null}
-          isOpen={detailSheet.isOpen}
-          onClose={() => setDetailSheet({ isOpen: false, requestId: null })}
-          onAssign={handleAssign}
-          onStatusChange={handleStatusChange}
-        />
-      )}
+      {detailSheet.requestId &&
+        (requests ? (
+          <MaintenanceDetailSheet
+            request={requests.page.find(r => r._id === detailSheet.requestId) || null}
+            isOpen={detailSheet.isOpen}
+            onClose={() => setDetailSheet({ isOpen: false, requestId: null })}
+            onAssign={handleAssign}
+            onStatusChange={handleStatusChange}
+          />
+        ) : (
+          <div className='fixed inset-0 z-50'>
+            <div className='fixed right-0 top-0 h-full w-full max-w-2xl bg-background border-l shadow-lg'>
+              <MaintenanceDetailSheetSkeleton />
+            </div>
+          </div>
+        ))}
     </div>
   );
 }
