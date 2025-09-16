@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
-import ConvexClientProvider from '@/components/providers';
+import ConvexClientProvider from '@/app/providers/auth.provider';
+import { ThemeProvider } from './providers/theme.provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -25,20 +26,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ClerkProvider
-          signInUrl={`/sign-in`}
-          signUpUrl={`/sign-up`}
-          signInFallbackRedirectUrl={`/dashboard`}
-          signUpFallbackRedirectUrl={`/dashboard`}
-          signUpForceRedirectUrl={`/dashboard`}
-          signInForceRedirectUrl={`/dashboard`}
-          afterSignOutUrl={`/sign-in`}
-        >
-          <ConvexClientProvider>{children}</ConvexClientProvider>
-        </ClerkProvider>
-      </body>
-    </html>
+    <ClerkProvider
+      signInUrl={`/sign-in`}
+      signUpUrl={`/sign-up`}
+      signInFallbackRedirectUrl={`/dashboard`}
+      signUpFallbackRedirectUrl={`/dashboard`}
+      signUpForceRedirectUrl={`/dashboard`}
+      signInForceRedirectUrl={`/dashboard`}
+      afterSignOutUrl={`/sign-in`}
+    >
+      <ConvexClientProvider>
+        <html lang='en' suppressHydrationWarning>
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
+              {children}
+            </ThemeProvider>
+          </body>
+        </html>
+      </ConvexClientProvider>
+    </ClerkProvider>
   );
 }

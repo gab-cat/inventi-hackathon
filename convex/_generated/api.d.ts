@@ -14,6 +14,10 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as http from "../http.js";
+import type * as users from "../users.js";
+import type * as usersDefinitions_web_index from "../usersDefinitions/web/index.js";
+import type * as usersDefinitions_web_queries_getCurrentUser from "../usersDefinitions/web/queries/getCurrentUser.js";
+import type * as usersDefinitions_web_queries_getUsers from "../usersDefinitions/web/queries/getUsers.js";
 import type * as webhook from "../webhook.js";
 import type * as webhookDefinitions_handleUserCreated from "../webhookDefinitions/handleUserCreated.js";
 import type * as webhookDefinitions_handleUserDeleted from "../webhookDefinitions/handleUserDeleted.js";
@@ -31,6 +35,10 @@ import type * as webhookDefinitions_verifyWebhook from "../webhookDefinitions/ve
  */
 declare const fullApi: ApiFromModules<{
   http: typeof http;
+  users: typeof users;
+  "usersDefinitions/web/index": typeof usersDefinitions_web_index;
+  "usersDefinitions/web/queries/getCurrentUser": typeof usersDefinitions_web_queries_getCurrentUser;
+  "usersDefinitions/web/queries/getUsers": typeof usersDefinitions_web_queries_getUsers;
   webhook: typeof webhook;
   "webhookDefinitions/handleUserCreated": typeof webhookDefinitions_handleUserCreated;
   "webhookDefinitions/handleUserDeleted": typeof webhookDefinitions_handleUserDeleted;
