@@ -15,7 +15,6 @@ import { NavUser } from './nav-user';
 import Image from 'next/image';
 import { FolderKanban, LayoutDashboard, Wrench } from 'lucide-react';
 import { Label } from '../ui/label';
-import { useUser } from '@clerk/nextjs';
 
 const data = {
   user: {
