@@ -31,7 +31,7 @@ export default defineSchema({
     state: v.string(),
     zipCode: v.string(),
     country: v.string(),
-    propertyType: v.string(), // "apartment", "condo", "house", "commercial"
+    propertyType: v.union(v.literal('apartment'), v.literal('condo'), v.literal('house'), v.literal('commercial')),
     totalUnits: v.number(),
     managerId: v.id('users'), // Primary manager
     isActive: v.boolean(),
@@ -63,7 +63,7 @@ export default defineSchema({
   units: defineTable({
     propertyId: v.id('properties'),
     unitNumber: v.string(),
-    unitType: v.string(), // "apartment", "office", "retail", "storage"
+    unitType: v.union(v.literal('apartment'), v.literal('office'), v.literal('retail'), v.literal('storage')),
     floor: v.optional(v.number()),
     bedrooms: v.optional(v.number()),
     bathrooms: v.optional(v.number()),
@@ -312,12 +312,26 @@ export default defineSchema({
     propertyId: v.id('properties'),
     unitId: v.optional(v.id('units')),
     requestedBy: v.id('users'),
-    requestType: v.string(), // "plumbing", "electrical", "hvac", "appliance", "general", "emergency"
-    priority: v.string(), // "low", "medium", "high", "emergency"
+    requestType: v.union(
+      v.literal('plumbing'),
+      v.literal('electrical'),
+      v.literal('hvac'),
+      v.literal('appliance'),
+      v.literal('general'),
+      v.literal('emergency')
+    ),
+    priority: v.union(v.literal('low'), v.literal('medium'), v.literal('high'), v.literal('emergency')),
     title: v.string(),
     description: v.string(),
     location: v.string(),
-    status: v.string(), // "pending", "assigned", "in_progress", "completed", "cancelled", "rejected"
+    status: v.union(
+      v.literal('pending'),
+      v.literal('assigned'),
+      v.literal('in_progress'),
+      v.literal('completed'),
+      v.literal('cancelled'),
+      v.literal('rejected')
+    ),
     assignedTo: v.optional(v.id('users')), // Vendor or technician
     assignedAt: v.optional(v.number()),
     estimatedCost: v.optional(v.number()),

@@ -25,7 +25,7 @@ export function NavMain({ items }: NavMainProps) {
             key={item.title}
             href={item.url}
             className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors
-              ${isActive ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800'}
+              ${isActive ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800'}
             `}
           >
             {item.icon}

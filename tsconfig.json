@@ -19,6 +19,8 @@
       }
     ],
     "paths": {
+      "@generated/*": ["./generated/*"],
+      "@convex/*": ["./convex/*"],
       "@/*": ["./src/*"]
     }
   },
