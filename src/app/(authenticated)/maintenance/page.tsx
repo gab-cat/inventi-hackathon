@@ -109,7 +109,7 @@ export default function MaintenancePage() {
 
       {/* Main Content */}
       {viewMode === 'kanban' ? (
-        <div className='bg-white rounded-lg'>
+        <div className='rounded-lg'>
           {requests ? (
             <KanbanBoard
               requests={requests.page}

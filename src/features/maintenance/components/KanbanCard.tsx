@@ -5,6 +5,7 @@ import { StatusBadge } from './StatusBadge';
 import { PriorityBadge } from './PriorityBadge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Card, CardContent } from '@/components/ui/card';
 import { MessageSquare, UserPlus } from 'lucide-react';
 
 interface KanbanCardProps {
@@ -71,48 +72,48 @@ export function KanbanCard({ request, onAssign, onViewDetails, onStatusChange }:
   };
 
   return (
-    <div
-      className='bg-white rounded-lg border border-gray-200 p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer'
-      draggable
-      onDragStart={handleDragStart}
-    >
-      {/* Request ID and Type */}
-      <div className='flex items-center justify-between mb-2'>
-        <span className='text-sm font-medium text-gray-600'>#{request._id.slice(-6)}</span>
-        <span className='text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded'>{request.requestType}</span>
-      </div>
-
-      {/* Title */}
-      <h4 className='font-semibold text-gray-900 mb-2 line-clamp-2'>{request.title}</h4>
-
-      {/* Apartment Type */}
-      <div className='text-sm text-gray-600 mb-3'>{request.unitNumber ? `Unit ${request.unitNumber}` : 'General'}</div>
-
-      {/* Priority */}
-      <div className='flex items-center gap-2 mb-3'>
-        <div className={`w-2 h-2 rounded-full ${getPriorityColor(request.priority)}`} />
-        <span className='text-sm font-medium capitalize'>{request.priority}</span>
-      </div>
-
-      {/* Assigned Person */}
-      <div className='flex items-center justify-between'>
-        <div className='flex items-center gap-2'>
-          <Avatar className='w-6 h-6'>
-            <AvatarFallback className={`text-xs text-white ${getRandomColor(request.tenantName)}`}>
-              {getInitials(request.tenantName)}
-            </AvatarFallback>
-          </Avatar>
-          <span className='text-sm font-medium text-gray-700'>{request.tenantName || 'Unassigned'}</span>
+    <Card className='hover:shadow-md transition-shadow cursor-pointer' draggable onDragStart={handleDragStart}>
+      <CardContent className='p-3'>
+        {/* Request ID and Type */}
+        <div className='flex items-center justify-between mb-2'>
+          <span className='text-sm font-medium text-muted-foreground'>#{request._id.slice(-6)}</span>
+          <span className='text-xs text-muted-foreground bg-muted px-2 py-1 rounded'>{request.requestType}</span>
         </div>
-        <div className='flex items-center gap-1'>
-          <Button variant='ghost' size='sm' className='h-6 w-6 p-0' onClick={() => onAssign(request._id)}>
-            <UserPlus className='h-3 w-3' />
-          </Button>
-          <Button variant='ghost' size='sm' className='h-6 w-6 p-0' onClick={() => onViewDetails(request._id)}>
-            <MessageSquare className='h-3 w-3' />
-          </Button>
+
+        {/* Title */}
+        <h4 className='font-semibold text-foreground mb-2 line-clamp-2'>{request.title}</h4>
+
+        {/* Apartment Type */}
+        <div className='text-sm text-muted-foreground mb-3'>
+          {request.unitNumber ? `Unit ${request.unitNumber}` : 'General'}
         </div>
-      </div>
-    </div>
+
+        {/* Priority */}
+        <div className='flex items-center gap-2 mb-3'>
+          <div className={`w-2 h-2 rounded-full ${getPriorityColor(request.priority)}`} />
+          <span className='text-sm font-medium capitalize text-foreground'>{request.priority}</span>
+        </div>
+
+        {/* Assigned Person */}
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center gap-2'>
+            <Avatar className='w-6 h-6'>
+              <AvatarFallback className={`text-xs text-white ${getRandomColor(request.tenantName)}`}>
+                {getInitials(request.tenantName)}
+              </AvatarFallback>
+            </Avatar>
+            <span className='text-sm font-medium text-foreground'>{request.tenantName || 'Unassigned'}</span>
+          </div>
+          <div className='flex items-center gap-1'>
+            <Button variant='ghost' size='sm' className='h-6 w-6 p-0' onClick={() => onAssign(request._id)}>
+              <UserPlus className='h-3 w-3' />
+            </Button>
+            <Button variant='ghost' size='sm' className='h-6 w-6 p-0' onClick={() => onViewDetails(request._id)}>
+              <MessageSquare className='h-3 w-3' />
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

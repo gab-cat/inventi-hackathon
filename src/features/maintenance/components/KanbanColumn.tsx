@@ -25,16 +25,16 @@ export function KanbanColumn({
   return (
     <div className='flex-1 w-fit'>
       {/* Column Header */}
-      <div className='bg-gray-50 rounded-t-lg p-4 border-b'>
+      <div className='bg-muted/50 rounded-t-lg p-4 border-b'>
         <div className='flex items-center justify-between'>
-          <h3 className='font-semibold text-gray-900'>{title}</h3>
-          <span className='bg-gray-200 text-gray-700 text-sm font-medium px-2 py-1 rounded-full'>{count}</span>
+          <h3 className='font-semibold text-foreground'>{title}</h3>
+          <span className='bg-muted text-foreground text-sm font-medium px-2 py-1 rounded-full'>{count}</span>
         </div>
       </div>
 
       {/* Column Content */}
       <div
-        className='bg-gray-50 rounded-b-lg p-4 min-h-[600px]'
+        className='bg-muted/30 rounded-b-lg p-4 min-h-[600px]'
         onDragOver={e => {
           e.preventDefault();
           e.dataTransfer.dropEffect = 'move';
@@ -49,7 +49,7 @@ export function KanbanColumn({
       >
         <div className='space-y-3'>
           {requests.length === 0 ? (
-            <div className='text-center py-8 text-gray-500 text-sm'>No requests in this status</div>
+            <div className='text-center py-8 text-muted-foreground text-sm'>No requests in this status</div>
           ) : (
             requests.map(request => (
               <KanbanCard

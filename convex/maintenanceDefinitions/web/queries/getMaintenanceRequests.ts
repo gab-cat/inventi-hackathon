@@ -7,9 +7,27 @@ export const getMaintenanceRequestsArgs = {
   paginationOpts: paginationOptsValidator,
   propertyId: v.optional(v.id('properties')),
   unitId: v.optional(v.id('units')),
-  status: v.optional(v.string()),
-  priority: v.optional(v.string()),
-  requestType: v.optional(v.string()),
+  status: v.optional(
+    v.union(
+      v.literal('pending'),
+      v.literal('assigned'),
+      v.literal('in_progress'),
+      v.literal('completed'),
+      v.literal('cancelled'),
+      v.literal('rejected')
+    )
+  ),
+  priority: v.optional(v.union(v.literal('low'), v.literal('medium'), v.literal('high'), v.literal('emergency'))),
+  requestType: v.optional(
+    v.union(
+      v.literal('plumbing'),
+      v.literal('electrical'),
+      v.literal('hvac'),
+      v.literal('appliance'),
+      v.literal('general'),
+      v.literal('emergency')
+    )
+  ),
   dateFrom: v.optional(v.number()),
   dateTo: v.optional(v.number()),
   search: v.optional(v.string()),
@@ -24,12 +42,26 @@ export const getMaintenanceRequestsReturns = v.object({
       propertyId: v.id('properties'),
       unitId: v.optional(v.id('units')),
       requestedBy: v.id('users'),
-      requestType: v.string(),
-      priority: v.string(),
+      requestType: v.union(
+        v.literal('plumbing'),
+        v.literal('electrical'),
+        v.literal('hvac'),
+        v.literal('appliance'),
+        v.literal('general'),
+        v.literal('emergency')
+      ),
+      priority: v.union(v.literal('low'), v.literal('medium'), v.literal('high'), v.literal('emergency')),
       title: v.string(),
       description: v.string(),
       location: v.string(),
-      status: v.string(),
+      status: v.union(
+        v.literal('pending'),
+        v.literal('assigned'),
+        v.literal('in_progress'),
+        v.literal('completed'),
+        v.literal('cancelled'),
+        v.literal('rejected')
+      ),
       assignedTo: v.optional(v.id('users')),
       assignedAt: v.optional(v.number()),
       estimatedCost: v.optional(v.number()),
@@ -55,9 +87,9 @@ type Args = {
   paginationOpts: PaginationOptions;
   propertyId?: Id<'properties'>;
   unitId?: Id<'units'>;
-  status?: string;
-  priority?: string;
-  requestType?: string;
+  status?: 'pending' | 'assigned' | 'in_progress' | 'completed' | 'cancelled' | 'rejected';
+  priority?: 'low' | 'medium' | 'high' | 'emergency';
+  requestType?: 'plumbing' | 'electrical' | 'hvac' | 'appliance' | 'general' | 'emergency';
   dateFrom?: number;
   dateTo?: number;
   search?: string;

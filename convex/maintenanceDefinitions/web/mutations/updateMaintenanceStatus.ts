@@ -4,13 +4,24 @@ import { Id } from '../../../_generated/dataModel';
 
 export const updateMaintenanceStatusArgs = {
   requestId: v.id('maintenanceRequests'),
-  status: v.string(),
+  status: v.union(
+    v.literal('pending'),
+    v.literal('assigned'),
+    v.literal('in_progress'),
+    v.literal('completed'),
+    v.literal('cancelled'),
+    v.literal('rejected')
+  ),
   note: v.optional(v.string()),
 } as const;
 
 export const updateMaintenanceStatusHandler = async (
   ctx: MutationCtx,
-  args: { requestId: Id<'maintenanceRequests'>; status: string; note?: string }
+  args: {
+    requestId: Id<'maintenanceRequests'>;
+    status: 'pending' | 'assigned' | 'in_progress' | 'completed' | 'cancelled' | 'rejected';
+    note?: string;
+  }
 ) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
