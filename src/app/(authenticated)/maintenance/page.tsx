@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { AssignmentDialog } from '@/features/maintenance/components/AssignmentDialog';
 import { KanbanBoard } from '@/features/maintenance/components/KanbanBoard';
 import { MaintenanceDetailSheet } from '@/features/maintenance/components/MaintenanceDetailSheet';
@@ -17,7 +16,7 @@ import {
   MaintenanceTablePageSkeleton,
   MaintenanceDetailSheetSkeleton,
   AssignmentDialogSkeleton,
-} from '@/components/ui/skeletons';
+} from '@/features/maintenance/components/skeletons';
 
 export default function MaintenancePage() {
   const [filters, setFilters] = useState<MaintenanceFilters>({});

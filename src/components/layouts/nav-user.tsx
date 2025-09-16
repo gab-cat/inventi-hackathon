@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { IconCreditCard, IconDotsVertical, IconLogout, IconNotification, IconUserCircle } from '@tabler/icons-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,15 +15,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { SignOutButton } from '@clerk/nextjs';
+import { SignOutButton, useUser } from '@clerk/nextjs';
+import { Skeleton } from '../ui/skeleton';
 
-export function NavUser({
-  user,
-}: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any;
-}) {
+function NavUserContent() {
+  const { user } = useUser();
   const { isMobile } = useSidebar();
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <SidebarMenu>
@@ -42,7 +44,7 @@ export function NavUser({
 
               <div className='grid flex-1 text-left text-sm leading-tight'>
                 <span className='truncate font-medium'>{user.firstName}</span>
-                <span className='text-muted-foreground truncate text-xs'>{user.email}</span>
+                <span className='text-muted-foreground truncate text-xs'>{user.emailAddresses[0]?.emailAddress}</span>
               </div>
               <IconDotsVertical className='ml-auto size-4' />
             </SidebarMenuButton>
@@ -64,7 +66,7 @@ export function NavUser({
 
                 <div className='grid flex-1 text-left text-sm leading-tight'>
                   <span className='truncate font-medium'>{user.firstName}</span>
-                  <span className='text-muted-foreground truncate text-xs'>{user.email}</span>
+                  <span className='text-muted-foreground truncate text-xs'>{user.emailAddresses[0]?.emailAddress}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -100,5 +102,31 @@ export function NavUser({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
+  );
+}
+
+// Navigation User Skeleton
+function NavUserSkeleton() {
+  return (
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton size='lg'>
+          <Skeleton className='h-8 w-8 rounded-md bg-muted-foreground/20' />
+          <div className='grid flex-1 gap-y-1 text-left text-sm leading-tight'>
+            <Skeleton className='h-3 w-24 bg-muted-foreground/20' />
+            <Skeleton className='h-3 w-32 bg-muted-foreground/20' />
+          </div>
+          <Skeleton className='h-4 w-4 ml-auto bg-muted-foreground/20' />
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  );
+}
+
+export function NavUser() {
+  return (
+    <Suspense fallback={<NavUserSkeleton />}>
+      <NavUserContent />
+    </Suspense>
   );
 }

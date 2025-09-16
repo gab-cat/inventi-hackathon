@@ -188,7 +188,7 @@ export function MaintenanceDetailSheet({
               <FileText className='h-4 w-4 text-muted-foreground' />
               <span className='text-sm font-medium text-muted-foreground'>Description</span>
             </div>
-            <div className='bg-card rounded-lg p-4 max-h-32 overflow-y-auto'>
+            <div className='bg-sidebar rounded-lg p-4 max-h-32 overflow-y-auto'>
               <p className='text-sm text-foreground leading-relaxed'>{request.description}</p>
             </div>
           </div>
