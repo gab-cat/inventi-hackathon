@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import {Ownable} from "@openzeppelin-contracts/access/Ownable.sol";
-import {VisitorManagement} from "./VisitorManagement.sol";
+import {VisitorManagementRegistry} from "./VisitorManagementRegistry.sol";
 
 /**
  * @title PropertyManagementFactory
@@ -54,7 +54,7 @@ contract PropertyManagementFactory is Ownable {
     mapping(address => string[]) private s_unitIdsByOwner;
 
     /// @notice Visitor management registry
-    VisitorManagement private s_visitorManagementRegistry;
+    VisitorManagementRegistry private s_visitorManagementRegistry;
 
     /// @notice Authorized wallets allowed to perform privileged actions in the system
     mapping(address => bool) private s_authorizedWallets;
@@ -73,7 +73,7 @@ contract PropertyManagementFactory is Ownable {
     //////////////////////////////////////////////////////////////*/
 
     constructor() Ownable(msg.sender) {
-        s_visitorManagementRegistry = new VisitorManagement(owner(), address(this));
+        s_visitorManagementRegistry = new VisitorManagementRegistry(owner(), address(this));
     }
 
     /*//////////////////////////////////////////////////////////////

@@ -4,28 +4,42 @@ pragma solidity ^0.8.0;
 import {Ownable} from "@openzeppelin-contracts/access/Ownable.sol";
 import {ReentrancyGuard} from "@openzeppelin-contracts/utils/ReentrancyGuard.sol";
 
-/// Minimal interface to the factory to avoid circular imports
 interface IPropertyManagementFactory {
     function getUnitOwner(string calldata unitId) external view returns (address);
     function getMaxVisitors(string calldata unitId) external view returns (uint256);
     function isAuthorized(address wallet) external view returns (bool);
 }
 
-/// VisitorManagement
-///
-/// Registry and lifecycle controller for already-approved visitor access to property units.
-/// - Off-chain systems handle request, review, and approval; on-chain state starts as Approved.
-/// - Stores immutable audit logs via events and minimal on-chain state.
-/// - PII is stored off-chain; only a hash is stored on-chain.
-/// - Enforces unit-level concurrent visitor capacity checks.
-contract VisitorManagement is Ownable, ReentrancyGuard {
+    /**
+     * @title VisitorManagementRegistry
+     * @notice Lifecycle registry for pre-approved visitor access to property units registered in
+     *         `PropertyManagementFactory`. Tracks approved visitors, check-ins, and check-outs while
+     *         enforcing per-unit concurrent capacity at check-in time.
+     * @dev
+     * - Inherits `Ownable` and `ReentrancyGuard`.
+     *   - Only the contract owner can create visitor entries.
+     *   - Check-ins/outs are restricted to the owner or wallets authorized by the factory via
+     *     `isAuthorized(address)`.
+     * - Integrates with `IPropertyManagementFactory` to:
+     *   - Validate unit ownership at creation (`getUnitOwner(unitId)`).
+     *   - Read per-unit max capacity (`getMaxVisitors(unitId)`).
+     * - Stores minimal on-chain data; PII is represented by a `bytes32` hash (`piiHash`).
+     * - Persists visitors in `s_visitors` and maintains indexes:
+     *   - `s_visitorIdsByunitOwner` (resident -> visitor ids),
+     *   - `s_visitorIdsByUnit` (unit -> historical visitor ids),
+     *   - `s_activeVisitorIdsByUnit` and `s_activeVisitorCountByUnit` (unit -> active set/count),
+     *   - `s_visitorDocuments` (visitor -> additional document hashes).
+     * - Emits `VisitorEntryCreated`, `VisitorCheckedIn`, and `VisitorCheckedOut` on lifecycle changes.
+     *
+     */
+contract VisitorManagementRegistry is Ownable, ReentrancyGuard {
     /*//////////////////////////////////////////////////////////////
                                 ERRORS
     //////////////////////////////////////////////////////////////*/
-    error NotUnitOwner();
-    error InvalidStatus();
-    error CapacityFull();
-    error NotAuthorized();
+    error VisitorManagementRegistry__NotUnitOwner();
+    error VisitorManagementRegistry__InvalidStatus();
+    error VisitorManagementRegistry__CapacityFull();
+    error VisitorManagementRegistry__NotAuthorized();
 
     /*//////////////////////////////////////////////////////////////
                               DATA TYPES
@@ -72,10 +86,7 @@ contract VisitorManagement is Ownable, ReentrancyGuard {
     /*//////////////////////////////////////////////////////////////
                                 EVENTS
     //////////////////////////////////////////////////////////////*/
-    // Creation lifecycle
     event VisitorEntryCreated(bytes32 indexed piiHash, address indexed unitOwner, string unitId);
-
-    // Access lifecycle
     event VisitorCheckedIn(bytes32 indexed piiHash, string unitId, uint64 timestamp);
     event VisitorCheckedOut(bytes32 indexed piiHash, string unitId, uint64 timestamp);
 
@@ -84,7 +95,7 @@ contract VisitorManagement is Ownable, ReentrancyGuard {
                               MODIFIERS
     //////////////////////////////////////////////////////////////*/
     modifier onlyAuthorized() {
-        if (msg.sender != owner() && !s_propertyManagementFactory.isAuthorized(msg.sender)) revert NotAuthorized();
+        if (msg.sender != owner() && !s_propertyManagementFactory.isAuthorized(msg.sender)) revert VisitorManagementRegistry__NotAuthorized();
         _;
     }
 
@@ -96,35 +107,18 @@ contract VisitorManagement is Ownable, ReentrancyGuard {
     }
 
     /*//////////////////////////////////////////////////////////////
-                       PUBLIC / EXTERNAL FUNCTIONS
+                        EXTERNAL FUNCTIONS
     //////////////////////////////////////////////////////////////*/
-
-    /// getMyVisitors: Returns visitor IDs for the caller (pagination via offset/limit).
-    /// @notice Lists visitor identifiers created for the caller's address.
-    /// @param offset Start index for pagination.
-    /// @param limit Maximum number of items to return.
-    /// @return slice Array of visitor `piiHash` identifiers.
-    function getMyVisitors(uint256 offset, uint256 limit) external view returns (bytes32[] memory) {
-        bytes32[] storage allIds = s_visitorIdsByunitOwner[msg.sender];
-        if (offset >= allIds.length) return new bytes32[](0);
-        uint256 end = offset + limit;
-        if (end > allIds.length) end = allIds.length;
-        bytes32[] memory slice = new bytes32[](end - offset);
-        for (uint256 i = 0; i < slice.length; i++) {
-            slice[i] = allIds[offset + i];
-        }
-        return slice;
-    }
-
-    /// createVisitorEntry: Admin/backoffice creates a visitor on behalf of a resident.
-    /// @notice Inserts a new visitor entry as already Approved (off-chain approval assumed).
-    /// @dev Validates that `unitOwner` is indeed the registered owner for `unitId`.
-    /// @param unitOwner The address of the resident who owns the unit.
-    /// @param unitId The unit identifier managed by the factory.
-    /// @param visitStart Start of access window in unix seconds.
-    /// @param visitEnd End of access window in unix seconds.
-    /// @param piiHash Hash of the off-chain PII blob; unique visitor identifier.
-    /// @return The inserted visitor identifier `piiHash`.
+    /**
+     * @notice Inserts a new visitor entry as already Approved (off-chain approval assumed).
+     * @dev Validates that `unitOwner` is indeed the registered owner for `unitId`.
+     * @param unitOwner The address of the resident who owns the unit.
+     * @param unitId The unit identifier managed by the factory.
+     * @param visitStart Start of access window in unix seconds.
+     * @param visitEnd End of access window in unix seconds.
+     * @param piiHash Hash of the off-chain PII blob; unique visitor identifier.
+     * @return The inserted visitor identifier `piiHash`.
+     */
     function createVisitorEntry(
         address unitOwner,
         string calldata unitId,
@@ -132,11 +126,11 @@ contract VisitorManagement is Ownable, ReentrancyGuard {
         uint64 visitEnd,
         bytes32 piiHash
     ) external onlyOwner nonReentrant returns (bytes32) {
-        if (s_propertyManagementFactory.getUnitOwner(unitId) != unitOwner) revert NotUnitOwner();
+        if (s_propertyManagementFactory.getUnitOwner(unitId) != unitOwner) revert VisitorManagementRegistry__NotUnitOwner();
 
         // Optional early capacity check
         uint256 maxCap = s_propertyManagementFactory.getMaxVisitors(unitId);
-        if (maxCap > 0 && s_activeVisitorCountByUnit[unitId] >= maxCap) revert CapacityFull();
+        if (maxCap > 0 && s_activeVisitorCountByUnit[unitId] >= maxCap) revert VisitorManagementRegistry__CapacityFull();
 
         Visitor storage v = s_visitors[piiHash];
         v.unitOwner = unitOwner;
@@ -155,11 +149,60 @@ contract VisitorManagement is Ownable, ReentrancyGuard {
         return piiHash;
     }
 
-    /// getVisitorLog: Returns the full visitor record for auditing.
-    /// @notice Fetches a visitor's stored data and any associated document hashes.
-    /// @param piiHash The visitor identifier.
-    /// @return visitor The visitor record.
-    /// @return documents The list of associated document hashes (if any).
+    /**
+     * @notice Checks in an Approved visitor if capacity allows.
+     * @dev Only the owner or an authorized wallet can perform check-ins.
+     * @param piiHash The visitor identifier to check in.
+     */
+    function checkInVisitor(bytes32 piiHash) external onlyAuthorized nonReentrant {
+        Visitor storage v = s_visitors[piiHash];
+        if (v.status != VisitorStatus.Approved) revert VisitorManagementRegistry__InvalidStatus();
+        uint256 maxCap = s_propertyManagementFactory.getMaxVisitors(v.unitId);
+        if (maxCap > 0 && s_activeVisitorCountByUnit[v.unitId] >= maxCap) revert VisitorManagementRegistry__CapacityFull();
+
+        v.status = VisitorStatus.CheckedIn;
+        v.checkInAt = uint64(block.timestamp);
+        s_activeVisitorCountByUnit[v.unitId] += 1;
+        s_activeVisitorIdsByUnit[v.unitId].push(piiHash);
+        emit VisitorCheckedIn(piiHash, v.unitId, v.checkInAt);
+    }
+
+    /**
+     * @notice Checks out a currently checked-in visitor and frees capacity.
+     * @dev Only the owner or an authorized wallet can perform check-outs.
+     * @param piiHash The visitor identifier to check out.
+     */
+    function checkOutVisitor(bytes32 piiHash) external onlyAuthorized nonReentrant {
+        Visitor storage v = s_visitors[piiHash];
+        if (v.status != VisitorStatus.CheckedIn) revert VisitorManagementRegistry__InvalidStatus();
+        v.status = VisitorStatus.CheckedOut;
+        v.checkOutAt = uint64(block.timestamp);
+        _removeActiveVisitor(v.unitId, piiHash);
+        emit VisitorCheckedOut(piiHash, v.unitId, v.checkOutAt);
+    }
+
+    /*//////////////////////////////////////////////////////////////
+                        VIEW FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
+    /**
+     * @notice Returns visitor IDs for the caller (pagination via offset/limit).
+     * @param offset Start index for pagination.
+     * @param limit Maximum number of items to return.
+     * @return slice Array of visitor `piiHash` identifiers.
+     */
+    function getMyVisitors(uint256 offset, uint256 limit) external view returns (bytes32[] memory) {
+        bytes32[] storage allIds = s_visitorIdsByunitOwner[msg.sender];
+        if (offset >= allIds.length) return new bytes32[](0);
+        uint256 end = offset + limit;
+        if (end > allIds.length) end = allIds.length;
+        bytes32[] memory slice = new bytes32[](end - offset);
+        for (uint256 i = 0; i < slice.length; i++) {
+            slice[i] = allIds[offset + i];
+        }
+        return slice;
+    }
+
+    /// @notice Returns the full visitor record for auditing.
     function getVisitorLog(bytes32 piiHash)
         external
         view
@@ -172,48 +215,24 @@ contract VisitorManagement is Ownable, ReentrancyGuard {
         documents = s_visitorDocuments[piiHash];
     }
 
-    /// checkInVisitor: Checks in an Approved visitor if capacity allows.
-    /// @notice Only the owner or an authorized wallet can perform check-ins.
-    /// @param piiHash The visitor identifier to check in.
-    function checkInVisitor(bytes32 piiHash) external onlyAuthorized nonReentrant {
-        Visitor storage v = s_visitors[piiHash];
-        if (v.status != VisitorStatus.Approved) revert InvalidStatus();
-        uint256 maxCap = s_propertyManagementFactory.getMaxVisitors(v.unitId);
-        if (maxCap > 0 && s_activeVisitorCountByUnit[v.unitId] >= maxCap) revert CapacityFull();
-
-        v.status = VisitorStatus.CheckedIn;
-        v.checkInAt = uint64(block.timestamp);
-        s_activeVisitorCountByUnit[v.unitId] += 1;
-        s_activeVisitorIdsByUnit[v.unitId].push(piiHash);
-        emit VisitorCheckedIn(piiHash, v.unitId, v.checkInAt);
-    }
-
-    /// checkOutVisitor: Checks out a currently checked-in visitor and frees capacity.
-    /// @notice Only the owner or an authorized wallet can perform check-outs.
-    /// @param piiHash The visitor identifier to check out.
-    function checkOutVisitor(bytes32 piiHash) external onlyAuthorized nonReentrant {
-        Visitor storage v = s_visitors[piiHash];
-        if (v.status != VisitorStatus.CheckedIn) revert InvalidStatus();
-        v.status = VisitorStatus.CheckedOut;
-        v.checkOutAt = uint64(block.timestamp);
-        _removeActiveVisitor(v.unitId, piiHash);
-        emit VisitorCheckedOut(piiHash, v.unitId, v.checkOutAt);
-    }
-
-    /// getActiveVisitors: Returns currently checked-in visitor IDs for a unit.
-    /// @param unitId The unit identifier.
-    /// @return Array of visitor identifiers that are currently checked in for the unit.
+    /**
+     * @notice Returns currently checked-in visitor IDs for a unit.
+     * @param unitId The unit identifier.
+     * @return Array of visitor identifiers that are currently checked in for the unit.
+     */
     function getActiveVisitors(string calldata unitId) external view returns (bytes32[] memory) {
         return s_activeVisitorIdsByUnit[unitId];
     }
 
-    /// searchVisitorHistory: Returns visitor IDs for unit within [from,to] by creation time.
-    /// @param unitId The unit identifier.
-    /// @param fromTs Inclusive lower bound unix timestamp.
-    /// @param toTs Inclusive upper bound unix timestamp.
-    /// @param offset Pagination start index in the unit's historical list.
-    /// @param limit Maximum number of results to return.
-    /// @return result Array of visitor identifiers within the given time window.
+    /**
+     * @notice Returns visitor IDs for unit within [from,to] by creation time.
+     * @param unitId The unit identifier.
+     * @param fromTs Inclusive lower bound unix timestamp.
+     * @param toTs Inclusive upper bound unix timestamp.
+     * @param offset Pagination start index in the unit's historical list.
+     * @param limit Maximum number of results to return.
+     * @return result Array of visitor identifiers within the given time window.
+     */
     function searchVisitorHistory(
         string calldata unitId,
         uint64 fromTs,
