@@ -1,0 +1,203 @@
+---
+description: Convex folder structure and function organization guidelines
+globs: convex/**/*.ts,convex/**/*.js
+alwaysApply: true
+---
+
+# Convex Folder Structure Guidelines
+
+## Overview
+
+This project uses a modular approach to organize Convex functions, separating definitions from declarations to maintain clean, maintainable code structure.
+
+## Core Structure Pattern
+
+### 1. Main Function Files
+
+- **Location**: `convex/{feature}.ts`
+- **Purpose**: Entry point that exports all Convex functions for a feature
+- **Pattern**: Import definitions and export actual Convex functions
+
+**Example**: `convex/noticeboard.ts`
+
+```typescript
+import { query, mutation } from './_generated/server';
+import { ... } from './noticeboardDefinitions/index';
+
+// Export queries and mutations
+export const getNotices = query({...});
+export const createNotice = mutation({...});
+```
+
+### 2. Definitions Folder Structure
+
+- **Location**: `convex/{feature}Definitions/`
+- **Contents**: All function definitions organized by platform and operation type
+
+```
+convex/{feature}Definitions/
+├── index.ts                    # Central export file
+├── mobile/                     # Mobile-specific functions
+│   ├── queries/               # Read operations for mobile
+│   └── mutations/             # Write operations for mobile
+└── web/                       # Web-specific functions
+    ├── queries/               # Read operations for web
+    └── mutations/             # Write operations for web
+```
+
+### 3. Function Definition Pattern
+
+Each function file must export exactly three elements:
+
+#### `{functionName}Args`
+
+- **Type**: Convex validator object
+- **Purpose**: Define input parameters and validation
+- **Example**:
+
+```typescript
+export const mobileGetNoticesArgs = v.object({
+  paginationOpts: paginationOptsValidator,
+  noticeType: v.optional(v.union(v.literal('announcement'), ...)),
+  // ... other args
+});
+```
+
+#### `{functionName}Returns`
+
+- **Type**: Convex validator object
+- **Purpose**: Define return type and validation
+- **Example**:
+
+```typescript
+export const mobileGetNoticesReturns = v.object({
+  page: v.array(v.object({...})),
+  isDone: v.boolean(),
+  continueCursor: v.optional(v.string()),
+});
+```
+
+#### `{functionName}Handler`
+
+- **Type**: Async function with proper typing
+- **Purpose**: Implement the actual business logic
+- **Signature**: `(ctx: QueryCtx | MutationCtx, args: Infer<typeof Args>) => Promise<ReturnType>`
+- **Example**:
+
+```typescript
+export const mobileGetNoticesHandler = async (ctx: QueryCtx, args: Infer<typeof mobileGetNoticesArgs>) => {
+  // Implementation logic here
+};
+```
+
+## Platform-Specific Organization
+
+### Mobile Functions
+
+- **Prefix**: `mobile{FunctionName}`
+- **Purpose**: Optimized for mobile app usage
+- **Naming Convention**: Functions are prefixed with `mobile` in definitions but exported without prefix in main file
+- **Example**: `mobileGetNotices` → `getNotices` in main export
+
+### Web Functions
+
+- **Prefix**: No prefix (direct naming)
+- **Purpose**: Full-featured functions for web dashboard/admin
+- **Naming Convention**: Direct function names without platform prefix
+
+## Index File Organization
+
+### Export Strategy
+
+```typescript
+// Web functions - direct export
+export * from './web/queries/getNotices';
+export * from './web/mutations/createNotice';
+
+// Mobile functions - renamed export
+export {
+  mobileGetNoticesArgs as getNoticesArgs,
+  mobileGetNoticesHandler as getNoticesHandler,
+  mobileGetNoticesReturns as getNoticesReturns,
+} from './mobile/queries/getNotices';
+```
+
+### Import Strategy in Main File
+
+```typescript
+import {
+  // Direct imports for web functions
+  getNoticesArgs,
+  getNoticesHandler,
+  getNoticesReturns,
+
+  // Renamed imports for mobile functions
+  mobileGetNoticesArgs,
+  mobileGetNoticesHandler,
+  mobileGetNoticesReturns,
+} from './noticeboardDefinitions/index';
+```
+
+## File Naming Conventions
+
+### Function Files
+
+- **Format**: `{platform}{FunctionName}.ts`
+- **Mobile**: `mobileGetNotices.ts`
+- **Web**: `getNotices.ts` (no platform prefix)
+
+### Folder Structure
+
+- **Queries**: `queries/{functionName}.ts`
+- **Mutations**: `mutations/{functionName}.ts`
+- **Index**: `index.ts` (always)
+
+## Benefits of This Structure
+
+1. **Separation of Concerns**: Definitions separate from declarations
+2. **Platform Optimization**: Mobile and web functions can have different implementations
+3. **Maintainability**: Easy to find and modify specific functions
+4. **Type Safety**: Strong typing throughout the chain
+5. **Testing**: Each function can be tested independently
+6. **Code Reuse**: Common logic can be shared between platforms
+
+## Implementation Checklist
+
+### When Creating New Functions:
+
+- [ ] Create function file in appropriate platform folder
+- [ ] Export `Args`, `Handler`, and `Returns`
+- [ ] Add exports to index.ts (with proper renaming for mobile)
+- [ ] Import and export from main file
+- [ ] Test the function works correctly
+
+### When Modifying Existing Functions:
+
+- [ ] Update the definition file
+- [ ] Ensure Args/Returns validators match new requirements
+- [ ] Test all dependent functions
+- [ ] Update documentation if needed
+
+## Example Complete Structure
+
+```
+convex/
+├── noticeboard.ts                           # Main export file
+├── noticeboardDefinitions/
+│   ├── index.ts                            # Central exports
+│   ├── mobile/
+│   │   ├── queries/
+│   │   │   ├── mobileGetNotices.ts        # mobileGetNoticesArgs, mobileGetNoticesHandler, mobileGetNoticesReturns
+│   │   │   └── mobileGetEvents.ts         # mobileGetEventsArgs, mobileGetEventsHandler, mobileGetEventsReturns
+│   │   └── mutations/
+│   │       └── mobileAcknowledgeNotice.ts # mobileAcknowledgeNoticeArgs, mobileAcknowledgeNoticeHandler, mobileAcknowledgeNoticeReturns
+│   └── web/
+│       ├── queries/
+│       │   ├── getNotices.ts              # getNoticesArgs, getNoticesHandler, getNoticesReturns
+│       │   └── getManagerProperties.ts    # getManagerPropertiesArgs, getManagerPropertiesHandler, getManagerPropertiesReturns
+│       └── mutations/
+│           ├── createNotice.ts            # createNoticeArgs, createNoticeHandler, createNoticeReturns
+│           └── updateNotice.ts            # updateNoticeArgs, updateNoticeHandler, updateNoticeReturns
+```
+
+This structure ensures clean, maintainable, and scalable Convex function organization.
