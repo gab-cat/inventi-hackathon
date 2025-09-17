@@ -52,7 +52,7 @@ export default function SettingsScreen() {
       </View>
 
       {/* Profile Section */}
-      <ThemedView className='bg-white dark:bg-gray-800 rounded-xl p-6 mb-6 border border-gray-200 dark:border-gray-700'>
+      <ThemedView className='bg-white dark:bg-gray-800 p-6  border-gray-200 dark:border-gray-700'>
         <ThemedView className='items-center mb-6'>
           <View className='w-20 h-20 bg-blue-800 rounded-full items-center justify-center mb-4'>
             {user?.imageUrl ? (
@@ -112,7 +112,7 @@ export default function SettingsScreen() {
       </ThemedView>
 
       {/* Account Actions */}
-      <ThemedView className='bg-white dark:bg-gray-800 rounded-xl p-6 mb-6 border border-gray-200 dark:border-gray-700'>
+      <ThemedView className='bg-white dark:bg-gray-800  p-6   border-gray-200 dark:border-gray-700'>
         <Text className='text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4'>Account Actions</Text>
 
         <ThemedView className='space-y-3'>
@@ -146,18 +146,18 @@ export default function SettingsScreen() {
       </ThemedView>
 
       {/* App Info */}
-      <ThemedView className='bg-white dark:bg-gray-800 rounded-xl p-6 mb-6 border border-gray-200 dark:border-gray-700'>
-        <Text className='text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4'>App Information</Text>
+      <ThemedView className='bg-white dark:bg-gray-800 p-6  border-gray-200 dark:border-gray-700'>
+        <Text className='text-sm font-semibold text-gray-800 dark:text-gray-200 mb-4'>App Information</Text>
 
         <ThemedView className='space-y-3'>
           <ThemedView className='flex-row justify-between items-center py-2'>
-            <Text className='text-base text-gray-600 dark:text-gray-400'>Version</Text>
-            <Text className='text-base text-gray-800 dark:text-gray-200'>1.0.0</Text>
+            <Text className='text-xs text-gray-600 dark:text-gray-400'>Version</Text>
+            <Text className='text-xs text-gray-800 dark:text-gray-200'>1.0.0</Text>
           </ThemedView>
 
           <ThemedView className='flex-row justify-between items-center py-2'>
-            <Text className='text-base text-gray-600 dark:text-gray-400'>Build</Text>
-            <Text className='text-base text-gray-800 dark:text-gray-200'>2024.09.17</Text>
+            <Text className='text-xs text-gray-600 dark:text-gray-400'>Build</Text>
+            <Text className='text-xs text-gray-800 dark:text-gray-200'>2024.09.17</Text>
           </ThemedView>
         </ThemedView>
       </ThemedView>
@@ -168,12 +168,11 @@ export default function SettingsScreen() {
         onPress={handleSignOut}
         style={{
           backgroundColor: '#ef4444',
-          marginBottom: 32,
         }}
       />
 
       {/* Footer */}
-      <ThemedView className='items-center py-4'>
+      <ThemedView className='items-center py-4 !bg-gray-50'>
         <Text className='text-xs text-gray-500 text-center'>Inventi Property Management System</Text>
         <Text className='text-xs text-gray-500 text-center mt-1'>© 2024 All rights reserved</Text>
       </ThemedView>
