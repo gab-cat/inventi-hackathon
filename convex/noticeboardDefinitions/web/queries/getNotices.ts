@@ -1,7 +1,7 @@
 import { v } from 'convex/values';
 import { PaginationOptions, paginationOptsValidator } from 'convex/server';
 import { QueryCtx } from '../../../_generated/server';
-import { Id } from '../../../_generated/dataModel';
+import { Id, Doc } from '../../../_generated/dataModel';
 
 export const getNoticesArgs = {
   paginationOpts: paginationOptsValidator,
@@ -141,7 +141,7 @@ export const getNoticesHandler = async (ctx: QueryCtx, args: Args) => {
 
   // Enrich with related data
   const enrichedPage = await Promise.all(
-    results.page.map(async notice => {
+    results.page.map(async (notice: Doc<'notices'>) => {
       // Get property info
       const property = await ctx.db.get(notice.propertyId);
       if (!property) throw new Error('Property not found');
