@@ -1,12 +1,12 @@
-import { v } from 'convex/values';
-import { PaginationOptions, paginationOptsValidator } from 'convex/server';
+import { v, Infer } from 'convex/values';
+import { paginationOptsValidator } from 'convex/server';
 import { QueryCtx } from '../../../_generated/server';
 import { Doc } from '../../../_generated/dataModel';
 
-export const mobileGetActivePollsArgs = {
+export const mobileGetActivePollsArgs = v.object({
   paginationOpts: paginationOptsValidator,
   search: v.optional(v.string()),
-} as const;
+});
 
 export const mobileGetActivePollsReturns = v.object({
   page: v.array(
@@ -47,12 +47,7 @@ export const mobileGetActivePollsReturns = v.object({
   continueCursor: v.optional(v.string()),
 });
 
-type Args = {
-  paginationOpts: PaginationOptions;
-  search?: string;
-};
-
-export const mobileGetActivePollsHandler = async (ctx: QueryCtx, args: Args) => {
+export const mobileGetActivePollsHandler = async (ctx: QueryCtx, args: Infer<typeof mobileGetActivePollsArgs>) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

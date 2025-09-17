@@ -1,8 +1,7 @@
-import { v } from 'convex/values';
+import { v, Infer } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
-import { Id } from '../../../_generated/dataModel';
 
-export const mobileSendFeedbackArgs = {
+export const mobileSendFeedbackArgs = v.object({
   propertyId: v.id('properties'),
   subject: v.string(),
   message: v.string(),
@@ -16,7 +15,7 @@ export const mobileSendFeedbackArgs = {
   ),
   priority: v.optional(v.union(v.literal('low'), v.literal('medium'), v.literal('high'), v.literal('urgent'))),
   attachments: v.optional(v.array(v.string())), // File URLs
-} as const;
+});
 
 export const mobileSendFeedbackReturns = v.object({
   _id: v.id('notices'),
@@ -33,16 +32,7 @@ export const mobileSendFeedbackReturns = v.object({
   updatedAt: v.number(),
 });
 
-type Args = {
-  propertyId: Id<'properties'>;
-  subject: string;
-  message: string;
-  feedbackType: 'general' | 'maintenance' | 'service' | 'complaint' | 'suggestion' | 'praise';
-  priority?: 'low' | 'medium' | 'high' | 'urgent';
-  attachments?: string[];
-};
-
-export const mobileSendFeedbackHandler = async (ctx: MutationCtx, args: Args) => {
+export const mobileSendFeedbackHandler = async (ctx: MutationCtx, args: Infer<typeof mobileSendFeedbackArgs>) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

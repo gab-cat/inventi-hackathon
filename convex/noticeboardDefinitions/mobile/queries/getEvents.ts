@@ -1,9 +1,9 @@
-import { v, ConvexError } from 'convex/values';
-import { PaginationOptions, paginationOptsValidator } from 'convex/server';
+import { v, ConvexError, Infer } from 'convex/values';
+import { paginationOptsValidator } from 'convex/server';
 import { QueryCtx } from '../../../_generated/server';
 import { Doc } from '../../../_generated/dataModel';
 
-export const mobileGetEventsArgs = {
+export const mobileGetEventsArgs = v.object({
   paginationOpts: paginationOptsValidator,
   eventType: v.optional(
     v.union(
@@ -18,7 +18,7 @@ export const mobileGetEventsArgs = {
   endDate: v.optional(v.number()),
   isPublic: v.optional(v.boolean()),
   search: v.optional(v.string()),
-} as const;
+});
 
 export const mobileGetEventsReturns = v.object({
   page: v.array(
@@ -60,16 +60,7 @@ export const mobileGetEventsReturns = v.object({
   continueCursor: v.optional(v.string()),
 });
 
-type Args = {
-  paginationOpts: PaginationOptions;
-  eventType?: 'community' | 'maintenance' | 'meeting' | 'social' | 'emergency';
-  startDate?: number;
-  endDate?: number;
-  isPublic?: boolean;
-  search?: string;
-};
-
-export const mobileGetEventsHandler = async (ctx: QueryCtx, args: Args) => {
+export const mobileGetEventsHandler = async (ctx: QueryCtx, args: Infer<typeof mobileGetEventsArgs>) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 
@@ -152,7 +143,7 @@ export const mobileGetEventsHandler = async (ctx: QueryCtx, args: Args) => {
         .withIndex('by_event_user', q => q.eq('eventId', event._id).eq('userId', currentUser._id))
         .unique();
 
-      const isAttending = userAttendance?.status || null;
+      const isAttending = (userAttendance?.status as 'attending' | 'maybe' | 'declined' | null) || null;
 
       // Get attendee count
       const allAttendees = await ctx.db

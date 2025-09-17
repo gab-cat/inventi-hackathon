@@ -1,9 +1,9 @@
-import { v, ConvexError } from 'convex/values';
-import { PaginationOptions, paginationOptsValidator } from 'convex/server';
+import { v, ConvexError, Infer } from 'convex/values';
+import { paginationOptsValidator } from 'convex/server';
 import { QueryCtx } from '../../../_generated/server';
 import { Doc } from '../../../_generated/dataModel';
 
-export const mobileGetNoticesArgs = {
+export const mobileGetNoticesArgs = v.object({
   paginationOpts: paginationOptsValidator,
   noticeType: v.optional(
     v.union(
@@ -18,7 +18,7 @@ export const mobileGetNoticesArgs = {
   priority: v.optional(v.union(v.literal('low'), v.literal('medium'), v.literal('high'), v.literal('urgent'))),
   isRead: v.optional(v.boolean()), // Filter by read/unread status
   search: v.optional(v.string()),
-} as const;
+});
 
 export const mobileGetNoticesReturns = v.object({
   page: v.array(
@@ -65,15 +65,7 @@ export const mobileGetNoticesReturns = v.object({
   continueCursor: v.optional(v.string()),
 });
 
-type Args = {
-  paginationOpts: PaginationOptions;
-  noticeType?: 'announcement' | 'maintenance' | 'payment_reminder' | 'emergency' | 'event' | 'general';
-  priority?: 'low' | 'medium' | 'high' | 'urgent';
-  isRead?: boolean;
-  search?: string;
-};
-
-export const mobileGetNoticesHandler = async (ctx: QueryCtx, args: Args) => {
+export const mobileGetNoticesHandler = async (ctx: QueryCtx, args: Infer<typeof mobileGetNoticesArgs>) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

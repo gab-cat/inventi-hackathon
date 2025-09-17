@@ -1,11 +1,10 @@
-import { v } from 'convex/values';
+import { v, Infer } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
-import { Id } from '../../../_generated/dataModel';
 
-export const mobileAddEventToCalendarArgs = {
+export const mobileAddEventToCalendarArgs = v.object({
   eventId: v.id('events'),
   status: v.union(v.literal('attending'), v.literal('maybe'), v.literal('declined')),
-} as const;
+});
 
 export const mobileAddEventToCalendarReturns = v.union(
   v.object({
@@ -19,12 +18,10 @@ export const mobileAddEventToCalendarReturns = v.union(
   v.null()
 );
 
-type Args = {
-  eventId: Id<'events'>;
-  status: 'attending' | 'maybe' | 'declined';
-};
-
-export const mobileAddEventToCalendarHandler = async (ctx: MutationCtx, args: Args) => {
+export const mobileAddEventToCalendarHandler = async (
+  ctx: MutationCtx,
+  args: Infer<typeof mobileAddEventToCalendarArgs>
+) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

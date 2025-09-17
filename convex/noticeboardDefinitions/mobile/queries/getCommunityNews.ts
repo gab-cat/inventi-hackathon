@@ -1,12 +1,12 @@
-import { v, ConvexError } from 'convex/values';
-import { PaginationOptions, paginationOptsValidator } from 'convex/server';
+import { v, ConvexError, Infer } from 'convex/values';
+import { paginationOptsValidator } from 'convex/server';
 import { QueryCtx } from '../../../_generated/server';
-import { Id, Doc } from '../../../_generated/dataModel';
+import { Doc } from '../../../_generated/dataModel';
 
-export const mobileGetCommunityNewsArgs = {
+export const mobileGetCommunityNewsArgs = v.object({
   paginationOpts: paginationOptsValidator,
   search: v.optional(v.string()),
-} as const;
+});
 
 export const mobileGetCommunityNewsReturns = v.object({
   page: v.array(
@@ -52,12 +52,7 @@ export const mobileGetCommunityNewsReturns = v.object({
   continueCursor: v.optional(v.string()),
 });
 
-type Args = {
-  paginationOpts: PaginationOptions;
-  search?: string;
-};
-
-export const mobileGetCommunityNewsHandler = async (ctx: QueryCtx, args: Args) => {
+export const mobileGetCommunityNewsHandler = async (ctx: QueryCtx, args: Infer<typeof mobileGetCommunityNewsArgs>) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

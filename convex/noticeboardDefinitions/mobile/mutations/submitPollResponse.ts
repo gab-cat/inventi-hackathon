@@ -1,12 +1,11 @@
-import { v } from 'convex/values';
+import { v, Infer } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
-import { Id } from '../../../_generated/dataModel';
 
-export const mobileSubmitPollResponseArgs = {
+export const mobileSubmitPollResponseArgs = v.object({
   pollId: v.id('polls'),
   selectedOptions: v.array(v.number()), // Array of indices for selected options
   textResponse: v.optional(v.string()), // For text-based polls
-} as const;
+});
 
 export const mobileSubmitPollResponseReturns = v.union(
   v.object({
@@ -21,13 +20,10 @@ export const mobileSubmitPollResponseReturns = v.union(
   v.null()
 );
 
-type Args = {
-  pollId: Id<'polls'>;
-  selectedOptions: number[];
-  textResponse?: string;
-};
-
-export const mobileSubmitPollResponseHandler = async (ctx: MutationCtx, args: Args) => {
+export const mobileSubmitPollResponseHandler = async (
+  ctx: MutationCtx,
+  args: Infer<typeof mobileSubmitPollResponseArgs>
+) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

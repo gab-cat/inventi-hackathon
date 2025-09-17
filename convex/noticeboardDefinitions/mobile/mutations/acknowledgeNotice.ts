@@ -1,10 +1,9 @@
-import { v } from 'convex/values';
+import { v, Infer } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
-import { Id } from '../../../_generated/dataModel';
 
-export const mobileAcknowledgeNoticeArgs = {
+export const mobileAcknowledgeNoticeArgs = v.object({
   noticeId: v.id('notices'),
-} as const;
+});
 
 export const mobileAcknowledgeNoticeReturns = v.union(
   v.object({
@@ -17,11 +16,10 @@ export const mobileAcknowledgeNoticeReturns = v.union(
   v.null()
 );
 
-type Args = {
-  noticeId: Id<'notices'>;
-};
-
-export const mobileAcknowledgeNoticeHandler = async (ctx: MutationCtx, args: Args) => {
+export const mobileAcknowledgeNoticeHandler = async (
+  ctx: MutationCtx,
+  args: Infer<typeof mobileAcknowledgeNoticeArgs>
+) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 
