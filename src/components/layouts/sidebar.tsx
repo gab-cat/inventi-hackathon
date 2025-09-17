@@ -38,6 +38,11 @@ const data = {
       url: '/transaction',
       icon: <FolderKanban className='h-5 w-5' />,
     },
+    {
+      title: 'Noticeboard',
+      url: '/noticeboard',
+      icon: <FolderKanban className='h-5 w-5' />,
+    },
   ],
 };
 

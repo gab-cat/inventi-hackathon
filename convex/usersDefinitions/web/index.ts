@@ -1,3 +1,4 @@
 // Queryes
 export * from './queries/getCurrentUser';
+export * from './queries/getUserById';
 export * from './queries/getUsers';
