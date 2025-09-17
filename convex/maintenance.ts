@@ -98,3 +98,61 @@ export const bulkUpdateStatus = mutation({
 });
 
 export { seedDatabase };
+import {
+  createRequestArgs,
+  createRequestHandler,
+  updateRequestArgs,
+  updateRequestHandler,
+  deleteRequestArgs,
+  deleteRequestHandler,
+  cancelRequestArgs,
+  cancelRequestHandler,
+  getRequestStatusArgs,
+  getRequestStatusHandler,
+  getRequestsArgs,
+  getRequestsHandler,
+  getRequestsByIdArgs,
+  getRequestsByIdHandler,
+  getMyCurrentRequestsArgs,
+  getMyCurrentRequestsHandler,
+} from './maintenanceDefinitions';
+
+export const createRequest = mutation({
+  args: createRequestArgs,
+  handler: createRequestHandler,
+});
+
+export const updateRequest = mutation({
+  args: updateRequestArgs,
+  handler: updateRequestHandler,
+});
+
+export const deleteRequest = mutation({
+  args: deleteRequestArgs,
+  handler: deleteRequestHandler,
+});
+
+export const cancelRequest = mutation({
+  args: cancelRequestArgs,
+  handler: cancelRequestHandler,
+});
+
+export const getRequestStatus = query({
+  args: getRequestStatusArgs,
+  handler: getRequestStatusHandler,
+});
+
+export const getRequests = query({
+  args: getRequestsArgs,
+  handler: getRequestsHandler,
+});
+
+export const getRequestsById = query({
+  args: getRequestsByIdArgs,
+  handler: getRequestsByIdHandler,
+});
+
+export const getMyCurrentRequests = query({
+  args: getMyCurrentRequestsArgs,
+  handler: getMyCurrentRequestsHandler,
+});

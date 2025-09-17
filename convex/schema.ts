@@ -63,7 +63,14 @@ export default defineSchema({
   units: defineTable({
     propertyId: v.id('properties'),
     unitNumber: v.string(),
-    unitType: v.union(v.literal('apartment'), v.literal('office'), v.literal('retail'), v.literal('storage')),
+    unitType: v.union(
+      v.literal('apartment'),
+      v.literal('office'),
+      v.literal('retail'),
+      v.literal('storage'),
+      v.literal('condo'),
+      v.literal('house')
+    ),
     floor: v.optional(v.number()),
     bedrooms: v.optional(v.number()),
     bathrooms: v.optional(v.number()),
@@ -84,7 +91,7 @@ export default defineSchema({
   userProperties: defineTable({
     userId: v.id('users'),
     propertyId: v.id('properties'),
-    role: v.string(), // "manager", "tenant", "vendor", "field_technician"
+    role: v.union(v.literal('manager'), v.literal('tenant'), v.literal('vendor'), v.literal('field_technician')),
     permissions: v.array(v.string()), // Specific permissions
     isActive: v.boolean(),
     assignedAt: v.number(),

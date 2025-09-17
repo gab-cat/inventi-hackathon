@@ -12,7 +12,14 @@ export const getUnitsByPropertyReturns = v.array(
     _creationTime: v.number(),
     propertyId: v.id('properties'),
     unitNumber: v.string(),
-    unitType: v.union(v.literal('apartment'), v.literal('office'), v.literal('retail'), v.literal('storage')),
+    unitType: v.union(
+      v.literal('apartment'),
+      v.literal('office'),
+      v.literal('retail'),
+      v.literal('storage'),
+      v.literal('condo'),
+      v.literal('house')
+    ),
     floor: v.optional(v.number()),
     bedrooms: v.optional(v.number()),
     bathrooms: v.optional(v.number()),

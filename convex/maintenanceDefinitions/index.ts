@@ -1,3 +1,5 @@
+export * from './mobile';
+
 // Queries
 export * from './web/queries/getMaintenanceKPIs';
 export * from './web/queries/getMaintenanceRequests';
