@@ -31,8 +31,6 @@ import {
   bulkUpdateStatusHandler,
 } from './maintenanceDefinitions/index';
 
-import { seedDatabase } from './seeders/seed';
-
 // Queries
 export const getMaintenanceRequests = query({
   args: getMaintenanceRequestsArgs,
@@ -96,8 +94,6 @@ export const bulkUpdateStatus = mutation({
   args: bulkUpdateStatusArgs,
   handler: bulkUpdateStatusHandler,
 });
-
-export { seedDatabase };
 import {
   createRequestArgs,
   createRequestHandler,

@@ -40,6 +40,15 @@ import type * as maintenanceDefinitions_web_queries_getTechnicians from "../main
 import type * as maintenanceDefinitions_web_queries_getUnitsByProperty from "../maintenanceDefinitions/web/queries/getUnitsByProperty.js";
 import type * as noticeboard from "../noticeboard.js";
 import type * as noticeboardDefinitions_index from "../noticeboardDefinitions/index.js";
+import type * as noticeboardDefinitions_mobile_mutations_acknowledgeNotice from "../noticeboardDefinitions/mobile/mutations/acknowledgeNotice.js";
+import type * as noticeboardDefinitions_mobile_mutations_addEventToCalendar from "../noticeboardDefinitions/mobile/mutations/addEventToCalendar.js";
+import type * as noticeboardDefinitions_mobile_mutations_sendFeedback from "../noticeboardDefinitions/mobile/mutations/sendFeedback.js";
+import type * as noticeboardDefinitions_mobile_mutations_submitPollResponse from "../noticeboardDefinitions/mobile/mutations/submitPollResponse.js";
+import type * as noticeboardDefinitions_mobile_queries_getActivePolls from "../noticeboardDefinitions/mobile/queries/getActivePolls.js";
+import type * as noticeboardDefinitions_mobile_queries_getCommunityNews from "../noticeboardDefinitions/mobile/queries/getCommunityNews.js";
+import type * as noticeboardDefinitions_mobile_queries_getEvents from "../noticeboardDefinitions/mobile/queries/getEvents.js";
+import type * as noticeboardDefinitions_mobile_queries_getNoticeById from "../noticeboardDefinitions/mobile/queries/getNoticeById.js";
+import type * as noticeboardDefinitions_mobile_queries_getNotices from "../noticeboardDefinitions/mobile/queries/getNotices.js";
 import type * as noticeboardDefinitions_web_mutations_acknowledgeNotice from "../noticeboardDefinitions/web/mutations/acknowledgeNotice.js";
 import type * as noticeboardDefinitions_web_mutations_createNotice from "../noticeboardDefinitions/web/mutations/createNotice.js";
 import type * as noticeboardDefinitions_web_mutations_deleteNotice from "../noticeboardDefinitions/web/mutations/deleteNotice.js";
@@ -59,6 +68,7 @@ import type * as propertyDefinitions_mobile_index from "../propertyDefinitions/m
 import type * as propertyDefinitions_mobile_queries_getMyProperties from "../propertyDefinitions/mobile/queries/getMyProperties.js";
 import type * as propertyDefinitions_mobile_queries_getProperties from "../propertyDefinitions/mobile/queries/getProperties.js";
 import type * as propertyDefinitions_mobile_queries_index from "../propertyDefinitions/mobile/queries/index.js";
+import type * as seeders_notice from "../seeders/notice.js";
 import type * as seeders_seed from "../seeders/seed.js";
 import type * as unit from "../unit.js";
 import type * as unitDefinitions_index from "../unitDefinitions/index.js";
@@ -125,6 +135,15 @@ declare const fullApi: ApiFromModules<{
   "maintenanceDefinitions/web/queries/getUnitsByProperty": typeof maintenanceDefinitions_web_queries_getUnitsByProperty;
   noticeboard: typeof noticeboard;
   "noticeboardDefinitions/index": typeof noticeboardDefinitions_index;
+  "noticeboardDefinitions/mobile/mutations/acknowledgeNotice": typeof noticeboardDefinitions_mobile_mutations_acknowledgeNotice;
+  "noticeboardDefinitions/mobile/mutations/addEventToCalendar": typeof noticeboardDefinitions_mobile_mutations_addEventToCalendar;
+  "noticeboardDefinitions/mobile/mutations/sendFeedback": typeof noticeboardDefinitions_mobile_mutations_sendFeedback;
+  "noticeboardDefinitions/mobile/mutations/submitPollResponse": typeof noticeboardDefinitions_mobile_mutations_submitPollResponse;
+  "noticeboardDefinitions/mobile/queries/getActivePolls": typeof noticeboardDefinitions_mobile_queries_getActivePolls;
+  "noticeboardDefinitions/mobile/queries/getCommunityNews": typeof noticeboardDefinitions_mobile_queries_getCommunityNews;
+  "noticeboardDefinitions/mobile/queries/getEvents": typeof noticeboardDefinitions_mobile_queries_getEvents;
+  "noticeboardDefinitions/mobile/queries/getNoticeById": typeof noticeboardDefinitions_mobile_queries_getNoticeById;
+  "noticeboardDefinitions/mobile/queries/getNotices": typeof noticeboardDefinitions_mobile_queries_getNotices;
   "noticeboardDefinitions/web/mutations/acknowledgeNotice": typeof noticeboardDefinitions_web_mutations_acknowledgeNotice;
   "noticeboardDefinitions/web/mutations/createNotice": typeof noticeboardDefinitions_web_mutations_createNotice;
   "noticeboardDefinitions/web/mutations/deleteNotice": typeof noticeboardDefinitions_web_mutations_deleteNotice;
@@ -144,6 +163,7 @@ declare const fullApi: ApiFromModules<{
   "propertyDefinitions/mobile/queries/getMyProperties": typeof propertyDefinitions_mobile_queries_getMyProperties;
   "propertyDefinitions/mobile/queries/getProperties": typeof propertyDefinitions_mobile_queries_getProperties;
   "propertyDefinitions/mobile/queries/index": typeof propertyDefinitions_mobile_queries_index;
+  "seeders/notice": typeof seeders_notice;
   "seeders/seed": typeof seeders_seed;
   unit: typeof unit;
   "unitDefinitions/index": typeof unitDefinitions_index;

@@ -1,5 +1,7 @@
+import { Id } from '../_generated/dataModel';
 import { mutation } from '../_generated/server';
 import { v } from 'convex/values';
+import { api } from '../_generated/api';
 
 export const seedDatabase = mutation({
   args: {},
@@ -8,11 +10,25 @@ export const seedDatabase = mutation({
     units: v.number(),
     users: v.number(),
     maintenanceRequests: v.number(),
+    notices: v.number(),
+    events: v.number(),
+    polls: v.number(),
+    acknowledgments: v.number(),
   }),
-  handler: async ctx => {
-    // Your existing user data
-    const existingUser = {
-      _id: 'nd7bajzdm6w24wr8gmwctayysn7qp1hn' as any,
+  handler: async (
+    ctx
+  ): Promise<{
+    properties: number;
+    units: number;
+    users: number;
+    maintenanceRequests: number;
+    notices: number;
+    events: number;
+    polls: number;
+    acknowledgments: number;
+  }> => {
+    // Create the manager user first
+    const managerId = await ctx.db.insert('users', {
       clerkId: 'user_32msooiDCcy4XFaNVVRL3wIlIg1',
       email: 'meatole.cs@gmail.com',
       firstName: 'Martin Edgar',
@@ -24,7 +40,7 @@ export const seedDatabase = mutation({
       createdAt: Date.now(),
       updatedAt: Date.now(),
       lastLoginAt: Date.now(),
-    };
+    });
 
     // Create properties
     const property1Id = await ctx.db.insert('properties', {
@@ -36,7 +52,7 @@ export const seedDatabase = mutation({
       country: 'USA',
       propertyType: 'apartment',
       totalUnits: 50,
-      managerId: existingUser._id,
+      managerId: managerId,
       isActive: true,
       settings: {
         visitorLimitPerUnit: 2,
@@ -53,7 +69,7 @@ export const seedDatabase = mutation({
       updatedAt: Date.now(),
     });
 
-    const property2Id = await ctx.db.insert('properties', {
+    await ctx.db.insert('properties', {
       name: 'Downtown Plaza',
       address: '456 Oak Avenue',
       city: 'San Francisco',
@@ -62,7 +78,7 @@ export const seedDatabase = mutation({
       country: 'USA',
       propertyType: 'condo',
       totalUnits: 30,
-      managerId: existingUser._id,
+      managerId: managerId,
       isActive: true,
       settings: {
         visitorLimitPerUnit: 3,
@@ -421,11 +437,23 @@ export const seedDatabase = mutation({
       maintenanceRequestIds.push(id);
     }
 
+    // Seed notices, events, and polls
+    const noticeResults: {
+      notices: number;
+      events: number;
+      polls: number;
+      acknowledgments: number;
+    } = await ctx.runMutation(api.seeders.notice.seedNotices);
+
     return {
       properties: 2,
       units: 10,
-      users: 5, // 1 manager + 3 tenants + 2 technicians
+      users: 6, // 1 manager + 3 tenants + 2 technicians
       maintenanceRequests: 10,
+      notices: noticeResults.notices,
+      events: noticeResults.events,
+      polls: noticeResults.polls,
+      acknowledgments: noticeResults.acknowledgments,
     };
   },
 });
