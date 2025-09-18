@@ -303,18 +303,19 @@ export function ReportsDashboard({
           </div>
         </TabsContent>
 
-        <TabsContent value='export' className='space-y-6'>
-          <ExportFiltersComponent
-            filters={exportFilters}
-            onFiltersChange={setExportFilters}
-            onExport={handleExport}
-            availableCategories={availableCategories}
-            availableStatuses={availableStatuses}
-            availableConditions={availableConditions}
-            availableLocations={availableLocations}
-            loading={exportLoading}
-          />
-        </TabsContent>
+         <TabsContent value='export' className='space-y-6'>
+           <ExportFiltersComponent
+             filters={exportFilters}
+             onFiltersChange={setExportFilters}
+             onExport={handleExport}
+             availableCategories={availableCategories}
+             availableStatuses={availableStatuses}
+             availableConditions={availableConditions}
+             availableLocations={availableLocations}
+             assets={assets}
+             loading={exportLoading}
+           />
+         </TabsContent>
       </Tabs>
     </div>
   );

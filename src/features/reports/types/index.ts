@@ -19,6 +19,7 @@ export interface UtilizationDataPoint {
   checkins: number;
   netChange: number;
   utilizationRate: number;
+  [key: string]: unknown;
 }
 
 export interface ConditionDistribution {
@@ -26,6 +27,7 @@ export interface ConditionDistribution {
   count: number;
   percentage: number;
   color: string;
+  [key: string]: unknown;
 }
 
 export interface CategoryDistribution {
@@ -34,6 +36,7 @@ export interface CategoryDistribution {
   percentage: number;
   totalValue: number;
   averageValue: number;
+  [key: string]: unknown;
 }
 
 export interface FinancialTrend {
@@ -42,6 +45,7 @@ export interface FinancialTrend {
   currentValue: number;
   depreciation: number;
   maintenanceCost: number;
+  [key: string]: unknown;
 }
 
 export interface LocationDistribution {
