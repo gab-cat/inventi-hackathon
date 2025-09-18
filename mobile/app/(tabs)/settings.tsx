@@ -1,16 +1,28 @@
 import React from 'react';
-import { View, Text, ScrollView, Alert, Image } from 'react-native';
+import { View, Text, ScrollView, Alert, Image, TouchableOpacity } from 'react-native';
 import { useUser, useAuth } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedView } from '@/components/themed-view';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useQuery } from 'convex/react';
+import { api } from '@convex/_generated/api';
+import { router } from 'expo-router';
 
 export default function SettingsScreen() {
   const { user } = useUser();
   const { signOut } = useAuth();
   const scheme = useColorScheme();
   const isDark = scheme === 'dark';
+
+  // Check user role for tech access
+  const userData = useQuery(api.user.getCurrentUser);
+  const isFieldTechnician =
+    userData && 'success' in userData && userData.success && userData.user?.role === 'field_technician';
+
+  const handleTechAccess = () => {
+    router.replace('/tech/dashboard');
+  };
 
   const handleSignOut = () => {
     Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
@@ -133,6 +145,21 @@ export default function SettingsScreen() {
             </ThemedView>
             <Ionicons name='chevron-forward' size={20} color={isDark ? '#94a3b8' : '#6b7280'} />
           </ThemedView>
+
+          {/* Tech Access - Only show for field technicians */}
+          {isFieldTechnician && (
+            <TouchableOpacity
+              onPress={handleTechAccess}
+              className='flex-row items-center py-3 border-b border-gray-200 dark:border-gray-700'
+            >
+              <Ionicons name='construct' size={20} color='#7c3aed' className='mr-3' />
+              <ThemedView className='flex-1'>
+                <Text className='text-base text-purple-600 dark:text-purple-400'>Field Technician</Text>
+                <Text className='text-sm text-gray-600 dark:text-gray-400'>Access technician tools and dashboard</Text>
+              </ThemedView>
+              <Ionicons name='chevron-forward' size={20} color='#7c3aed' />
+            </TouchableOpacity>
+          )}
 
           <ThemedView className='flex-row items-center py-3'>
             <Ionicons name='help-circle' size={20} color={isDark ? '#94a3b8' : '#6b7280'} className='mr-3' />

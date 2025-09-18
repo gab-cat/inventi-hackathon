@@ -1,0 +1,14 @@
+ENVIRONMENT SETUP REQUIRED:
+
+To fix the "Network request failed" error when uploading photos, you need to create a .env file in the mobile directory with the following variables:
+
+# Convex Configuration
+EXPO_PUBLIC_CONVEX_URL=your-convex-url-here
+
+# Clerk Configuration
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=your-clerk-publishable-key-here
+
+You can find your Convex URL in your Convex dashboard or by running:
+npx convex dev --once
+
+And your Clerk publishable key in your Clerk dashboard.
