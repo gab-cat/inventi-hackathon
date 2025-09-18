@@ -12,6 +12,8 @@ import {
   getRequestDetailsHandler,
   getAvailableAssetsArgs,
   getAvailableAssetsHandler,
+  getCheckedOutAssetsArgs,
+  getCheckedOutAssetsHandler,
 } from './techDefinitions/mobile';
 
 // Import mutation definitions and handlers
@@ -62,6 +64,11 @@ export const getRequestDetails = query({
 export const getAvailableAssets = query({
   args: getAvailableAssetsArgs,
   handler: getAvailableAssetsHandler,
+});
+
+export const getCheckedOutAssets = query({
+  args: getCheckedOutAssetsArgs,
+  handler: getCheckedOutAssetsHandler,
 });
 
 // Mutations
