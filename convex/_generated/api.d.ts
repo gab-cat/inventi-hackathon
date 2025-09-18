@@ -69,6 +69,7 @@ import type * as propertyDefinitions_mobile_index from "../propertyDefinitions/m
 import type * as propertyDefinitions_mobile_queries_getMyProperties from "../propertyDefinitions/mobile/queries/getMyProperties.js";
 import type * as propertyDefinitions_mobile_queries_getProperties from "../propertyDefinitions/mobile/queries/getProperties.js";
 import type * as propertyDefinitions_mobile_queries_index from "../propertyDefinitions/mobile/queries/index.js";
+import type * as seeders_assets from "../seeders/assets.js";
 import type * as seeders_notice from "../seeders/notice.js";
 import type * as seeders_seed from "../seeders/seed.js";
 import type * as tech from "../tech.js";
@@ -86,6 +87,7 @@ import type * as techDefinitions_mobile_mutations_uploadMaintenancePhoto from ".
 import type * as techDefinitions_mobile_queries_getAssetInventory from "../techDefinitions/mobile/queries/getAssetInventory.js";
 import type * as techDefinitions_mobile_queries_getAssignedRequests from "../techDefinitions/mobile/queries/getAssignedRequests.js";
 import type * as techDefinitions_mobile_queries_getAvailableAssets from "../techDefinitions/mobile/queries/getAvailableAssets.js";
+import type * as techDefinitions_mobile_queries_getCheckedOutAssets from "../techDefinitions/mobile/queries/getCheckedOutAssets.js";
 import type * as techDefinitions_mobile_queries_getMaintenanceDashboard from "../techDefinitions/mobile/queries/getMaintenanceDashboard.js";
 import type * as techDefinitions_mobile_queries_getRequestDetails from "../techDefinitions/mobile/queries/getRequestDetails.js";
 import type * as techDefinitions_mobile_queries_index from "../techDefinitions/mobile/queries/index.js";
@@ -183,6 +185,7 @@ declare const fullApi: ApiFromModules<{
   "propertyDefinitions/mobile/queries/getMyProperties": typeof propertyDefinitions_mobile_queries_getMyProperties;
   "propertyDefinitions/mobile/queries/getProperties": typeof propertyDefinitions_mobile_queries_getProperties;
   "propertyDefinitions/mobile/queries/index": typeof propertyDefinitions_mobile_queries_index;
+  "seeders/assets": typeof seeders_assets;
   "seeders/notice": typeof seeders_notice;
   "seeders/seed": typeof seeders_seed;
   tech: typeof tech;
@@ -200,6 +203,7 @@ declare const fullApi: ApiFromModules<{
   "techDefinitions/mobile/queries/getAssetInventory": typeof techDefinitions_mobile_queries_getAssetInventory;
   "techDefinitions/mobile/queries/getAssignedRequests": typeof techDefinitions_mobile_queries_getAssignedRequests;
   "techDefinitions/mobile/queries/getAvailableAssets": typeof techDefinitions_mobile_queries_getAvailableAssets;
+  "techDefinitions/mobile/queries/getCheckedOutAssets": typeof techDefinitions_mobile_queries_getCheckedOutAssets;
   "techDefinitions/mobile/queries/getMaintenanceDashboard": typeof techDefinitions_mobile_queries_getMaintenanceDashboard;
   "techDefinitions/mobile/queries/getRequestDetails": typeof techDefinitions_mobile_queries_getRequestDetails;
   "techDefinitions/mobile/queries/index": typeof techDefinitions_mobile_queries_index;

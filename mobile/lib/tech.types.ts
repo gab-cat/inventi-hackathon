@@ -92,6 +92,18 @@ export type AvailableAsset = {
   };
 };
 
+// Checked Out Asset Types (subset for getCheckedOutAssets)
+export type CheckedOutAsset = {
+  _id: Id<'assets'>;
+  assetTag: string;
+  name: string;
+  category: string;
+  brand?: string;
+  condition: string;
+  checkedOutAt?: number;
+  checkedOutLocation: string;
+};
+
 export type AssetStatus = 'available' | 'checked_out' | 'maintenance' | 'retired' | 'lost';
 
 export type AssetCondition = 'excellent' | 'good' | 'fair' | 'poor' | 'broken';
@@ -121,6 +133,7 @@ export type MaintenanceRequestsResponse = ApiResponse<MaintenanceRequest[]>;
 export type MaintenanceDashboardResponse = ApiResponse<MaintenanceDashboardData>;
 export type AssetInventoryResponse = ApiResponse<Asset[]>;
 export type AvailableAssetsResponse = ApiResponse<AvailableAsset[]>;
+export type CheckedOutAssetsResponse = ApiResponse<CheckedOutAsset[]>;
 export type RequestDetailsResponse = ApiResponse<RequestDetailsData>;
 
 // Filter Types

@@ -9,11 +9,13 @@ import { Icon } from '@/components/ui/icon';
 import { Package, Search, QrCode, CheckCircle, Clock, Wrench, ScanLine } from 'lucide-react-native';
 import { AvailableAsset, AvailableAssetsResponse } from '@/lib/tech.types';
 import { Id } from '@convex/_generated/dataModel';
+import QRScanner from '@/components/tech/qr-scanner';
 
 export default function TechAssetInventoryScreen() {
   const [refreshing, setRefreshing] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
   const [categoryFilter, setCategoryFilter] = React.useState<string | null>(null);
+  const [showScanner, setShowScanner] = React.useState(false);
 
   // Fetch available assets
   const assetsData: AvailableAssetsResponse | undefined = useQuery(api.tech.getAvailableAssets, {
@@ -56,8 +58,12 @@ export default function TechAssetInventoryScreen() {
   };
 
   const handleScanQR = () => {
-    // TODO: Implement QR/barcode scanning functionality
-    Alert.alert('Coming Soon', 'QR/Barcode scanning will be implemented');
+    setShowScanner(true);
+  };
+
+  const handleQRScan = (scannedData: string) => {
+    setSearchQuery(scannedData);
+    setShowScanner(false);
   };
 
   const getConditionColor = (condition: string) => {
@@ -210,6 +216,13 @@ export default function TechAssetInventoryScreen() {
         }
         contentContainerStyle={{ paddingTop: 16, paddingBottom: 32 }}
       />
+
+      {/* QR Scanner Modal */}
+      {showScanner && (
+        <View className='absolute inset-0 z-50'>
+          <QRScanner onScan={handleQRScan} onClose={() => setShowScanner(false)} title='Scan Asset QR Code' />
+        </View>
+      )}
     </ThemedView>
   );
 }

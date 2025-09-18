@@ -6,8 +6,146 @@ import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
 import { Text } from '@/components/ui/text';
 import { Icon } from '@/components/ui/icon';
-import { Wrench, Package, AlertTriangle, TrendingUp, RefreshCw, Calendar, ArrowRight } from 'lucide-react-native';
+import {
+  RefreshCw,
+  ArrowRight,
+  AlertTriangle,
+  Calendar,
+  CheckCircle,
+  Package,
+  TrendingUp,
+  Wrench,
+  Scan,
+} from 'lucide-react-native';
 import { MaintenanceDashboardResponse, AssetInventoryResponse } from '@/lib/tech.types';
+
+// Action button configuration
+const ACTION_BUTTONS = [
+  {
+    id: 'maintenance-requests',
+    href: '/tech/maintenance-requests',
+    icon: Wrench,
+    iconColor: 'text-blue-600',
+    iconBgColor: 'bg-blue-50 dark:bg-blue-950/30',
+    title: 'Maintenance Requests',
+    description: 'View and manage work orders',
+  },
+  {
+    id: 'asset-inventory',
+    href: '/tech/asset-inventory',
+    icon: Package,
+    iconColor: 'text-purple-600',
+    iconBgColor: 'bg-purple-50 dark:bg-purple-950/30',
+    title: 'Asset Inventory',
+    description: 'Check available equipment',
+  },
+  {
+    id: 'asset-checkin',
+    href: '/tech/asset-checkin',
+    icon: CheckCircle,
+    iconColor: 'text-green-600',
+    iconBgColor: 'bg-green-50 dark:bg-green-950/30',
+    title: 'Asset Check-in',
+    description: 'Return equipment to inventory',
+  },
+  {
+    id: 'asset-checkout',
+    href: '/tech/asset-checkout',
+    icon: Scan,
+    iconColor: 'text-blue-600',
+    iconBgColor: 'bg-blue-50 dark:bg-blue-950/30',
+    title: 'Asset Checkout',
+    description: 'Check out equipment for use',
+  },
+  {
+    id: 'asset-maintenance',
+    href: '/tech/asset-maintenance',
+    icon: Wrench,
+    iconColor: 'text-orange-600',
+    iconBgColor: 'bg-orange-50 dark:bg-orange-950/30',
+    title: 'Asset Maintenance',
+    description: 'Track and schedule maintenance',
+  },
+] as const;
+
+// Metric card configuration
+const METRIC_CARDS = [
+  {
+    id: 'overdue',
+    key: 'overdueCount' as const,
+    icon: AlertTriangle,
+    iconColor: 'text-red-600',
+    label: 'OVERDUE',
+    labelColor: 'text-red-600',
+    valueColor: 'text-red-600',
+    subtitle: 'tasks',
+    subtitleColor: 'text-red-500',
+    gradient: 'from-red-50 to-red-100 dark:from-red-950/30 dark:to-red-900/20',
+    borderColor: 'border-red-200/50 dark:border-red-800/50',
+  },
+  {
+    id: 'today',
+    key: 'todaysCount' as const,
+    icon: Calendar,
+    iconColor: 'text-blue-600',
+    label: 'TODAY',
+    labelColor: 'text-blue-600',
+    valueColor: 'text-blue-600',
+    subtitle: 'scheduled',
+    subtitleColor: 'text-blue-500',
+    gradient: 'from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/20',
+    borderColor: 'border-blue-200/50 dark:border-blue-800/50',
+  },
+  {
+    id: 'this-week',
+    key: 'thisWeekCount' as const,
+    icon: TrendingUp,
+    iconColor: 'text-green-600',
+    label: 'THIS WEEK',
+    labelColor: 'text-green-600',
+    valueColor: 'text-green-600',
+    subtitle: 'total',
+    subtitleColor: 'text-green-500',
+    gradient: 'from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/20',
+    borderColor: 'border-green-200/50 dark:border-green-800/50',
+  },
+] as const;
+
+// Priority configuration
+const PRIORITY_ITEMS = [
+  {
+    id: 'emergency',
+    key: 'emergency',
+    label: 'Emergency',
+    color: 'red',
+    bgColor: 'bg-red-500',
+    textColor: 'text-red-600',
+  },
+  {
+    id: 'high',
+    key: 'high',
+    label: 'High',
+    color: 'orange',
+    bgColor: 'bg-orange-500',
+    textColor: 'text-orange-600',
+  },
+  {
+    id: 'medium',
+    key: 'medium',
+    label: 'Medium',
+    color: 'yellow',
+    bgColor: 'bg-yellow-500',
+    textColor: 'text-yellow-600',
+  },
+  {
+    id: 'low',
+    key: 'low',
+    label: 'Low',
+    color: 'green',
+    bgColor: 'bg-green-500',
+    textColor: 'text-green-600',
+  },
+] as const;
 
 export default function TechDashboardScreen() {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -52,37 +190,22 @@ export default function TechDashboardScreen() {
         {/* Quick Actions - Moved to top */}
         <View className='px-5 pt-6 pb-4'>
           <View className='space-y-3'>
-            <Link href='/tech/maintenance-requests' asChild className='mb-2'>
-              <TouchableOpacity className='bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm'>
-                <View className='flex-row items-center gap-3'>
-                  <View className='w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/30 items-center justify-center'>
-                    <Icon as={Wrench} size={24} className='text-blue-600' />
+            {ACTION_BUTTONS.map(button => (
+              <Link key={button.id} href={button.href} asChild>
+                <TouchableOpacity className='bg-white dark:bg-gray-800 p-4 mb-2 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm'>
+                  <View className='flex-row items-center gap-3'>
+                    <View className={`w-12 h-12 rounded-xl ${button.iconBgColor} items-center justify-center`}>
+                      <Icon as={button.icon} size={24} className={button.iconColor} />
+                    </View>
+                    <View className='flex-1'>
+                      <Text className='text-base font-semibold text-gray-900 dark:text-gray-100'>{button.title}</Text>
+                      <Text className='text-sm text-gray-500 dark:text-gray-400'>{button.description}</Text>
+                    </View>
+                    <Icon as={ArrowRight} size={20} className='text-gray-400' />
                   </View>
-                  <View className='flex-1'>
-                    <Text className='text-base font-semibold text-gray-900 dark:text-gray-100'>
-                      Maintenance Requests
-                    </Text>
-                    <Text className='text-sm text-gray-500 dark:text-gray-400'>View and manage work orders</Text>
-                  </View>
-                  <Icon as={ArrowRight} size={20} className='text-gray-400' />
-                </View>
-              </TouchableOpacity>
-            </Link>
-
-            <Link href='/tech/asset-inventory' asChild>
-              <TouchableOpacity className='bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm'>
-                <View className='flex-row items-center gap-3'>
-                  <View className='w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/30 items-center justify-center'>
-                    <Icon as={Package} size={24} className='text-purple-600' />
-                  </View>
-                  <View className='flex-1'>
-                    <Text className='text-base font-semibold text-gray-900 dark:text-gray-100'>Asset Inventory</Text>
-                    <Text className='text-sm text-gray-500 dark:text-gray-400'>Check available equipment</Text>
-                  </View>
-                  <Icon as={ArrowRight} size={20} className='text-gray-400' />
-                </View>
-              </TouchableOpacity>
-            </Link>
+                </TouchableOpacity>
+              </Link>
+            ))}
           </View>
         </View>
 
@@ -90,35 +213,19 @@ export default function TechDashboardScreen() {
         <View className='px-5 pb-6'>
           <Text className='text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100'>Today&apos;s Overview</Text>
           <View className='flex-row gap-3'>
-            {/* Overdue Tasks */}
-            <View className='flex-1 bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950/30 dark:to-red-900/20 p-4 rounded-2xl border border-red-200/50 dark:border-red-800/50'>
-              <View className='flex-row items-center justify-between mb-2'>
-                <Icon as={AlertTriangle} size={18} className='text-red-600' />
-                <Text className='text-xs font-medium text-red-600'>OVERDUE</Text>
+            {METRIC_CARDS.map(card => (
+              <View
+                key={card.id}
+                className={`flex-1 bg-gradient-to-br ${card.gradient} p-4 rounded-2xl border ${card.borderColor}`}
+              >
+                <View className='flex-row items-center justify-between mb-2'>
+                  <Icon as={card.icon} size={18} className={card.iconColor} />
+                  <Text className={`text-xs font-medium ${card.labelColor}`}>{card.label}</Text>
+                </View>
+                <Text className={`text-2xl font-bold ${card.valueColor}`}>{(dashboard as any)?.[card.key] || 0}</Text>
+                <Text className={`text-xs ${card.subtitleColor} mt-1`}>{card.subtitle}</Text>
               </View>
-              <Text className='text-2xl font-bold text-red-600'>{dashboard?.overdueCount || 0}</Text>
-              <Text className='text-xs text-red-500 mt-1'>tasks</Text>
-            </View>
-
-            {/* Today's Tasks */}
-            <View className='flex-1 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/20 p-4 rounded-2xl border border-blue-200/50 dark:border-blue-800/50'>
-              <View className='flex-row items-center justify-between mb-2'>
-                <Icon as={Calendar} size={18} className='text-blue-600' />
-                <Text className='text-xs font-medium text-blue-600'>TODAY</Text>
-              </View>
-              <Text className='text-2xl font-bold text-blue-600'>{dashboard?.todaysCount || 0}</Text>
-              <Text className='text-xs text-blue-500 mt-1'>scheduled</Text>
-            </View>
-
-            {/* This Week */}
-            <View className='flex-1 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/20 p-4 rounded-2xl border border-green-200/50 dark:border-green-800/50'>
-              <View className='flex-row items-center justify-between mb-2'>
-                <Icon as={TrendingUp} size={18} className='text-green-600' />
-                <Text className='text-xs font-medium text-green-600'>THIS WEEK</Text>
-              </View>
-              <Text className='text-2xl font-bold text-green-600'>{dashboard?.thisWeekCount || 0}</Text>
-              <Text className='text-xs text-green-500 mt-1'>total</Text>
-            </View>
+            ))}
           </View>
 
           {/* Assets Card */}
@@ -140,81 +247,33 @@ export default function TechDashboardScreen() {
             <View className='bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm'>
               {/* Priority Progress Bars */}
               <View className='space-y-4'>
-                {/* Emergency */}
-                <View className='mb-4'>
-                  <View className='flex-row items-center justify-between mb-2'>
-                    <View className='flex-row items-center gap-2'>
-                      <View className='w-3 h-3 rounded-full bg-red-500' />
-                      <Text className='text-sm font-medium text-red-600'>Emergency</Text>
-                    </View>
-                    <Text className='text-sm font-bold text-red-600'>{dashboard.priorityCounts.emergency}</Text>
-                  </View>
-                  <View className='h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden'>
-                    <View
-                      className='h-full bg-red-500 rounded-full'
-                      style={{
-                        width: `${Math.min((dashboard.priorityCounts.emergency / Math.max(dashboard.priorityCounts.emergency + dashboard.priorityCounts.high + dashboard.priorityCounts.medium + dashboard.priorityCounts.low, 1)) * 100, 100)}%`,
-                      }}
-                    />
-                  </View>
-                </View>
+                {PRIORITY_ITEMS.map(priority => {
+                  const total =
+                    dashboard.priorityCounts.emergency +
+                    dashboard.priorityCounts.high +
+                    dashboard.priorityCounts.medium +
+                    dashboard.priorityCounts.low;
+                  const count = dashboard.priorityCounts[priority.key as keyof typeof dashboard.priorityCounts] || 0;
+                  const percentage = Math.min((count / Math.max(total, 1)) * 100, 100);
 
-                {/* High Priority */}
-                <View className='mb-4'>
-                  <View className='flex-row items-center justify-between mb-2'>
-                    <View className='flex-row items-center gap-2'>
-                      <View className='w-3 h-3 rounded-full bg-orange-500' />
-                      <Text className='text-sm font-medium text-orange-600'>High</Text>
+                  return (
+                    <View key={priority.id} className='mb-4'>
+                      <View className='flex-row items-center justify-between mb-2'>
+                        <View className='flex-row items-center gap-2'>
+                          <View className={`w-3 h-3 rounded-full ${priority.bgColor}`} />
+                          <Text className={`text-sm font-medium ${priority.textColor}`}>{priority.label}</Text>
+                        </View>
+                        <Text className={`text-sm font-bold ${priority.textColor}`}>{count}</Text>
+                      </View>
+                      <View className='h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden'>
+                        <View
+                          className={`h-full ${priority.bgColor} rounded-full`}
+                          style={{ width: `${percentage}%` }}
+                        />
+                      </View>
                     </View>
-                    <Text className='text-sm font-bold text-orange-600'>{dashboard.priorityCounts.high}</Text>
-                  </View>
-                  <View className='h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden'>
-                    <View
-                      className='h-full bg-orange-500 rounded-full'
-                      style={{
-                        width: `${Math.min((dashboard.priorityCounts.high / Math.max(dashboard.priorityCounts.emergency + dashboard.priorityCounts.high + dashboard.priorityCounts.medium + dashboard.priorityCounts.low, 1)) * 100, 100)}%`,
-                      }}
-                    />
-                  </View>
-                </View>
-
-                {/* Medium Priority */}
-                <View className='mb-4'>
-                  <View className='flex-row items-center justify-between mb-2'>
-                    <View className='flex-row items-center gap-2'>
-                      <View className='w-3 h-3 rounded-full bg-yellow-500' />
-                      <Text className='text-sm font-medium text-yellow-600'>Medium</Text>
-                    </View>
-                    <Text className='text-sm font-bold text-yellow-600'>{dashboard.priorityCounts.medium}</Text>
-                  </View>
-                  <View className='h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden'>
-                    <View
-                      className='h-full bg-yellow-500 rounded-full'
-                      style={{
-                        width: `${Math.min((dashboard.priorityCounts.medium / Math.max(dashboard.priorityCounts.emergency + dashboard.priorityCounts.high + dashboard.priorityCounts.medium + dashboard.priorityCounts.low, 1)) * 100, 100)}%`,
-                      }}
-                    />
-                  </View>
-                </View>
-
-                {/* Low Priority */}
-                <View className='mb-4'>
-                  <View className='flex-row items-center justify-between mb-2'>
-                    <View className='flex-row items-center gap-2'>
-                      <View className='w-3 h-3 rounded-full bg-green-500' />
-                      <Text className='text-sm font-medium text-green-600'>Low</Text>
-                    </View>
-                    <Text className='text-sm font-bold text-green-600'>{dashboard.priorityCounts.low}</Text>
-                  </View>
-                  <View className='h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden'>
-                    <View
-                      className='h-full bg-green-500 rounded-full'
-                      style={{
-                        width: `${Math.min((dashboard.priorityCounts.low / Math.max(dashboard.priorityCounts.emergency + dashboard.priorityCounts.high + dashboard.priorityCounts.medium + dashboard.priorityCounts.low, 1)) * 100, 100)}%`,
-                      }}
-                    />
-                  </View>
-                </View>
+                  );
+                })}
               </View>
             </View>
           </View>
