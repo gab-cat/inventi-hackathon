@@ -9,6 +9,8 @@ import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { ThemedView } from '@/components/themed-view';
 import { ThemedText } from '@/components/themed-text';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useQuery } from 'convex/react';
+import { api } from '@convex/_generated/api';
 
 const inventiLogoSvg = `<svg width="123" height="47" viewBox="0 0 123 47" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M27.169 29.9344C27.169 31.7699 27.169 33.6055 27.1686 35.441C27.1686 35.5812 27.1671 35.7216 27.1599 35.8613C27.1534 35.9855 27.0982 36.0518 26.9849 36.0808C26.8862 36.106 26.7872 36.1319 26.687 36.1497C25.8311 36.3021 24.9695 36.3681 24.0995 36.3323C23.768 36.3186 23.438 36.3019 23.1107 36.2435C22.9345 36.212 22.7629 36.1679 22.595 36.1066C22.036 35.9023 21.6511 35.5191 21.4217 34.9735C21.2867 34.6522 21.2261 34.3146 21.2041 33.9698C21.1905 33.7539 21.1907 33.5367 21.1905 33.3202C21.1896 30.6178 21.1892 27.9154 21.1909 25.2132C21.1909 24.9701 21.1745 24.7306 21.1265 24.4917C21.0017 23.8708 20.6524 23.4319 20.075 23.1737C19.781 23.0422 19.47 22.9727 19.1516 22.9462C18.8212 22.9188 18.4906 22.9288 18.1601 22.9764C17.8568 23.0201 17.5564 23.0716 17.2624 23.1584C16.9678 23.2451 16.6881 23.3648 16.42 23.5153C16.2602 23.6049 16.1703 23.7203 16.185 23.9118C16.1948 24.0385 16.1863 24.1666 16.1863 24.2939C16.1863 28.0288 16.1863 31.7637 16.1859 35.4986C16.1859 35.6387 16.1832 35.7789 16.1782 35.9189C16.1757 35.9899 16.1306 36.0402 16.0679 36.0605C15.9714 36.0919 15.8722 36.1176 15.7722 36.1342C15.2192 36.2251 14.6669 36.3137 14.1037 36.3296C13.6572 36.3422 13.2116 36.3383 12.7659 36.3199C12.434 36.3062 12.1057 36.2578 11.787 36.1644C11.6293 36.1182 11.4728 36.0567 11.3272 35.9803C10.8254 35.7164 10.5218 35.2876 10.3539 34.757C10.3003 34.5876 10.2699 34.4116 10.245 34.234C10.1916 33.8537 10.1879 33.4725 10.1879 33.0899C10.1891 29.7503 10.1902 26.4104 10.186 23.0708C10.1856 22.7629 10.2142 22.4598 10.262 22.1582C10.321 21.787 10.4705 21.4516 10.6984 21.1514C10.9469 20.8241 11.2403 20.5423 11.569 20.2974C12.1241 19.8839 12.729 19.5591 13.3659 19.292C14.2861 18.9059 15.2412 18.6382 16.2242 18.4711C16.5126 18.4221 16.8059 18.403 17.0962 18.3641C17.8314 18.2658 18.5709 18.267 19.3096 18.2811C20.3058 18.2999 21.2907 18.4181 22.2559 18.6771C23.0362 18.8866 23.7767 19.1881 24.4566 19.6282C25.2169 20.1204 25.8479 20.7406 26.316 21.5207C26.6942 22.1511 26.9307 22.8325 27.0566 23.5555C27.1421 24.0472 27.1681 24.5422 27.1681 25.0399C27.1681 26.6715 27.1681 28.3031 27.1681 29.9348L27.169 29.9344Z" fill="#1C5196"/>
@@ -28,6 +30,7 @@ export default function SignInScreen() {
   const { startSSOFlow } = useSSO();
 
   const { isSignedIn } = useAuth();
+  const currentUser = useQuery(api.user.getCurrentUser, isSignedIn ? {} : 'skip');
 
   const [emailAddress, setEmailAddress] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -38,18 +41,18 @@ export default function SignInScreen() {
 
   // Navigate to home only when user is signed in and router is ready
   React.useEffect(() => {
-    if (isSignedIn && router) {
+    if (isSignedIn && router && currentUser?.success) {
       // Add a small delay to ensure the layout is fully mounted
       const timer = setTimeout(() => {
         try {
-          router.replace('/');
+          router.replace(currentUser.user?.role === 'field_technician' ? '/tech/dashboard' : '/');
         } catch (error) {
           console.warn('Navigation failed, user may already be on the correct screen:', error);
         }
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [isSignedIn, router]);
+  }, [isSignedIn, router, currentUser]);
 
   const onSignInPress = async () => {
     if (!isLoaded) return;

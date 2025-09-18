@@ -1,37 +1,61 @@
 import React from 'react';
-import { FlatList, RefreshControl, View, TextInput } from 'react-native';
-import { useQuery } from 'convex/react';
+import { FlatList, RefreshControl, View, TextInput, Alert, TouchableOpacity, ScrollView } from 'react-native';
+import { useQuery, useMutation } from 'convex/react';
 import { api } from '@convex/_generated/api';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Icon } from '@/components/ui/icon';
-import { Search, Plus, Wrench, AlertTriangle, Clock, CheckCircle, User } from 'lucide-react-native';
+import { Search, Plus, Wrench, AlertTriangle, Clock, CheckCircle, User, Check } from 'lucide-react-native';
+import { Id } from '@convex/_generated/dataModel';
 
 export default function MaintenanceListScreen() {
   const [refreshing, setRefreshing] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
-  const data = useQuery(api.maintenance.getMyCurrentRequests);
+  const [statusFilter, setStatusFilter] = React.useState<
+    'all' | 'pending' | 'assigned' | 'in_progress' | 'completed' | 'cancelled' | 'rejected'
+  >('all');
+  const data = useQuery(api.maintenance.getMyCurrentRequests, {
+    statusFilter,
+    searchQuery,
+  });
+  const tenantConfirmCompletion = useMutation(api.maintenance.tenantConfirmCompletion);
 
   const isLoading = data === undefined;
 
   const filteredRequests = React.useMemo(() => {
-    const requests = data && 'success' in data && data.success ? data.requests : [];
-    if (!searchQuery.trim()) return requests;
-    return (
-      requests?.filter(
-        req =>
-          req.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          req.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          req.location.toLowerCase().includes(searchQuery.toLowerCase())
-      ) || []
-    );
-  }, [data, searchQuery]);
+    return data && 'success' in data && data.success ? data.requests : [];
+  }, [data]);
 
   const onRefresh = async () => {
     setRefreshing(true);
     setRefreshing(false);
+  };
+
+  const handleTenantConfirmation = async (requestId: string, title: string) => {
+    Alert.alert('Confirm Completion', `Are you satisfied with the work completed for "${title}"?`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Yes, Mark as Completed',
+        style: 'default',
+        onPress: async () => {
+          try {
+            const result = await tenantConfirmCompletion({ requestId: requestId as Id<'maintenanceRequests'> });
+            if (result.success) {
+              Alert.alert('Success', 'Thank you for confirming the completion!');
+              // Refresh the data
+              setRefreshing(true);
+              setRefreshing(false);
+            } else {
+              Alert.alert('Error', result.message || 'Failed to confirm completion');
+            }
+          } catch {
+            Alert.alert('Error', 'Failed to confirm completion. Please try again.');
+          }
+        },
+      },
+    ]);
   };
 
   return (
@@ -61,7 +85,7 @@ export default function MaintenanceListScreen() {
       </View>
 
       {/* Search Bar */}
-      <View className='px-5 pb-3'>
+      <View className='px-5 pb-3 mt-4'>
         <View className='flex-row items-center bg-white rounded-lg px-3 py-2 shadow-sm'>
           <Icon as={Search} size={16} className='text-gray-400 mr-2' />
           <TextInput
@@ -72,6 +96,33 @@ export default function MaintenanceListScreen() {
             className='flex-1 text-gray-900 text-sm'
           />
         </View>
+      </View>
+
+      {/* Status Filter */}
+      <View className='px-5 pb-3'>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} className='gap-2'>
+          {[
+            { key: 'all', label: 'All', color: 'bg-gray-100 text-gray-700 border-gray-700' },
+            { key: 'pending', label: 'Pending', color: 'bg-gray-100 text-gray-700 border-gray-700' },
+            { key: 'assigned', label: 'Assigned', color: 'bg-yellow-100 text-yellow-700 border-yellow-700' },
+            { key: 'in_progress', label: 'In Progress', color: 'bg-blue-100 text-blue-700 border-blue-700' },
+            { key: 'completed', label: 'Completed', color: 'bg-green-100 text-green-700 border-green-700' },
+            { key: 'cancelled', label: 'Cancelled', color: 'bg-red-100 text-red-700 border-red-700' },
+            { key: 'rejected', label: 'Rejected', color: 'bg-red-100 text-red-700 border-red-700' },
+          ].map(filter => (
+            <TouchableOpacity
+              key={filter.key}
+              onPress={() => setStatusFilter(filter.key as typeof statusFilter)}
+              className={`px-4 py-2 rounded-full mr-2 ${
+                statusFilter === filter.key ? `${filter.color} border` : 'bg-white text-gray-600 border border-gray-200'
+              }`}
+            >
+              <Text className={`text-sm font-medium ${statusFilter === filter.key ? '' : 'text-gray-600'}`}>
+                {filter.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </View>
 
       {/* Content */}
@@ -99,10 +150,14 @@ export default function MaintenanceListScreen() {
                 <Icon as={Wrench} size={40} className='text-blue-400' />
               </View>
               <Text className='text-xl font-bold text-blue-800 mb-2'>
-                {searchQuery ? 'No matching requests' : 'No active maintenance requests'}
+                {searchQuery.trim() || statusFilter !== 'all' ? 'No matching requests' : 'No maintenance requests'}
               </Text>
               <Text className='text-sm text-gray-500 text-center leading-5 px-8'>
-                {searchQuery ? 'Try a different search term' : 'Create your first maintenance request to get started'}
+                {searchQuery.trim()
+                  ? 'Try a different search term or filter'
+                  : statusFilter !== 'all'
+                    ? `No ${statusFilter.replace('_', ' ')} requests found. Try changing the filter.`
+                    : 'Create your first maintenance request to get started'}
               </Text>
             </View>
           )
@@ -160,37 +215,55 @@ export default function MaintenanceListScreen() {
             }
           };
 
+          // Show confirmation button if request is in progress/completed and tenant hasn't approved yet
+          const showConfirmButton = ['in_progress', 'completed'].includes(item.status) && !item.tenantApproval;
+
           return (
-            <Link href={`/maintenance/${item._id}`} asChild>
-              <Button className='bg-white rounded-xl p-3 mb-2 border h-full border-gray-100'>
-                <View className='w-full'>
-                  <View className='flex-row justify-between items-start mb-2'>
-                    <Text className='text-lg font-bold text-gray-900 flex-1 mr-3' numberOfLines={1}>
-                      {item.title}
+            <View className='mb-2'>
+              <Link href={`/maintenance/${item._id}`} asChild>
+                <TouchableOpacity className='bg-white rounded-xl p-3 border border-gray-100'>
+                  <View className='w-full'>
+                    <View className='flex-row justify-between items-start mb-2'>
+                      <Text className='text-lg font-bold text-gray-900 flex-1 mr-3' numberOfLines={1}>
+                        {item.title}
+                      </Text>
+                      <View className={`flex-row items-center gap-1 px-2 py-1 rounded-lg ${getPriorityBgColor()}`}>
+                        {getPriorityIcon()}
+                        <Text className='text-xs font-bold uppercase tracking-wide'>{item.priority}</Text>
+                      </View>
+                    </View>
+
+                    <Text className='text-gray-600 mb-3 leading-5' numberOfLines={2}>
+                      {item.description}
                     </Text>
-                    <View className={`flex-row items-center gap-1 px-2 py-1 rounded-lg ${getPriorityBgColor()}`}>
-                      {getPriorityIcon()}
-                      <Text className='text-xs font-bold uppercase tracking-wide'>{item.priority}</Text>
+
+                    <View className='flex-row justify-between items-center'>
+                      <View className='flex-row items-center gap-2'>
+                        <Icon as={Wrench} size={16} className='text-blue-400' />
+                        <Text className='text-sm text-gray-500'>{item.location}</Text>
+                      </View>
+                      <View className={`flex-row items-center gap-1 px-2 py-1 rounded-lg ${getStatusBgColor()}`}>
+                        {getStatusIcon()}
+                        <Text className='text-xs font-bold uppercase tracking-wide'>
+                          {item.status.replace('_', ' ')}
+                        </Text>
+                      </View>
                     </View>
                   </View>
+                </TouchableOpacity>
+              </Link>
 
-                  <Text className='text-gray-600 mb-3 leading-5' numberOfLines={2}>
-                    {item.description}
-                  </Text>
-
-                  <View className='flex-row justify-between items-center'>
-                    <View className='flex-row items-center gap-2'>
-                      <Icon as={Wrench} size={16} className='text-blue-400' />
-                      <Text className='text-sm text-gray-500'>{item.location}</Text>
-                    </View>
-                    <View className={`flex-row items-center gap-1 px-2 py-1 rounded-lg ${getStatusBgColor()}`}>
-                      {getStatusIcon()}
-                      <Text className='text-xs font-bold uppercase tracking-wide'>{item.status.replace('_', ' ')}</Text>
-                    </View>
-                  </View>
-                </View>
-              </Button>
-            </Link>
+              {/* Tenant Confirmation Button */}
+              {showConfirmButton && (
+                <TouchableOpacity
+                  onPress={() => handleTenantConfirmation(item._id, item.title)}
+                  className='mt-2 bg-green-600 rounded-lg py-2 px-4 flex-row items-center justify-center gap-2'
+                >
+                  <Icon as={Check} size={16} className='text-white' />
+                  <Text className='text-white font-semibold text-sm'>Mark as Completed</Text>
+                </TouchableOpacity>
+              )}
+            </View>
           );
         }}
       />
