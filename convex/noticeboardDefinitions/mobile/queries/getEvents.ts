@@ -70,7 +70,6 @@ export const mobileGetEventsHandler = async (ctx: QueryCtx, args: Infer<typeof m
     .withIndex('by_clerk_id', q => q.eq('clerkId', identity.subject))
     .unique();
   if (!currentUser) throw new Error('User not found');
-  if (currentUser.role !== 'tenant') throw new Error('Access denied: Tenants only');
 
   // Get user's properties
   const userProperties = await ctx.db

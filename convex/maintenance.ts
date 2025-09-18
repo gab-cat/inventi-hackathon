@@ -29,6 +29,8 @@ import {
   updateMaintenanceCostHandler,
   bulkUpdateStatusArgs,
   bulkUpdateStatusHandler,
+  tenantConfirmCompletionArgs,
+  tenantConfirmCompletionHandler,
 } from './maintenanceDefinitions/index';
 
 // Queries
@@ -151,4 +153,9 @@ export const getRequestsById = query({
 export const getMyCurrentRequests = query({
   args: getMyCurrentRequestsArgs,
   handler: getMyCurrentRequestsHandler,
+});
+
+export const tenantConfirmCompletion = mutation({
+  args: tenantConfirmCompletionArgs,
+  handler: tenantConfirmCompletionHandler,
 });

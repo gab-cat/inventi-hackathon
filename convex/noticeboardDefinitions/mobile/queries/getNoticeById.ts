@@ -63,7 +63,6 @@ export const mobileGetNoticeByIdHandler = async (ctx: QueryCtx, args: Infer<type
     .withIndex('by_clerk_id', q => q.eq('clerkId', identity.subject))
     .unique();
   if (!currentUser) throw new Error('User not found');
-  if (currentUser.role !== 'tenant') throw new Error('Access denied: Tenants only');
 
   // Get the notice
   const notice = await ctx.db.get(args.noticeId);
