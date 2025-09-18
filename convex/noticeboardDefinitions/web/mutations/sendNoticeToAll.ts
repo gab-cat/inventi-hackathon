@@ -2,7 +2,7 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const sendNoticeToAllArgs = {
+export const webSendNoticeToAllArgs = {
   propertyId: v.id('properties'),
   title: v.string(),
   content: v.string(),
@@ -20,7 +20,7 @@ export const sendNoticeToAllArgs = {
   attachments: v.optional(v.array(v.string())),
 } as const;
 
-export const sendNoticeToAllReturns = v.object({
+export const webSendNoticeToAllReturns = v.object({
   _id: v.id('notices'),
   _creationTime: v.number(),
   propertyId: v.id('properties'),
@@ -50,7 +50,7 @@ type Args = {
   attachments?: string[];
 };
 
-export const sendNoticeToAllHandler = async (ctx: MutationCtx, args: Args) => {
+export const webSendNoticeToAllHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

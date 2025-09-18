@@ -3,7 +3,7 @@ import { PaginationOptions, paginationOptsValidator } from 'convex/server';
 import { QueryCtx } from '../../../_generated/server';
 import { Id, Doc } from '../../../_generated/dataModel';
 
-export const getNoticesArgs = {
+export const webGetNoticesArgs = {
   paginationOpts: paginationOptsValidator,
   propertyId: v.optional(v.id('properties')),
   unitId: v.optional(v.id('units')),
@@ -28,7 +28,7 @@ export const getNoticesArgs = {
   createdBy: v.optional(v.id('users')),
 } as const;
 
-export const getNoticesReturns = v.object({
+export const webGetNoticesReturns = v.object({
   page: v.array(
     v.object({
       _id: v.id('notices'),
@@ -72,8 +72,6 @@ export const getNoticesReturns = v.object({
   ),
   isDone: v.boolean(),
   continueCursor: v.optional(v.string()),
-  pageStatus: v.optional(v.union(v.string(), v.null())),
-  splitCursor: v.optional(v.string()),
 });
 
 type Args = {
@@ -90,7 +88,7 @@ type Args = {
   createdBy?: Id<'users'>;
 };
 
-export const getNoticesHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetNoticesHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

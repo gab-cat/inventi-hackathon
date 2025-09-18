@@ -3,12 +3,12 @@ import { PaginationOptions, paginationOptsValidator } from 'convex/server';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getNoticeAcknowledgmentsArgs = {
+export const webGetNoticeAcknowledgmentsArgs = {
   paginationOpts: paginationOptsValidator,
   noticeId: v.id('notices'),
 } as const;
 
-export const getNoticeAcknowledgmentsReturns = v.object({
+export const webGetNoticeAcknowledgmentsReturns = v.object({
   page: v.array(
     v.object({
       _id: v.id('noticeAcknowledgments'),
@@ -37,7 +37,7 @@ type Args = {
   noticeId: Id<'notices'>;
 };
 
-export const getNoticeAcknowledgmentsHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetNoticeAcknowledgmentsHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

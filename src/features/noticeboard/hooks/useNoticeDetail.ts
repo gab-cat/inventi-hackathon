@@ -5,7 +5,7 @@ import { Id } from '@convex/_generated/dataModel';
 import { NoticeWithFullDetails, UseNoticeDetailReturn } from '../types';
 
 export function useNoticeDetail(noticeId: Id<'notices'> | null): UseNoticeDetailReturn {
-  const notice = useQuery(api.noticeboard.getNoticeById, noticeId ? { noticeId } : 'skip') as
+  const notice = useQuery(api.noticeboard.webGetNoticeById, noticeId ? { noticeId } : 'skip') as
     | NoticeWithFullDetails
     | null
     | undefined;

@@ -255,10 +255,10 @@ export function NoticeTable({
                       <div className='flex items-center gap-1 text-xs'>
                         <Users className='w-3 h-3' />
                         <span>
-                          {notice.acknowledgmentCount}/{notice.totalTargetUsers}
+                          {notice.acknowledgmentCount || 0}/{notice.totalTargetUsers || 0}
                         </span>
                       </div>
-                      {notice.unit && (
+                      {notice.unit?.unitNumber && (
                         <div className='text-xs text-muted-foreground'>Unit: {notice.unit.unitNumber}</div>
                       )}
                     </div>
@@ -277,11 +277,15 @@ export function NoticeTable({
                     </div>
                   </TableCell>
                   <TableCell>
-                    <UserAvatar id={notice.creator._id} />
+                    {notice.creator?._id ? (
+                      <UserAvatar id={notice.creator._id} />
+                    ) : (
+                      <div className='text-sm text-muted-foreground'>Loading...</div>
+                    )}
                   </TableCell>
                   <TableCell>
-                    <div className='text-sm'>{notice.property.name}</div>
-                    <div className='text-xs text-muted-foreground'>{notice.property.address}</div>
+                    <div className='text-sm'>{notice.property?.name || 'Loading...'}</div>
+                    <div className='text-xs text-muted-foreground'>{notice.property?.address || ''}</div>
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>

@@ -15,13 +15,13 @@ export function useNoticeMutations(): UseNoticeMutationsReturn {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
 
-  const createNoticeMutation = useMutation(api.noticeboard.createNotice);
-  const updateNoticeMutation = useMutation(api.noticeboard.updateNotice);
-  const deleteNoticeMutation = useMutation(api.noticeboard.deleteNotice);
-  const sendNoticeToAllMutation = useMutation(api.noticeboard.sendNoticeToAll);
-  const sendNoticeToUnitMutation = useMutation(api.noticeboard.sendNoticeToUnit);
-  const scheduleNoticeMutation = useMutation(api.noticeboard.scheduleNotice);
-  const acknowledgeNoticeMutation = useMutation(api.noticeboard.acknowledgeNotice);
+  const createNoticeMutation = useMutation(api.noticeboard.webCreateNotice);
+  const updateNoticeMutation = useMutation(api.noticeboard.webUpdateNotice);
+  const deleteNoticeMutation = useMutation(api.noticeboard.webDeleteNotice);
+  const sendNoticeToAllMutation = useMutation(api.noticeboard.webSendNoticeToAll);
+  const sendNoticeToUnitMutation = useMutation(api.noticeboard.webSendNoticeToUnit);
+  const scheduleNoticeMutation = useMutation(api.noticeboard.webScheduleNotice);
+  const acknowledgeNoticeMutation = useMutation(api.noticeboard.webAcknowledgeNotice);
 
   const handleMutation = async <T>(mutationFn: (args: T) => Promise<any>, args: T, successMessage?: string) => {
     try {
