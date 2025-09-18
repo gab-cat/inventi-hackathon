@@ -1,7 +1,7 @@
-import { useQuery } from 'convex/react';
 import { useCallback, useState } from 'react';
 import { api } from '@convex/_generated/api';
 import { NoticeFilters, NoticeWithDetails, UseNoticesReturn } from '../types';
+import { useAuthenticatedQuery } from '@/hooks/use-authenticated-query';
 
 export function useNotices(initialFilters: NoticeFilters = {}): UseNoticesReturn {
   const [filters, setFilters] = useState<NoticeFilters>(initialFilters);
@@ -13,7 +13,7 @@ export function useNotices(initialFilters: NoticeFilters = {}): UseNoticesReturn
     cursor: currentPage > 1 ? `page_${currentPage}` : null,
   };
 
-  const paginatedResult = useQuery(api.noticeboard.getNotices, {
+  const paginatedResult = useAuthenticatedQuery(api.noticeboard.getNotices, {
     paginationOpts,
     ...filters,
   });

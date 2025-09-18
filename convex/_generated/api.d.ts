@@ -13,6 +13,35 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as assetDefinitions_index from "../assetDefinitions/index.js";
+import type * as assetDefinitions_web_mutations_addAsset from "../assetDefinitions/web/mutations/addAsset.js";
+import type * as assetDefinitions_web_mutations_assignAssetToUser from "../assetDefinitions/web/mutations/assignAssetToUser.js";
+import type * as assetDefinitions_web_mutations_bulkUpdateAssets from "../assetDefinitions/web/mutations/bulkUpdateAssets.js";
+import type * as assetDefinitions_web_mutations_checkInAsset from "../assetDefinitions/web/mutations/checkInAsset.js";
+import type * as assetDefinitions_web_mutations_checkOutAsset from "../assetDefinitions/web/mutations/checkOutAsset.js";
+import type * as assetDefinitions_web_mutations_completeMaintenance from "../assetDefinitions/web/mutations/completeMaintenance.js";
+import type * as assetDefinitions_web_mutations_editAssetDetails from "../assetDefinitions/web/mutations/editAssetDetails.js";
+import type * as assetDefinitions_web_mutations_generateAssetBarcode from "../assetDefinitions/web/mutations/generateAssetBarcode.js";
+import type * as assetDefinitions_web_mutations_performAssetAudit from "../assetDefinitions/web/mutations/performAssetAudit.js";
+import type * as assetDefinitions_web_mutations_reactivateAsset from "../assetDefinitions/web/mutations/reactivateAsset.js";
+import type * as assetDefinitions_web_mutations_reorderSupplies from "../assetDefinitions/web/mutations/reorderSupplies.js";
+import type * as assetDefinitions_web_mutations_retireAsset from "../assetDefinitions/web/mutations/retireAsset.js";
+import type * as assetDefinitions_web_mutations_scheduleMaintenance from "../assetDefinitions/web/mutations/scheduleMaintenance.js";
+import type * as assetDefinitions_web_mutations_transferAsset from "../assetDefinitions/web/mutations/transferAsset.js";
+import type * as assetDefinitions_web_mutations_unassignAssetFromUser from "../assetDefinitions/web/mutations/unassignAssetFromUser.js";
+import type * as assetDefinitions_web_mutations_updateAssetStatus from "../assetDefinitions/web/mutations/updateAssetStatus.js";
+import type * as assetDefinitions_web_queries_getAssetAlerts from "../assetDefinitions/web/queries/getAssetAlerts.js";
+import type * as assetDefinitions_web_queries_getAssetAnalytics from "../assetDefinitions/web/queries/getAssetAnalytics.js";
+import type * as assetDefinitions_web_queries_getAssetById from "../assetDefinitions/web/queries/getAssetById.js";
+import type * as assetDefinitions_web_queries_getAssetDashboardData from "../assetDefinitions/web/queries/getAssetDashboardData.js";
+import type * as assetDefinitions_web_queries_getAssetHistory from "../assetDefinitions/web/queries/getAssetHistory.js";
+import type * as assetDefinitions_web_queries_getAssetReports from "../assetDefinitions/web/queries/getAssetReports.js";
+import type * as assetDefinitions_web_queries_getAssetUtilization from "../assetDefinitions/web/queries/getAssetUtilization.js";
+import type * as assetDefinitions_web_queries_getAssets from "../assetDefinitions/web/queries/getAssets.js";
+import type * as assetDefinitions_web_queries_getInventoryLevels from "../assetDefinitions/web/queries/getInventoryLevels.js";
+import type * as assetDefinitions_web_queries_getMaintenanceSchedule from "../assetDefinitions/web/queries/getMaintenanceSchedule.js";
+import type * as assetDefinitions_web_queries_getManagerProperties from "../assetDefinitions/web/queries/getManagerProperties.js";
+import type * as assets from "../assets.js";
 import type * as http from "../http.js";
 import type * as maintenance from "../maintenance.js";
 import type * as maintenanceDefinitions_index from "../maintenanceDefinitions/index.js";
@@ -129,6 +158,35 @@ import type * as webhookDefinitions_verifyWebhook from "../webhookDefinitions/ve
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  "assetDefinitions/index": typeof assetDefinitions_index;
+  "assetDefinitions/web/mutations/addAsset": typeof assetDefinitions_web_mutations_addAsset;
+  "assetDefinitions/web/mutations/assignAssetToUser": typeof assetDefinitions_web_mutations_assignAssetToUser;
+  "assetDefinitions/web/mutations/bulkUpdateAssets": typeof assetDefinitions_web_mutations_bulkUpdateAssets;
+  "assetDefinitions/web/mutations/checkInAsset": typeof assetDefinitions_web_mutations_checkInAsset;
+  "assetDefinitions/web/mutations/checkOutAsset": typeof assetDefinitions_web_mutations_checkOutAsset;
+  "assetDefinitions/web/mutations/completeMaintenance": typeof assetDefinitions_web_mutations_completeMaintenance;
+  "assetDefinitions/web/mutations/editAssetDetails": typeof assetDefinitions_web_mutations_editAssetDetails;
+  "assetDefinitions/web/mutations/generateAssetBarcode": typeof assetDefinitions_web_mutations_generateAssetBarcode;
+  "assetDefinitions/web/mutations/performAssetAudit": typeof assetDefinitions_web_mutations_performAssetAudit;
+  "assetDefinitions/web/mutations/reactivateAsset": typeof assetDefinitions_web_mutations_reactivateAsset;
+  "assetDefinitions/web/mutations/reorderSupplies": typeof assetDefinitions_web_mutations_reorderSupplies;
+  "assetDefinitions/web/mutations/retireAsset": typeof assetDefinitions_web_mutations_retireAsset;
+  "assetDefinitions/web/mutations/scheduleMaintenance": typeof assetDefinitions_web_mutations_scheduleMaintenance;
+  "assetDefinitions/web/mutations/transferAsset": typeof assetDefinitions_web_mutations_transferAsset;
+  "assetDefinitions/web/mutations/unassignAssetFromUser": typeof assetDefinitions_web_mutations_unassignAssetFromUser;
+  "assetDefinitions/web/mutations/updateAssetStatus": typeof assetDefinitions_web_mutations_updateAssetStatus;
+  "assetDefinitions/web/queries/getAssetAlerts": typeof assetDefinitions_web_queries_getAssetAlerts;
+  "assetDefinitions/web/queries/getAssetAnalytics": typeof assetDefinitions_web_queries_getAssetAnalytics;
+  "assetDefinitions/web/queries/getAssetById": typeof assetDefinitions_web_queries_getAssetById;
+  "assetDefinitions/web/queries/getAssetDashboardData": typeof assetDefinitions_web_queries_getAssetDashboardData;
+  "assetDefinitions/web/queries/getAssetHistory": typeof assetDefinitions_web_queries_getAssetHistory;
+  "assetDefinitions/web/queries/getAssetReports": typeof assetDefinitions_web_queries_getAssetReports;
+  "assetDefinitions/web/queries/getAssetUtilization": typeof assetDefinitions_web_queries_getAssetUtilization;
+  "assetDefinitions/web/queries/getAssets": typeof assetDefinitions_web_queries_getAssets;
+  "assetDefinitions/web/queries/getInventoryLevels": typeof assetDefinitions_web_queries_getInventoryLevels;
+  "assetDefinitions/web/queries/getMaintenanceSchedule": typeof assetDefinitions_web_queries_getMaintenanceSchedule;
+  "assetDefinitions/web/queries/getManagerProperties": typeof assetDefinitions_web_queries_getManagerProperties;
+  assets: typeof assets;
   http: typeof http;
   maintenance: typeof maintenance;
   "maintenanceDefinitions/index": typeof maintenanceDefinitions_index;

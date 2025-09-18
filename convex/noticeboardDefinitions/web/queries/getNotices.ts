@@ -72,6 +72,8 @@ export const getNoticesReturns = v.object({
   ),
   isDone: v.boolean(),
   continueCursor: v.optional(v.string()),
+  pageStatus: v.optional(v.union(v.string(), v.null())),
+  splitCursor: v.optional(v.string()),
 });
 
 type Args = {

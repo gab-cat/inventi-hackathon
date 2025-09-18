@@ -1,29 +1,18 @@
 'use client';
 
 import { format } from 'date-fns';
-import {
-  Calendar,
-  Clock,
-  Eye,
-  MessageSquare,
-  MoreHorizontal,
-  Users,
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
-} from 'lucide-react';
+import { Clock, Eye, MessageSquare, MoreHorizontal, Users, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { useState } from 'react';
-import { Id } from '../../../../convex/_generated/dataModel';
-import { Badge } from '../../../components/ui/badge';
-import { Button } from '../../../components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../../../components/ui/dropdown-menu';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../../components/ui/table';
+} from '@/components/ui/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
   Pagination,
   PaginationContent,
@@ -32,7 +21,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '../../../components/ui/pagination';
+} from '@/components/ui/pagination';
 import { NoticeWithDetails } from '../types';
 import { UserAvatar } from '@/components/custom/user-avatar';
 
@@ -227,7 +216,7 @@ export function NoticeTable({
             <TableBody>
               {notices.map(notice => (
                 <TableRow key={notice._id} className='hover:bg-muted/50'>
-                  <TableCell className='font-medium'>
+                  <TableCell className='font-medium max-w-[300px]'>
                     <div className='space-y-1'>
                       <div className='line-clamp-2'>{notice.title}</div>
                       <div className='text-xs text-muted-foreground line-clamp-1'>{notice.content}</div>

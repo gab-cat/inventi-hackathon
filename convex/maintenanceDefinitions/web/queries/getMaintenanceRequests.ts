@@ -84,6 +84,8 @@ export const getMaintenanceRequestsReturns = v.object({
   ),
   isDone: v.boolean(),
   continueCursor: v.union(v.string(), v.null()),
+  pageStatus: v.optional(v.union(v.string(), v.null())),
+  splitCursor: v.optional(v.string()),
 });
 
 type Args = {

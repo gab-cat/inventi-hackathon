@@ -13,7 +13,7 @@ import {
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
 import Image from 'next/image';
-import { FolderKanban, LayoutDashboard, Wrench } from 'lucide-react';
+import { FolderKanban, LayoutDashboard, Wrench, Package, Mailbox } from 'lucide-react';
 import { Label } from '../ui/label';
 
 const data = {
@@ -41,7 +41,12 @@ const data = {
     {
       title: 'Noticeboard',
       url: '/noticeboard',
-      icon: <FolderKanban className='h-5 w-5' />,
+      icon: <Mailbox className='h-5 w-5' />,
+    },
+    {
+      title: 'Assets',
+      url: '/assets',
+      icon: <Package className='h-5 w-5' />,
     },
   ],
 };
