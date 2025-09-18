@@ -2,11 +2,11 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getAssetAlertsArgs = {
+export const webGetAssetAlertsArgs = {
   propertyId: v.optional(v.id('properties')),
 } as const;
 
-export const getAssetAlertsReturns = v.array(
+export const webGetAssetAlertsReturns = v.array(
   v.object({
     type: v.string(),
     message: v.string(),
@@ -20,7 +20,7 @@ type Args = {
   propertyId?: Id<'properties'>;
 };
 
-export const getAssetAlertsHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetAssetAlertsHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

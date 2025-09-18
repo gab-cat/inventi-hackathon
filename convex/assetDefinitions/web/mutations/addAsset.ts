@@ -2,7 +2,7 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const addAssetArgs = {
+export const webAddAssetArgs = {
   propertyId: v.id('properties'),
   assetTag: v.string(), // Barcode/RFID/QR code
   name: v.string(),
@@ -49,7 +49,7 @@ export const addAssetArgs = {
   documents: v.optional(v.array(v.string())),
 } as const;
 
-export const addAssetReturns = v.object({
+export const webAddAssetReturns = v.object({
   _id: v.id('assets'),
   _creationTime: v.number(),
   propertyId: v.id('properties'),
@@ -110,7 +110,7 @@ type Args = {
   documents?: string[];
 };
 
-export const addAssetHandler = async (ctx: MutationCtx, args: Args) => {
+export const webAddAssetHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

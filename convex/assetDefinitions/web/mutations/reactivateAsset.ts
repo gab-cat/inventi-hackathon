@@ -2,19 +2,19 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const reactivateAssetArgs = {
+export const webReactivateAssetArgs = {
   assetId: v.id('assets'),
   notes: v.optional(v.string()),
 } as const;
 
-export const reactivateAssetReturns = v.null();
+export const webReactivateAssetReturns = v.null();
 
 type Args = {
   assetId: Id<'assets'>;
   notes?: string;
 };
 
-export const reactivateAssetHandler = async (ctx: MutationCtx, args: Args) => {
+export const webReactivateAssetHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

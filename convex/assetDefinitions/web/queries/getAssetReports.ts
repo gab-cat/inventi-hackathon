@@ -2,7 +2,7 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getAssetReportsArgs = {
+export const webGetAssetReportsArgs = {
   propertyId: v.optional(v.id('properties')),
   reportType: v.union(
     v.literal('inventory'),
@@ -12,7 +12,7 @@ export const getAssetReportsArgs = {
   ),
 } as const;
 
-export const getAssetReportsReturns = v.object({
+export const webGetAssetReportsReturns = v.object({
   reportData: v.any(),
   generatedAt: v.number(),
 });
@@ -22,7 +22,7 @@ type Args = {
   reportType: 'inventory' | 'maintenance' | 'financial' | 'utilization';
 };
 
-export const getAssetReportsHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetAssetReportsHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

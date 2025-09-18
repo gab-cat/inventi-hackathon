@@ -2,13 +2,13 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const reorderSuppliesArgs = {
+export const webReorderSuppliesArgs = {
   assetId: v.id('assets'),
   quantity: v.number(),
   notes: v.optional(v.string()),
 } as const;
 
-export const reorderSuppliesReturns = v.null();
+export const webReorderSuppliesReturns = v.null();
 
 type Args = {
   assetId: Id<'assets'>;
@@ -16,7 +16,7 @@ type Args = {
   notes?: string;
 };
 
-export const reorderSuppliesHandler = async (ctx: MutationCtx, args: Args) => {
+export const webReorderSuppliesHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

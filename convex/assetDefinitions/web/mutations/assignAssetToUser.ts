@@ -2,14 +2,14 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const assignAssetToUserArgs = {
+export const webAssignAssetToUserArgs = {
   assetId: v.id('assets'),
   userId: v.id('users'),
   location: v.optional(v.string()),
   notes: v.optional(v.string()),
 } as const;
 
-export const assignAssetToUserReturns = v.object({
+export const webAssignAssetToUserReturns = v.object({
   _id: v.id('assets'),
   _creationTime: v.number(),
   propertyId: v.id('properties'),
@@ -50,7 +50,7 @@ type Args = {
   notes?: string;
 };
 
-export const assignAssetToUserHandler = async (ctx: MutationCtx, args: Args) => {
+export const webAssignAssetToUserHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

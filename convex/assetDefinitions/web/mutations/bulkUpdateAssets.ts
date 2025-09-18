@@ -2,29 +2,27 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const bulkUpdateAssetsArgs = {
+export const webBulkUpdateAssetsArgs = {
   assetIds: v.array(v.id('assets')),
   updates: v.object({
-    status: v.optional(v.union(
-      v.literal('available'),
-      v.literal('checked_out'),
-      v.literal('maintenance'),
-      v.literal('retired'),
-      v.literal('lost')
-    )),
-    condition: v.optional(v.union(
-      v.literal('excellent'),
-      v.literal('good'),
-      v.literal('fair'),
-      v.literal('poor'),
-      v.literal('broken')
-    )),
+    status: v.optional(
+      v.union(
+        v.literal('available'),
+        v.literal('checked_out'),
+        v.literal('maintenance'),
+        v.literal('retired'),
+        v.literal('lost')
+      )
+    ),
+    condition: v.optional(
+      v.union(v.literal('excellent'), v.literal('good'), v.literal('fair'), v.literal('poor'), v.literal('broken'))
+    ),
     location: v.optional(v.string()),
   }),
   notes: v.optional(v.string()),
 } as const;
 
-export const bulkUpdateAssetsReturns = v.null();
+export const webBulkUpdateAssetsReturns = v.null();
 
 type Args = {
   assetIds: Id<'assets'>[];
@@ -36,7 +34,7 @@ type Args = {
   notes?: string;
 };
 
-export const bulkUpdateAssetsHandler = async (ctx: MutationCtx, args: Args) => {
+export const webBulkUpdateAssetsHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

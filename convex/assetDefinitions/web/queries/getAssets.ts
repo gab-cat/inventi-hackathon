@@ -3,7 +3,7 @@ import { PaginationOptions, paginationOptsValidator } from 'convex/server';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getAssetsArgs = {
+export const webGetAssetsArgs = {
   paginationOpts: paginationOptsValidator,
   propertyId: v.optional(v.id('properties')),
   category: v.optional(
@@ -36,7 +36,7 @@ export const getAssetsArgs = {
   hasWarrantyExpiring: v.optional(v.boolean()),
 } as const;
 
-export const getAssetsReturns = v.object({
+export const webGetAssetsReturns = v.object({
   page: v.array(
     v.object({
       _id: v.id('assets'),
@@ -113,7 +113,7 @@ type Args = {
   hasWarrantyExpiring?: boolean;
 };
 
-export const getAssetsHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetAssetsHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

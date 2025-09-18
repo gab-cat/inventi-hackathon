@@ -1,4 +1,4 @@
-// Queries
+// Web Queries
 export * from './web/queries/getAssets';
 export * from './web/queries/getAssetById';
 export * from './web/queries/getAssetHistory';
@@ -11,7 +11,7 @@ export * from './web/queries/getAssetUtilization';
 export * from './web/queries/getAssetReports';
 export * from './web/queries/getManagerProperties';
 
-// Mutations
+// Web Mutations
 export * from './web/mutations/addAsset';
 export * from './web/mutations/editAssetDetails';
 export * from './web/mutations/updateAssetStatus';

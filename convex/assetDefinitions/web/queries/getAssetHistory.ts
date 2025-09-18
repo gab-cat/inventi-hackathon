@@ -3,7 +3,7 @@ import { PaginationOptions, paginationOptsValidator } from 'convex/server';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getAssetHistoryArgs = {
+export const webGetAssetHistoryArgs = {
   paginationOpts: paginationOptsValidator,
   assetId: v.id('assets'),
   action: v.optional(
@@ -25,7 +25,7 @@ export const getAssetHistoryArgs = {
   performedBy: v.optional(v.id('users')),
 } as const;
 
-export const getAssetHistoryReturns = v.object({
+export const webGetAssetHistoryReturns = v.object({
   page: v.array(
     v.object({
       _id: v.id('assetHistory'),
@@ -101,7 +101,7 @@ type Args = {
   performedBy?: Id<'users'>;
 };
 
-export const getAssetHistoryHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetAssetHistoryHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

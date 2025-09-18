@@ -1,251 +1,251 @@
 import { query, mutation } from './_generated/server';
 import {
-  // Queries
-  getAssetsArgs,
-  getAssetsHandler,
-  getAssetsReturns,
-  getAssetByIdArgs,
-  getAssetByIdHandler,
-  getAssetByIdReturns,
-  getAssetHistoryArgs,
-  getAssetHistoryHandler,
-  getAssetHistoryReturns,
-  getAssetAnalyticsArgs,
-  getAssetAnalyticsHandler,
-  getAssetAnalyticsReturns,
-  getAssetDashboardDataArgs,
-  getAssetDashboardDataHandler,
-  getAssetDashboardDataReturns,
-  getAssetAlertsArgs,
-  getAssetAlertsHandler,
-  getAssetAlertsReturns,
-  getInventoryLevelsArgs,
-  getInventoryLevelsHandler,
-  getInventoryLevelsReturns,
-  getMaintenanceScheduleArgs,
-  getMaintenanceScheduleHandler,
-  getMaintenanceScheduleReturns,
-  getAssetUtilizationArgs,
-  getAssetUtilizationHandler,
-  getAssetUtilizationReturns,
-  getAssetReportsArgs,
-  getAssetReportsHandler,
-  getAssetReportsReturns,
-  getManagerPropertiesArgs,
-  getManagerPropertiesHandler,
-  getManagerPropertiesReturns,
+  // Web Queries
+  webGetAssetsArgs,
+  webGetAssetsHandler,
+  webGetAssetsReturns,
+  webGetAssetByIdArgs,
+  webGetAssetByIdHandler,
+  webGetAssetByIdReturns,
+  webGetAssetHistoryArgs,
+  webGetAssetHistoryHandler,
+  webGetAssetHistoryReturns,
+  webGetAssetAnalyticsArgs,
+  webGetAssetAnalyticsHandler,
+  webGetAssetAnalyticsReturns,
+  webGetAssetDashboardDataArgs,
+  webGetAssetDashboardDataHandler,
+  webGetAssetDashboardDataReturns,
+  webGetAssetAlertsArgs,
+  webGetAssetAlertsHandler,
+  webGetAssetAlertsReturns,
+  webGetInventoryLevelsArgs,
+  webGetInventoryLevelsHandler,
+  webGetInventoryLevelsReturns,
+  webGetMaintenanceScheduleArgs,
+  webGetMaintenanceScheduleHandler,
+  webGetMaintenanceScheduleReturns,
+  webGetAssetUtilizationArgs,
+  webGetAssetUtilizationHandler,
+  webGetAssetUtilizationReturns,
+  webGetAssetReportsArgs,
+  webGetAssetReportsHandler,
+  webGetAssetReportsReturns,
+  webGetManagerPropertiesArgs,
+  webGetManagerPropertiesHandler,
+  webGetManagerPropertiesReturns,
 
-  // Mutations
-  addAssetArgs,
-  addAssetHandler,
-  addAssetReturns,
-  editAssetDetailsArgs,
-  editAssetDetailsHandler,
-  editAssetDetailsReturns,
-  updateAssetStatusArgs,
-  updateAssetStatusHandler,
-  updateAssetStatusReturns,
-  assignAssetToUserArgs,
-  assignAssetToUserHandler,
-  assignAssetToUserReturns,
-  unassignAssetFromUserArgs,
-  unassignAssetFromUserHandler,
-  unassignAssetFromUserReturns,
-  transferAssetArgs,
-  transferAssetHandler,
-  transferAssetReturns,
-  checkOutAssetArgs,
-  checkOutAssetHandler,
-  checkOutAssetReturns,
-  checkInAssetArgs,
-  checkInAssetHandler,
-  checkInAssetReturns,
-  scheduleMaintenanceArgs,
-  scheduleMaintenanceHandler,
-  scheduleMaintenanceReturns,
-  completeMaintenanceArgs,
-  completeMaintenanceHandler,
-  completeMaintenanceReturns,
-  performAssetAuditArgs,
-  performAssetAuditHandler,
-  performAssetAuditReturns,
-  reorderSuppliesArgs,
-  reorderSuppliesHandler,
-  reorderSuppliesReturns,
-  bulkUpdateAssetsArgs,
-  bulkUpdateAssetsHandler,
-  bulkUpdateAssetsReturns,
-  generateAssetBarcodeArgs,
-  generateAssetBarcodeHandler,
-  generateAssetBarcodeReturns,
-  retireAssetArgs,
-  retireAssetHandler,
-  retireAssetReturns,
-  reactivateAssetArgs,
-  reactivateAssetHandler,
-  reactivateAssetReturns,
+  // Web Mutations
+  webAddAssetArgs,
+  webAddAssetHandler,
+  webAddAssetReturns,
+  webEditAssetDetailsArgs,
+  webEditAssetDetailsHandler,
+  webEditAssetDetailsReturns,
+  webUpdateAssetStatusArgs,
+  webUpdateAssetStatusHandler,
+  webUpdateAssetStatusReturns,
+  webAssignAssetToUserArgs,
+  webAssignAssetToUserHandler,
+  webAssignAssetToUserReturns,
+  webUnassignAssetFromUserArgs,
+  webUnassignAssetFromUserHandler,
+  webUnassignAssetFromUserReturns,
+  webTransferAssetArgs,
+  webTransferAssetHandler,
+  webTransferAssetReturns,
+  webCheckOutAssetArgs,
+  webCheckOutAssetHandler,
+  webCheckOutAssetReturns,
+  webCheckInAssetArgs,
+  webCheckInAssetHandler,
+  webCheckInAssetReturns,
+  webScheduleMaintenanceArgs,
+  webScheduleMaintenanceHandler,
+  webScheduleMaintenanceReturns,
+  webCompleteMaintenanceArgs,
+  webCompleteMaintenanceHandler,
+  webCompleteMaintenanceReturns,
+  webPerformAssetAuditArgs,
+  webPerformAssetAuditHandler,
+  webPerformAssetAuditReturns,
+  webReorderSuppliesArgs,
+  webReorderSuppliesHandler,
+  webReorderSuppliesReturns,
+  webBulkUpdateAssetsArgs,
+  webBulkUpdateAssetsHandler,
+  webBulkUpdateAssetsReturns,
+  webGenerateAssetBarcodeArgs,
+  webGenerateAssetBarcodeHandler,
+  webGenerateAssetBarcodeReturns,
+  webRetireAssetArgs,
+  webRetireAssetHandler,
+  webRetireAssetReturns,
+  webReactivateAssetArgs,
+  webReactivateAssetHandler,
+  webReactivateAssetReturns,
 } from './assetDefinitions/index';
 
-// Queries
-export const getAssets = query({
-  args: getAssetsArgs,
-  returns: getAssetsReturns,
-  handler: getAssetsHandler,
+// Web Queries
+export const webGetAssets = query({
+  args: webGetAssetsArgs,
+  returns: webGetAssetsReturns,
+  handler: webGetAssetsHandler,
 });
 
-export const getAssetById = query({
-  args: getAssetByIdArgs,
-  returns: getAssetByIdReturns,
-  handler: getAssetByIdHandler,
+export const webGetAssetById = query({
+  args: webGetAssetByIdArgs,
+  returns: webGetAssetByIdReturns,
+  handler: webGetAssetByIdHandler,
 });
 
-export const getAssetHistory = query({
-  args: getAssetHistoryArgs,
-  returns: getAssetHistoryReturns,
-  handler: getAssetHistoryHandler,
+export const webGetAssetHistory = query({
+  args: webGetAssetHistoryArgs,
+  returns: webGetAssetHistoryReturns,
+  handler: webGetAssetHistoryHandler,
 });
 
-export const getAssetAnalytics = query({
-  args: getAssetAnalyticsArgs,
-  returns: getAssetAnalyticsReturns,
-  handler: getAssetAnalyticsHandler,
+export const webGetAssetAnalytics = query({
+  args: webGetAssetAnalyticsArgs,
+  returns: webGetAssetAnalyticsReturns,
+  handler: webGetAssetAnalyticsHandler,
 });
 
-export const getAssetDashboardData = query({
-  args: getAssetDashboardDataArgs,
-  returns: getAssetDashboardDataReturns,
-  handler: getAssetDashboardDataHandler,
+export const webGetAssetDashboardData = query({
+  args: webGetAssetDashboardDataArgs,
+  returns: webGetAssetDashboardDataReturns,
+  handler: webGetAssetDashboardDataHandler,
 });
 
-export const getAssetAlerts = query({
-  args: getAssetAlertsArgs,
-  returns: getAssetAlertsReturns,
-  handler: getAssetAlertsHandler,
+export const webGetAssetAlerts = query({
+  args: webGetAssetAlertsArgs,
+  returns: webGetAssetAlertsReturns,
+  handler: webGetAssetAlertsHandler,
 });
 
-export const getInventoryLevels = query({
-  args: getInventoryLevelsArgs,
-  returns: getInventoryLevelsReturns,
-  handler: getInventoryLevelsHandler,
+export const webGetInventoryLevels = query({
+  args: webGetInventoryLevelsArgs,
+  returns: webGetInventoryLevelsReturns,
+  handler: webGetInventoryLevelsHandler,
 });
 
-export const getMaintenanceSchedule = query({
-  args: getMaintenanceScheduleArgs,
-  returns: getMaintenanceScheduleReturns,
-  handler: getMaintenanceScheduleHandler,
+export const webGetMaintenanceSchedule = query({
+  args: webGetMaintenanceScheduleArgs,
+  returns: webGetMaintenanceScheduleReturns,
+  handler: webGetMaintenanceScheduleHandler,
 });
 
-export const getAssetUtilization = query({
-  args: getAssetUtilizationArgs,
-  returns: getAssetUtilizationReturns,
-  handler: getAssetUtilizationHandler,
+export const webGetAssetUtilization = query({
+  args: webGetAssetUtilizationArgs,
+  returns: webGetAssetUtilizationReturns,
+  handler: webGetAssetUtilizationHandler,
 });
 
-export const getAssetReports = query({
-  args: getAssetReportsArgs,
-  returns: getAssetReportsReturns,
-  handler: getAssetReportsHandler,
+export const webGetAssetReports = query({
+  args: webGetAssetReportsArgs,
+  returns: webGetAssetReportsReturns,
+  handler: webGetAssetReportsHandler,
 });
 
-export const getManagerProperties = query({
-  args: getManagerPropertiesArgs,
-  returns: getManagerPropertiesReturns,
-  handler: getManagerPropertiesHandler,
+export const webGetManagerProperties = query({
+  args: webGetManagerPropertiesArgs,
+  returns: webGetManagerPropertiesReturns,
+  handler: webGetManagerPropertiesHandler,
 });
 
-// Mutations
-export const addAsset = mutation({
-  args: addAssetArgs,
-  returns: addAssetReturns,
-  handler: addAssetHandler,
+// Web Mutations
+export const webAddAsset = mutation({
+  args: webAddAssetArgs,
+  returns: webAddAssetReturns,
+  handler: webAddAssetHandler,
 });
 
-export const editAssetDetails = mutation({
-  args: editAssetDetailsArgs,
-  returns: editAssetDetailsReturns,
-  handler: editAssetDetailsHandler,
+export const webEditAssetDetails = mutation({
+  args: webEditAssetDetailsArgs,
+  returns: webEditAssetDetailsReturns,
+  handler: webEditAssetDetailsHandler,
 });
 
-export const updateAssetStatus = mutation({
-  args: updateAssetStatusArgs,
-  returns: updateAssetStatusReturns,
-  handler: updateAssetStatusHandler,
+export const webUpdateAssetStatus = mutation({
+  args: webUpdateAssetStatusArgs,
+  returns: webUpdateAssetStatusReturns,
+  handler: webUpdateAssetStatusHandler,
 });
 
-export const assignAssetToUser = mutation({
-  args: assignAssetToUserArgs,
-  returns: assignAssetToUserReturns,
-  handler: assignAssetToUserHandler,
+export const webAssignAssetToUser = mutation({
+  args: webAssignAssetToUserArgs,
+  returns: webAssignAssetToUserReturns,
+  handler: webAssignAssetToUserHandler,
 });
 
-export const unassignAssetFromUser = mutation({
-  args: unassignAssetFromUserArgs,
-  returns: unassignAssetFromUserReturns,
-  handler: unassignAssetFromUserHandler,
+export const webUnassignAssetFromUser = mutation({
+  args: webUnassignAssetFromUserArgs,
+  returns: webUnassignAssetFromUserReturns,
+  handler: webUnassignAssetFromUserHandler,
 });
 
-export const transferAsset = mutation({
-  args: transferAssetArgs,
-  returns: transferAssetReturns,
-  handler: transferAssetHandler,
+export const webTransferAsset = mutation({
+  args: webTransferAssetArgs,
+  returns: webTransferAssetReturns,
+  handler: webTransferAssetHandler,
 });
 
-export const checkOutAsset = mutation({
-  args: checkOutAssetArgs,
-  returns: checkOutAssetReturns,
-  handler: checkOutAssetHandler,
+export const webCheckOutAsset = mutation({
+  args: webCheckOutAssetArgs,
+  returns: webCheckOutAssetReturns,
+  handler: webCheckOutAssetHandler,
 });
 
-export const checkInAsset = mutation({
-  args: checkInAssetArgs,
-  returns: checkInAssetReturns,
-  handler: checkInAssetHandler,
+export const webCheckInAsset = mutation({
+  args: webCheckInAssetArgs,
+  returns: webCheckInAssetReturns,
+  handler: webCheckInAssetHandler,
 });
 
-export const scheduleMaintenance = mutation({
-  args: scheduleMaintenanceArgs,
-  returns: scheduleMaintenanceReturns,
-  handler: scheduleMaintenanceHandler,
+export const webScheduleMaintenance = mutation({
+  args: webScheduleMaintenanceArgs,
+  returns: webScheduleMaintenanceReturns,
+  handler: webScheduleMaintenanceHandler,
 });
 
-export const completeMaintenance = mutation({
-  args: completeMaintenanceArgs,
-  returns: completeMaintenanceReturns,
-  handler: completeMaintenanceHandler,
+export const webCompleteMaintenance = mutation({
+  args: webCompleteMaintenanceArgs,
+  returns: webCompleteMaintenanceReturns,
+  handler: webCompleteMaintenanceHandler,
 });
 
-export const performAssetAudit = mutation({
-  args: performAssetAuditArgs,
-  returns: performAssetAuditReturns,
-  handler: performAssetAuditHandler,
+export const webPerformAssetAudit = mutation({
+  args: webPerformAssetAuditArgs,
+  returns: webPerformAssetAuditReturns,
+  handler: webPerformAssetAuditHandler,
 });
 
-export const reorderSupplies = mutation({
-  args: reorderSuppliesArgs,
-  returns: reorderSuppliesReturns,
-  handler: reorderSuppliesHandler,
+export const webReorderSupplies = mutation({
+  args: webReorderSuppliesArgs,
+  returns: webReorderSuppliesReturns,
+  handler: webReorderSuppliesHandler,
 });
 
-export const bulkUpdateAssets = mutation({
-  args: bulkUpdateAssetsArgs,
-  returns: bulkUpdateAssetsReturns,
-  handler: bulkUpdateAssetsHandler,
+export const webBulkUpdateAssets = mutation({
+  args: webBulkUpdateAssetsArgs,
+  returns: webBulkUpdateAssetsReturns,
+  handler: webBulkUpdateAssetsHandler,
 });
 
-export const generateAssetBarcode = mutation({
-  args: generateAssetBarcodeArgs,
-  returns: generateAssetBarcodeReturns,
-  handler: generateAssetBarcodeHandler,
+export const webGenerateAssetBarcode = mutation({
+  args: webGenerateAssetBarcodeArgs,
+  returns: webGenerateAssetBarcodeReturns,
+  handler: webGenerateAssetBarcodeHandler,
 });
 
-export const retireAsset = mutation({
-  args: retireAssetArgs,
-  returns: retireAssetReturns,
-  handler: retireAssetHandler,
+export const webRetireAsset = mutation({
+  args: webRetireAssetArgs,
+  returns: webRetireAssetReturns,
+  handler: webRetireAssetHandler,
 });
 
-export const reactivateAsset = mutation({
-  args: reactivateAssetArgs,
-  returns: reactivateAssetReturns,
-  handler: reactivateAssetHandler,
+export const webReactivateAsset = mutation({
+  args: webReactivateAssetArgs,
+  returns: webReactivateAssetReturns,
+  handler: webReactivateAssetHandler,
 });

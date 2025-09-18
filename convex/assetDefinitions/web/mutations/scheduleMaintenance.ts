@@ -2,13 +2,13 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const scheduleMaintenanceArgs = {
+export const webScheduleMaintenanceArgs = {
   assetId: v.id('assets'),
   scheduledDate: v.number(),
   notes: v.optional(v.string()),
 } as const;
 
-export const scheduleMaintenanceReturns = v.null();
+export const webScheduleMaintenanceReturns = v.null();
 
 type Args = {
   assetId: Id<'assets'>;
@@ -16,7 +16,7 @@ type Args = {
   notes?: string;
 };
 
-export const scheduleMaintenanceHandler = async (ctx: MutationCtx, args: Args) => {
+export const webScheduleMaintenanceHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

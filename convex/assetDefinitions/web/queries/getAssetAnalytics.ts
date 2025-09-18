@@ -2,13 +2,13 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getAssetAnalyticsArgs = {
+export const webGetAssetAnalyticsArgs = {
   propertyId: v.optional(v.id('properties')),
   dateFrom: v.optional(v.number()),
   dateTo: v.optional(v.number()),
 } as const;
 
-export const getAssetAnalyticsReturns = v.object({
+export const webGetAssetAnalyticsReturns = v.object({
   utilizationRate: v.number(),
   maintenanceCost: v.number(),
   totalValue: v.number(),
@@ -21,7 +21,7 @@ type Args = {
   dateTo?: number;
 };
 
-export const getAssetAnalyticsHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetAssetAnalyticsHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

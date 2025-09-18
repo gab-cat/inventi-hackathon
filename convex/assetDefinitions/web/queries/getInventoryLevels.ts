@@ -2,11 +2,11 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getInventoryLevelsArgs = {
+export const webGetInventoryLevelsArgs = {
   propertyId: v.optional(v.id('properties')),
 } as const;
 
-export const getInventoryLevelsReturns = v.array(
+export const webGetInventoryLevelsReturns = v.array(
   v.object({
     category: v.string(),
     total: v.number(),
@@ -20,7 +20,7 @@ type Args = {
   propertyId?: Id<'properties'>;
 };
 
-export const getInventoryLevelsHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetInventoryLevelsHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

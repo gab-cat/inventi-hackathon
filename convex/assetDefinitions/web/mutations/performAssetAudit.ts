@@ -2,7 +2,7 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const performAssetAuditArgs = {
+export const webPerformAssetAuditArgs = {
   assetId: v.id('assets'),
   condition: v.union(
     v.literal('excellent'),
@@ -15,7 +15,7 @@ export const performAssetAuditArgs = {
   notes: v.optional(v.string()),
 } as const;
 
-export const performAssetAuditReturns = v.null();
+export const webPerformAssetAuditReturns = v.null();
 
 type Args = {
   assetId: Id<'assets'>;
@@ -24,7 +24,7 @@ type Args = {
   notes?: string;
 };
 
-export const performAssetAuditHandler = async (ctx: MutationCtx, args: Args) => {
+export const webPerformAssetAuditHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

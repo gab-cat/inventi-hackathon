@@ -2,11 +2,11 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getAssetDashboardDataArgs = {
+export const webGetAssetDashboardDataArgs = {
   propertyId: v.optional(v.id('properties')),
 } as const;
 
-export const getAssetDashboardDataReturns = v.object({
+export const webGetAssetDashboardDataReturns = v.object({
   // Overview statistics
   totalAssets: v.number(),
   availableAssets: v.number(),
@@ -93,7 +93,7 @@ type Args = {
   propertyId?: Id<'properties'>;
 };
 
-export const getAssetDashboardDataHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetAssetDashboardDataHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

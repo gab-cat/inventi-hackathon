@@ -1,9 +1,9 @@
 import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 
-export const getManagerPropertiesArgs = {} as const;
+export const webGetManagerPropertiesArgs = {} as const;
 
-export const getManagerPropertiesReturns = v.array(
+export const webGetManagerPropertiesReturns = v.array(
   v.object({
     _id: v.id('properties'),
     _creationTime: v.number(),
@@ -47,7 +47,7 @@ export const getManagerPropertiesReturns = v.array(
 
 type Args = {};
 
-export const getManagerPropertiesHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetManagerPropertiesHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 
@@ -81,7 +81,7 @@ export const getManagerPropertiesHandler = async (ctx: QueryCtx, args: Args) => 
         .query('assets')
         .withIndex('by_property', q => q.eq('propertyId', property._id))
         .collect();
-      
+
       const totalAssets = allAssets.length;
       const availableAssets = allAssets.filter(asset => asset.status === 'available').length;
       const checkedOutAssets = allAssets.filter(asset => asset.status === 'checked_out').length;

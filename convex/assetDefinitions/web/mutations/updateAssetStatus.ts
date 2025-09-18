@@ -2,7 +2,7 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const updateAssetStatusArgs = {
+export const webUpdateAssetStatusArgs = {
   assetId: v.id('assets'),
   status: v.union(
     v.literal('available'),
@@ -14,7 +14,7 @@ export const updateAssetStatusArgs = {
   notes: v.optional(v.string()),
 } as const;
 
-export const updateAssetStatusReturns = v.object({
+export const webUpdateAssetStatusReturns = v.object({
   _id: v.id('assets'),
   _creationTime: v.number(),
   propertyId: v.id('properties'),
@@ -54,7 +54,7 @@ type Args = {
   notes?: string;
 };
 
-export const updateAssetStatusHandler = async (ctx: MutationCtx, args: Args) => {
+export const webUpdateAssetStatusHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 
@@ -78,11 +78,11 @@ export const updateAssetStatusHandler = async (ctx: MutationCtx, args: Args) => 
 
   // Validate status transition
   const validTransitions: Record<string, string[]> = {
-    'available': ['checked_out', 'maintenance', 'retired', 'lost'],
-    'checked_out': ['available', 'maintenance', 'retired', 'lost'],
-    'maintenance': ['available', 'checked_out', 'retired', 'lost'],
-    'retired': ['available'], // Can reactivate retired assets
-    'lost': ['available'], // Can recover lost assets
+    available: ['checked_out', 'maintenance', 'retired', 'lost'],
+    checked_out: ['available', 'maintenance', 'retired', 'lost'],
+    maintenance: ['available', 'checked_out', 'retired', 'lost'],
+    retired: ['available'], // Can reactivate retired assets
+    lost: ['available'], // Can recover lost assets
   };
 
   if (!validTransitions[asset.status]?.includes(args.status)) {
@@ -111,11 +111,11 @@ export const updateAssetStatusHandler = async (ctx: MutationCtx, args: Args) => 
 
   // Create history entry
   const actionMap: Record<string, string> = {
-    'available': 'status_available',
-    'checked_out': 'status_checked_out',
-    'maintenance': 'status_maintenance',
-    'retired': 'status_retired',
-    'lost': 'status_lost',
+    available: 'status_available',
+    checked_out: 'status_checked_out',
+    maintenance: 'status_maintenance',
+    retired: 'status_retired',
+    lost: 'status_lost',
   };
 
   await ctx.db.insert('assetHistory', {

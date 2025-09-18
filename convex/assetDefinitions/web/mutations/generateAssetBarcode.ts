@@ -2,11 +2,11 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const generateAssetBarcodeArgs = {
+export const webGenerateAssetBarcodeArgs = {
   assetId: v.id('assets'),
 } as const;
 
-export const generateAssetBarcodeReturns = v.object({
+export const webGenerateAssetBarcodeReturns = v.object({
   barcode: v.string(),
   qrCode: v.string(),
 });
@@ -15,7 +15,7 @@ type Args = {
   assetId: Id<'assets'>;
 };
 
-export const generateAssetBarcodeHandler = async (ctx: MutationCtx, args: Args) => {
+export const webGenerateAssetBarcodeHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

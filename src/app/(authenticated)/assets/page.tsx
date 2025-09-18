@@ -43,15 +43,15 @@ export default function AssetsPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   // Get properties for the current user
-  const properties = useAuthenticatedQuery(api.assets.getManagerProperties, {});
+  const properties = useAuthenticatedQuery(api.assets.webGetManagerProperties, {});
 
   // Get dashboard data
-  const dashboardData = useAuthenticatedQuery(api.assets.getAssetDashboardData, {
+  const dashboardData = useAuthenticatedQuery(api.assets.webGetAssetDashboardData, {
     propertyId: selectedPropertyId as Id<'properties'> | undefined,
   });
 
   // Get assets with filters
-  const assets = useAuthenticatedQuery(api.assets.getAssets, {
+  const assets = useAuthenticatedQuery(api.assets.webGetAssets, {
     paginationOpts: { numItems: 10, cursor: assetPagination.cursor },
     propertyId: selectedPropertyId as Id<'properties'> | undefined,
     category: assetFilters.category as any,
@@ -61,7 +61,7 @@ export default function AssetsPage() {
   });
 
   // Get alerts
-  const alerts = useAuthenticatedQuery(api.assets.getAssetAlerts, {
+  const alerts = useAuthenticatedQuery(api.assets.webGetAssetAlerts, {
     propertyId: selectedPropertyId as Id<'properties'> | undefined,
   });
 
