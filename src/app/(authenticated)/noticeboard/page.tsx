@@ -2,21 +2,21 @@
 
 import { useState } from 'react';
 import { Plus, MessageSquare } from 'lucide-react';
-import { Id } from '../../../../convex/_generated/dataModel';
-import { Button } from '../../../components/ui/button';
-import { StatCard } from '../../../components/ui/stat-card';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
-import { NoticeFilters } from '../../../features/noticeboard/components/notice-filters';
-import { NoticeList } from '../../../features/noticeboard/components/notice-list';
-import { NoticeCreateModal } from '../../../features/noticeboard/components/notice-create-modal';
-import { NoticeEditModal } from '../../../features/noticeboard/components/notice-edit-modal';
-import { NoticeDetailSheet } from '../../../features/noticeboard/components/notice-detail-sheet';
-import { useNotices } from '../../../features/noticeboard/hooks/useNotices';
-import { useNoticeMutations } from '../../../features/noticeboard/hooks/useNoticeMutations';
-import { useNoticeDetail } from '../../../features/noticeboard/hooks/useNoticeDetail';
-import { useAllUnits } from '../../../features/noticeboard/hooks/useAllUnits';
-import { useManagerProperties } from '../../../features/noticeboard/hooks/useManagerProperties';
-import { CreateNoticeForm, UpdateNoticeForm, NoticeWithDetails } from '../../../features/noticeboard/types';
+import { Id } from '@convex/_generated/dataModel';
+import { Button } from '@/components/ui/button';
+import { StatCard } from '@/components/ui/stat-card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { NoticeFilters } from '@/features/noticeboard/components/notice-filters';
+import { NoticeList } from '@/features/noticeboard/components/notice-list';
+import { NoticeCreateModal } from '@/features/noticeboard/components/notice-create-modal';
+import { NoticeEditModal } from '@/features/noticeboard/components/notice-edit-modal';
+import { NoticeDetailSheet } from '@/features/noticeboard/components/notice-detail-sheet';
+import { useNotices } from '@/features/noticeboard/hooks/useNotices';
+import { useNoticeMutations } from '@/features/noticeboard/hooks/useNoticeMutations';
+import { useNoticeDetail } from '@/features/noticeboard/hooks/useNoticeDetail';
+import { useAllUnits } from '@/features/noticeboard/hooks/useAllUnits';
+import { useManagerProperties } from '@/features/noticeboard/hooks/useManagerProperties';
+import { CreateNoticeForm, UpdateNoticeForm, NoticeWithDetails } from '@/features/noticeboard/types';
 
 export default function NoticeboardPage() {
   const [showCreateModal, setShowCreateModal] = useState(false);

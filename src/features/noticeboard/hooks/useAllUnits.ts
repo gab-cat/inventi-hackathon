@@ -7,7 +7,7 @@ export function useAllUnits(): {
   isLoading: boolean;
   error?: string;
 } {
-  const units = useQuery(api.noticeboard.getAllUnits) as UnitWithTenant[] | undefined;
+  const units = useQuery(api.noticeboard.webGetAllUnits) as UnitWithTenant[] | undefined;
 
   const isLoading = units === undefined;
   const error = units === null ? 'Failed to load units' : undefined;

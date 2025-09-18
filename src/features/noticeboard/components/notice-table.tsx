@@ -1,29 +1,18 @@
 'use client';
 
 import { format } from 'date-fns';
-import {
-  Calendar,
-  Clock,
-  Eye,
-  MessageSquare,
-  MoreHorizontal,
-  Users,
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
-} from 'lucide-react';
+import { Clock, Eye, MessageSquare, MoreHorizontal, Users, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { useState } from 'react';
-import { Id } from '../../../../convex/_generated/dataModel';
-import { Badge } from '../../../components/ui/badge';
-import { Button } from '../../../components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../../../components/ui/dropdown-menu';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../../components/ui/table';
+} from '@/components/ui/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
   Pagination,
   PaginationContent,
@@ -32,7 +21,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '../../../components/ui/pagination';
+} from '@/components/ui/pagination';
 import { NoticeWithDetails } from '../types';
 import { UserAvatar } from '@/components/custom/user-avatar';
 
@@ -63,35 +52,35 @@ export function NoticeTable({
   const [sortField, setSortField] = useState<SortField>('createdAt');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityBadgeStyle = (priority: string) => {
     switch (priority) {
       case 'urgent':
-        return 'destructive';
+        return 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200/80';
       case 'high':
-        return 'destructive';
+        return 'bg-orange-100 text-orange-800 border-orange-200 hover:bg-orange-200/80';
       case 'medium':
-        return 'default';
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200 hover:bg-yellow-200/80';
       case 'low':
-        return 'secondary';
+        return 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200/80';
       default:
-        return 'default';
+        return 'bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200/80';
     }
   };
 
-  const getTypeColor = (type: string) => {
+  const getTypeBadgeStyle = (type: string) => {
     switch (type) {
       case 'emergency':
-        return 'destructive';
+        return 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200/80';
       case 'maintenance':
-        return 'default';
+        return 'bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-200/80';
       case 'payment_reminder':
-        return 'secondary';
+        return 'bg-purple-100 text-purple-800 border-purple-200 hover:bg-purple-200/80';
       case 'event':
-        return 'default';
+        return 'bg-indigo-100 text-indigo-800 border-indigo-200 hover:bg-indigo-200/80';
       case 'announcement':
-        return 'default';
+        return 'bg-cyan-100 text-cyan-800 border-cyan-200 hover:bg-cyan-200/80';
       default:
-        return 'secondary';
+        return 'bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200/80';
     }
   };
 
@@ -227,35 +216,50 @@ export function NoticeTable({
             <TableBody>
               {notices.map(notice => (
                 <TableRow key={notice._id} className='hover:bg-muted/50'>
-                  <TableCell className='font-medium'>
+                  <TableCell className='font-medium max-w-[300px]'>
                     <div className='space-y-1'>
                       <div className='line-clamp-2'>{notice.title}</div>
                       <div className='text-xs text-muted-foreground line-clamp-1'>{notice.content}</div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={getPriorityColor(notice.priority)} className='text-xs'>
+                    <Badge
+                      className={`text-xs cursor-default ${getPriorityBadgeStyle(notice.priority)}`}
+                      variant='outline'
+                    >
                       {notice.priority}
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={getTypeColor(notice.noticeType)} className='text-xs'>
+                    <Badge
+                      className={`text-xs cursor-default ${getTypeBadgeStyle(notice.noticeType)}`}
+                      variant='outline'
+                    >
                       {notice.noticeType.replace('_', ' ')}
                     </Badge>
                   </TableCell>
                   <TableCell>
                     <div className='flex flex-col gap-1'>
-                      <Badge variant={notice.isActive ? 'default' : 'secondary'} className='text-xs'>
+                      <Badge
+                        className={`text-xs w-fit cursor-default ${notice.isActive ? 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200/80' : 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200/80'}`}
+                        variant='outline'
+                      >
                         {notice.isActive ? 'Active' : 'Inactive'}
                       </Badge>
                       {isScheduled(notice) && (
-                        <Badge variant='outline' className='text-xs'>
+                        <Badge
+                          className='text-xs bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-200/80 cursor-default'
+                          variant='outline'
+                        >
                           <Clock className='w-3 h-3 mr-1' />
                           Scheduled
                         </Badge>
                       )}
                       {isExpired(notice) && (
-                        <Badge variant='secondary' className='text-xs'>
+                        <Badge
+                          className='text-xs bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200/80 cursor-default'
+                          variant='outline'
+                        >
                           Expired
                         </Badge>
                       )}
@@ -266,10 +270,10 @@ export function NoticeTable({
                       <div className='flex items-center gap-1 text-xs'>
                         <Users className='w-3 h-3' />
                         <span>
-                          {notice.acknowledgmentCount}/{notice.totalTargetUsers}
+                          {notice.acknowledgmentCount || 0}/{notice.totalTargetUsers || 0}
                         </span>
                       </div>
-                      {notice.unit && (
+                      {notice.unit?.unitNumber && (
                         <div className='text-xs text-muted-foreground'>Unit: {notice.unit.unitNumber}</div>
                       )}
                     </div>
@@ -288,11 +292,15 @@ export function NoticeTable({
                     </div>
                   </TableCell>
                   <TableCell>
-                    <UserAvatar id={notice.creator._id} />
+                    {notice.creator?._id ? (
+                      <UserAvatar id={notice.creator._id} />
+                    ) : (
+                      <div className='text-sm text-muted-foreground'>Loading...</div>
+                    )}
                   </TableCell>
                   <TableCell>
-                    <div className='text-sm'>{notice.property.name}</div>
-                    <div className='text-xs text-muted-foreground'>{notice.property.address}</div>
+                    <div className='text-sm'>{notice.property?.name || 'Loading...'}</div>
+                    <div className='text-xs text-muted-foreground'>{notice.property?.address || ''}</div>
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>

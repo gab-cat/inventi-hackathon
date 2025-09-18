@@ -9,5 +9,5 @@ export function useMaintenanceTrends(filters?: {
   dateFrom?: number;
   dateTo?: number;
 }) {
-  return useQuery(api.maintenance.getMaintenanceTrends, filters || {}) as MaintenanceTrends | undefined;
+  return useQuery(api.maintenance.webGetMaintenanceTrends, filters || {}) as MaintenanceTrends | undefined;
 }

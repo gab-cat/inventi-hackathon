@@ -7,7 +7,7 @@ import { api } from '@convex/_generated/api';
 export default function SeedPage() {
   const [isSeeding, setIsSeeding] = useState(false);
   const [result, setResult] = useState<string | null>(null);
-  const seedDatabase = useMutation(api.maintenance.seedDatabase);
+  const seedDatabase = useMutation(api.seeders.seed.seedDatabase);
 
   const handleSeed = async () => {
     setIsSeeding(true);

@@ -61,9 +61,9 @@ export interface TechnicianWorkload {
 export interface MaintenanceFilters {
   propertyId?: Id<'properties'>;
   unitId?: Id<'units'>;
-  status?: string;
-  priority?: string;
-  requestType?: string;
+  status?: Status;
+  priority?: Priority;
+  requestType?: RequestType;
   dateFrom?: number;
   dateTo?: number;
   search?: string;

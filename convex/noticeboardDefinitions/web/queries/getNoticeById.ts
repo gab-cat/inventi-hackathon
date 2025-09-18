@@ -2,11 +2,11 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getNoticeByIdArgs = {
+export const webGetNoticeByIdArgs = {
   noticeId: v.id('notices'),
 } as const;
 
-export const getNoticeByIdReturns = v.union(
+export const webGetNoticeByIdReturns = v.union(
   v.object({
     _id: v.id('notices'),
     _creationTime: v.number(),
@@ -82,7 +82,7 @@ type Args = {
   noticeId: Id<'notices'>;
 };
 
-export const getNoticeByIdHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetNoticeByIdHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

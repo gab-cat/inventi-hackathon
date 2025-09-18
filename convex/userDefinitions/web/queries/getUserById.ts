@@ -2,11 +2,11 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getUserByIdArgs = {
+export const webGetUserByIdArgs = {
   id: v.id('users'),
 };
 
-export const getUserByIdHandler = async (ctx: QueryCtx, args: { id: Id<'users'> }) => {
+export const webGetUserByIdHandler = async (ctx: QueryCtx, args: { id: Id<'users'> }) => {
   const { id } = args;
 
   const user = await ctx.db

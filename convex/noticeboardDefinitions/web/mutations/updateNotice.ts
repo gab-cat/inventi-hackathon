@@ -2,7 +2,7 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const updateNoticeArgs = {
+export const webUpdateNoticeArgs = {
   noticeId: v.id('notices'),
   title: v.optional(v.string()),
   content: v.optional(v.string()),
@@ -27,7 +27,7 @@ export const updateNoticeArgs = {
   attachments: v.optional(v.array(v.string())),
 } as const;
 
-export const updateNoticeReturns = v.union(
+export const webUpdateNoticeReturns = v.union(
   v.object({
     _id: v.id('notices'),
     _creationTime: v.number(),
@@ -64,7 +64,7 @@ type Args = {
   attachments?: string[];
 };
 
-export const updateNoticeHandler = async (ctx: MutationCtx, args: Args) => {
+export const webUpdateNoticeHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 
@@ -96,7 +96,7 @@ export const updateNoticeHandler = async (ctx: MutationCtx, args: Args) => {
 
   // Validate scheduling
   const now = Date.now();
-  if (args.scheduledAt && args.scheduledAt <= now) {
+  if (args.scheduledAt && args.scheduledAt < now) {
     throw new Error('Scheduled time must be in the future');
   }
   if (args.expiresAt && args.expiresAt <= now) {

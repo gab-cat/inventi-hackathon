@@ -2,13 +2,13 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const scheduleNoticeArgs = {
+export const webScheduleNoticeArgs = {
   noticeId: v.id('notices'),
   scheduledAt: v.number(),
   expiresAt: v.optional(v.number()),
 } as const;
 
-export const scheduleNoticeReturns = v.union(
+export const webScheduleNoticeReturns = v.union(
   v.object({
     _id: v.id('notices'),
     _creationTime: v.number(),
@@ -37,7 +37,7 @@ type Args = {
   expiresAt?: number;
 };
 
-export const scheduleNoticeHandler = async (ctx: MutationCtx, args: Args) => {
+export const webScheduleNoticeHandler = async (ctx: MutationCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

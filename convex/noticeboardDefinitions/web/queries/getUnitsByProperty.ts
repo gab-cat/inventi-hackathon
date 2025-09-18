@@ -2,11 +2,11 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getUnitsByPropertyArgs = {
+export const webGetUnitsByPropertyArgs = {
   propertyId: v.id('properties'),
 } as const;
 
-export const getUnitsByPropertyReturns = v.array(
+export const webGetUnitsByPropertyReturns = v.array(
   v.object({
     _id: v.id('units'),
     _creationTime: v.number(),
@@ -48,7 +48,7 @@ type Args = {
   propertyId: Id<'properties'>;
 };
 
-export const getUnitsByPropertyHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetUnitsByPropertyHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

@@ -3,16 +3,20 @@ import { Id } from '@convex/_generated/dataModel';
 import { useMutation } from 'convex/react';
 
 export function useMaintenanceMutations() {
-  const assignTechnician = useMutation(api.maintenance.assignTechnician);
-  const updateStatus = useMutation(api.maintenance.updateMaintenanceStatus);
-  const updateCost = useMutation(api.maintenance.updateMaintenanceCost);
-  const bulkUpdateStatus = useMutation(api.maintenance.bulkUpdateStatus);
+  const assignTechnician = useMutation(api.maintenance.webAssignTechnician);
+  const updateStatus = useMutation(api.maintenance.webUpdateMaintenanceStatus);
+  const updateCost = useMutation(api.maintenance.webUpdateMaintenanceCost);
+  const bulkUpdateStatus = useMutation(api.maintenance.webBulkUpdateStatus);
 
   return {
     assignTechnician: async (requestId: Id<'maintenanceRequests'>, technicianId: Id<'users'>) => {
       await assignTechnician({ requestId, technicianId });
     },
-    updateStatus: async (requestId: Id<'maintenanceRequests'>, status: string, note?: string) => {
+    updateStatus: async (
+      requestId: Id<'maintenanceRequests'>,
+      status: 'pending' | 'assigned' | 'in_progress' | 'completed' | 'cancelled' | 'rejected',
+      note?: string
+    ) => {
       await updateStatus({ requestId, status, note });
     },
     updateCost: async (
@@ -23,7 +27,11 @@ export function useMaintenanceMutations() {
     ) => {
       await updateCost({ requestId, estimatedCost, actualCost, note });
     },
-    bulkUpdateStatus: async (requestIds: Id<'maintenanceRequests'>[], status: string, note?: string) => {
+    bulkUpdateStatus: async (
+      requestIds: Id<'maintenanceRequests'>[],
+      status: 'pending' | 'assigned' | 'in_progress' | 'completed' | 'cancelled' | 'rejected',
+      note?: string
+    ) => {
       await bulkUpdateStatus({ requestIds, status, note });
     },
   };

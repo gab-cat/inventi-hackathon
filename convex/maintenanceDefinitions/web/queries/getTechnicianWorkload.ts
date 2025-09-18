@@ -2,11 +2,11 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getTechnicianWorkloadArgs = {
+export const webGetTechnicianWorkloadArgs = {
   propertyId: v.optional(v.id('properties')),
 } as const;
 
-export const getTechnicianWorkloadReturns = v.array(
+export const webGetTechnicianWorkloadReturns = v.array(
   v.object({
     userId: v.id('users'),
     firstName: v.optional(v.string()),
@@ -15,7 +15,7 @@ export const getTechnicianWorkloadReturns = v.array(
   })
 );
 
-export const getTechnicianWorkloadHandler = async (ctx: QueryCtx, args: { propertyId?: Id<'properties'> }) => {
+export const webGetTechnicianWorkloadHandler = async (ctx: QueryCtx, args: { propertyId?: Id<'properties'> }) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
   const currentUser = await ctx.db

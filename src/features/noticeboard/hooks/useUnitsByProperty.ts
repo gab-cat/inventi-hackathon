@@ -8,7 +8,7 @@ export function useUnitsByProperty(propertyId: Id<'properties'> | undefined): {
   isLoading: boolean;
   error?: string;
 } {
-  const units = useQuery(api.noticeboard.getUnitsByProperty, propertyId ? { propertyId } : 'skip') as
+  const units = useQuery(api.noticeboard.webGetUnitsByProperty, propertyId ? { propertyId } : 'skip') as
     | UnitWithTenant[]
     | undefined;
 

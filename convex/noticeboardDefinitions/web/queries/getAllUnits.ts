@@ -1,9 +1,9 @@
 import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 
-export const getAllUnitsArgs = {} as const;
+export const webGetAllUnitsArgs = {} as const;
 
-export const getAllUnitsReturns = v.array(
+export const webGetAllUnitsReturns = v.array(
   v.object({
     _id: v.id('units'),
     _creationTime: v.number(),
@@ -43,7 +43,7 @@ export const getAllUnitsReturns = v.array(
 
 type Args = {};
 
-export const getAllUnitsHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetAllUnitsHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

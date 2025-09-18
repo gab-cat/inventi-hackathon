@@ -10,7 +10,7 @@ export function useNoticeAcknowledgments(noticeId: Id<'notices'>): UseNoticeAckn
     cursor: null,
   });
 
-  const paginatedResult = useQuery(api.noticeboard.getNoticeAcknowledgments, {
+  const paginatedResult = useQuery(api.noticeboard.webGetNoticeAcknowledgments, {
     noticeId,
     paginationOpts,
   });

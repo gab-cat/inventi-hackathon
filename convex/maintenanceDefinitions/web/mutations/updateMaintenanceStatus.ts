@@ -2,7 +2,7 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const updateMaintenanceStatusArgs = {
+export const webUpdateMaintenanceStatusArgs = {
   requestId: v.id('maintenanceRequests'),
   status: v.union(
     v.literal('pending'),
@@ -15,7 +15,7 @@ export const updateMaintenanceStatusArgs = {
   note: v.optional(v.string()),
 } as const;
 
-export const updateMaintenanceStatusHandler = async (
+export const webUpdateMaintenanceStatusHandler = async (
   ctx: MutationCtx,
   args: {
     requestId: Id<'maintenanceRequests'>;

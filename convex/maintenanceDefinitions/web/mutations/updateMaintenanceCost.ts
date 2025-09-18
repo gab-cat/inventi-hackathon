@@ -2,14 +2,14 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const updateMaintenanceCostArgs = {
+export const webUpdateMaintenanceCostArgs = {
   requestId: v.id('maintenanceRequests'),
   estimatedCost: v.optional(v.number()),
   actualCost: v.optional(v.number()),
   note: v.optional(v.string()),
 } as const;
 
-export const updateMaintenanceCostHandler = async (
+export const webUpdateMaintenanceCostHandler = async (
   ctx: MutationCtx,
   args: { requestId: Id<'maintenanceRequests'>; estimatedCost?: number; actualCost?: number; note?: string }
 ) => {

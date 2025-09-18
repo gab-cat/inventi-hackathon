@@ -1,44 +1,47 @@
 import { query, mutation } from './_generated/server';
 import {
-  getNoticesArgs,
-  getNoticesHandler,
-  getNoticesReturns,
-  getNoticeByIdArgs,
-  getNoticeByIdHandler,
-  getNoticeByIdReturns,
-  getNoticeAcknowledgmentsArgs,
-  getNoticeAcknowledgmentsHandler,
-  getNoticeAcknowledgmentsReturns,
-  getManagerPropertiesArgs,
-  getManagerPropertiesHandler,
-  getManagerPropertiesReturns,
-  getUnitsByPropertyArgs,
-  getUnitsByPropertyHandler,
-  getUnitsByPropertyReturns,
-  getAllUnitsArgs,
-  getAllUnitsHandler,
-  getAllUnitsReturns,
-  createNoticeArgs,
-  createNoticeHandler,
-  createNoticeReturns,
-  updateNoticeArgs,
-  updateNoticeHandler,
-  updateNoticeReturns,
-  deleteNoticeArgs,
-  deleteNoticeHandler,
-  deleteNoticeReturns,
-  sendNoticeToAllArgs,
-  sendNoticeToAllHandler,
-  sendNoticeToAllReturns,
-  sendNoticeToUnitArgs,
-  sendNoticeToUnitHandler,
-  sendNoticeToUnitReturns,
-  scheduleNoticeArgs,
-  scheduleNoticeHandler,
-  scheduleNoticeReturns,
-  acknowledgeNoticeArgs,
-  acknowledgeNoticeHandler,
-  acknowledgeNoticeReturns,
+  // Web functions
+  webGetNoticesArgs,
+  webGetNoticesHandler,
+  webGetNoticesReturns,
+  webGetNoticeByIdArgs,
+  webGetNoticeByIdHandler,
+  webGetNoticeByIdReturns,
+  webGetNoticeAcknowledgmentsArgs,
+  webGetNoticeAcknowledgmentsHandler,
+  webGetNoticeAcknowledgmentsReturns,
+  webGetManagerPropertiesArgs,
+  webGetManagerPropertiesHandler,
+  webGetManagerPropertiesReturns,
+  webGetUnitsByPropertyArgs,
+  webGetUnitsByPropertyHandler,
+  webGetUnitsByPropertyReturns,
+  webGetAllUnitsArgs,
+  webGetAllUnitsHandler,
+  webGetAllUnitsReturns,
+  webCreateNoticeArgs,
+  webCreateNoticeHandler,
+  webCreateNoticeReturns,
+  webUpdateNoticeArgs,
+  webUpdateNoticeHandler,
+  webUpdateNoticeReturns,
+  webDeleteNoticeArgs,
+  webDeleteNoticeHandler,
+  webDeleteNoticeReturns,
+  webSendNoticeToAllArgs,
+  webSendNoticeToAllHandler,
+  webSendNoticeToAllReturns,
+  webSendNoticeToUnitArgs,
+  webSendNoticeToUnitHandler,
+  webSendNoticeToUnitReturns,
+  webScheduleNoticeArgs,
+  webScheduleNoticeHandler,
+  webScheduleNoticeReturns,
+  webAcknowledgeNoticeArgs,
+  webAcknowledgeNoticeHandler,
+  webAcknowledgeNoticeReturns,
+
+  // Mobile functions
   getNoticesArgs as mobileGetNoticesArgs,
   getNoticesHandler as mobileGetNoticesHandler,
   getNoticesReturns as mobileGetNoticesReturns,
@@ -69,83 +72,83 @@ import {
 } from './noticeboardDefinitions/index';
 
 // Queries
-export const getNotices = query({
-  args: getNoticesArgs,
-  returns: getNoticesReturns,
-  handler: getNoticesHandler,
+export const webGetNotices = query({
+  args: webGetNoticesArgs,
+  returns: webGetNoticesReturns,
+  handler: webGetNoticesHandler,
 });
 
-export const getNoticeById = query({
-  args: getNoticeByIdArgs,
-  returns: getNoticeByIdReturns,
-  handler: getNoticeByIdHandler,
+export const webGetNoticeById = query({
+  args: webGetNoticeByIdArgs,
+  returns: webGetNoticeByIdReturns,
+  handler: webGetNoticeByIdHandler,
 });
 
-export const getNoticeAcknowledgments = query({
-  args: getNoticeAcknowledgmentsArgs,
-  returns: getNoticeAcknowledgmentsReturns,
-  handler: getNoticeAcknowledgmentsHandler,
+export const webGetNoticeAcknowledgments = query({
+  args: webGetNoticeAcknowledgmentsArgs,
+  returns: webGetNoticeAcknowledgmentsReturns,
+  handler: webGetNoticeAcknowledgmentsHandler,
 });
 
-export const getManagerProperties = query({
-  args: getManagerPropertiesArgs,
-  returns: getManagerPropertiesReturns,
-  handler: getManagerPropertiesHandler,
+export const webGetManagerProperties = query({
+  args: webGetManagerPropertiesArgs,
+  returns: webGetManagerPropertiesReturns,
+  handler: webGetManagerPropertiesHandler,
 });
 
-export const getUnitsByProperty = query({
-  args: getUnitsByPropertyArgs,
-  returns: getUnitsByPropertyReturns,
-  handler: getUnitsByPropertyHandler,
+export const webGetUnitsByProperty = query({
+  args: webGetUnitsByPropertyArgs,
+  returns: webGetUnitsByPropertyReturns,
+  handler: webGetUnitsByPropertyHandler,
 });
 
-export const getAllUnits = query({
-  args: getAllUnitsArgs,
-  returns: getAllUnitsReturns,
-  handler: getAllUnitsHandler,
+export const webGetAllUnits = query({
+  args: webGetAllUnitsArgs,
+  returns: webGetAllUnitsReturns,
+  handler: webGetAllUnitsHandler,
 });
 
 // Mutations
-export const createNotice = mutation({
-  args: createNoticeArgs,
-  returns: createNoticeReturns,
-  handler: createNoticeHandler,
+export const webCreateNotice = mutation({
+  args: webCreateNoticeArgs,
+  returns: webCreateNoticeReturns,
+  handler: webCreateNoticeHandler,
 });
 
-export const updateNotice = mutation({
-  args: updateNoticeArgs,
-  returns: updateNoticeReturns,
-  handler: updateNoticeHandler,
+export const webUpdateNotice = mutation({
+  args: webUpdateNoticeArgs,
+  returns: webUpdateNoticeReturns,
+  handler: webUpdateNoticeHandler,
 });
 
-export const deleteNotice = mutation({
-  args: deleteNoticeArgs,
-  returns: deleteNoticeReturns,
-  handler: deleteNoticeHandler,
+export const webDeleteNotice = mutation({
+  args: webDeleteNoticeArgs,
+  returns: webDeleteNoticeReturns,
+  handler: webDeleteNoticeHandler,
 });
 
-export const sendNoticeToAll = mutation({
-  args: sendNoticeToAllArgs,
-  returns: sendNoticeToAllReturns,
-  handler: sendNoticeToAllHandler,
+export const webSendNoticeToAll = mutation({
+  args: webSendNoticeToAllArgs,
+  returns: webSendNoticeToAllReturns,
+  handler: webSendNoticeToAllHandler,
 });
 
-export const sendNoticeToUnit = mutation({
-  args: sendNoticeToUnitArgs,
-  returns: sendNoticeToUnitReturns,
-  handler: sendNoticeToUnitHandler,
+export const webSendNoticeToUnit = mutation({
+  args: webSendNoticeToUnitArgs,
+  returns: webSendNoticeToUnitReturns,
+  handler: webSendNoticeToUnitHandler,
 });
 
-export const scheduleNotice = mutation({
-  args: scheduleNoticeArgs,
-  returns: scheduleNoticeReturns,
-  handler: scheduleNoticeHandler,
+export const webScheduleNotice = mutation({
+  args: webScheduleNoticeArgs,
+  returns: webScheduleNoticeReturns,
+  handler: webScheduleNoticeHandler,
 });
 
-export const acknowledgeNotice = mutation({
-  args: acknowledgeNoticeArgs,
-  returns: acknowledgeNoticeReturns,
-  handler: acknowledgeNoticeHandler,
+export const webAcknowledgeNotice = mutation({
+  args: webAcknowledgeNoticeArgs,
+  returns: webAcknowledgeNoticeReturns,
+  handler: webAcknowledgeNoticeHandler,
 });
 
 // Mobile-specific functions for tenant users

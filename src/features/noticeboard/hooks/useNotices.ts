@@ -13,7 +13,7 @@ export function useNotices(initialFilters: NoticeFilters = {}): UseNoticesReturn
     cursor: currentPage > 1 ? `page_${currentPage}` : null,
   };
 
-  const paginatedResult = useQuery(api.noticeboard.getNotices, {
+  const paginatedResult = useQuery(api.noticeboard.webGetNotices, {
     paginationOpts,
     ...filters,
   });
