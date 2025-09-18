@@ -6,7 +6,7 @@ export function useMaintenanceRequests(
   filters: MaintenanceFilters,
   paginationOpts: { numItems: number; cursor?: string | null }
 ) {
-  return useAuthenticatedQuery(api.maintenance.getMaintenanceRequests, {
+  return useAuthenticatedQuery(api.maintenance.webGetMaintenanceRequests, {
     ...filters,
     paginationOpts: {
       ...paginationOpts,

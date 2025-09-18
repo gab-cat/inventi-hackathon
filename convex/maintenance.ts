@@ -1,101 +1,103 @@
 import { query, mutation } from './_generated/server';
 import {
-  getMaintenanceRequestsArgs,
-  getMaintenanceRequestsHandler,
-  getMaintenanceRequestsReturns,
-  getMaintenanceKPIsArgs,
-  getMaintenanceKPIsHandler,
-  getMaintenanceKPIsReturns,
-  getMaintenanceTrendsArgs,
-  getMaintenanceTrendsHandler,
-  getMaintenanceTrendsReturns,
-  getTechnicianWorkloadArgs,
-  getTechnicianWorkloadHandler,
-  getTechnicianWorkloadReturns,
-  getTechniciansArgs,
-  getTechniciansHandler,
-  getTechniciansReturns,
-  getManagerPropertiesArgs,
-  getManagerPropertiesHandler,
-  getManagerPropertiesReturns,
-  getUnitsByPropertyArgs,
-  getUnitsByPropertyHandler,
-  getUnitsByPropertyReturns,
-  assignTechnicianArgs,
-  assignTechnicianHandler,
-  updateMaintenanceStatusArgs,
-  updateMaintenanceStatusHandler,
-  updateMaintenanceCostArgs,
-  updateMaintenanceCostHandler,
-  bulkUpdateStatusArgs,
-  bulkUpdateStatusHandler,
+  webGetMaintenanceRequestsArgs,
+  webGetMaintenanceRequestsHandler,
+  webGetMaintenanceRequestsReturns,
+  webGetMaintenanceKPIsArgs,
+  webGetMaintenanceKPIsHandler,
+  webGetMaintenanceKPIsReturns,
+  webGetMaintenanceTrendsArgs,
+  webGetMaintenanceTrendsHandler,
+  webGetMaintenanceTrendsReturns,
+  webGetTechnicianWorkloadArgs,
+  webGetTechnicianWorkloadHandler,
+  webGetTechnicianWorkloadReturns,
+  webGetTechniciansArgs,
+  webGetTechniciansHandler,
+  webGetTechniciansReturns,
+  webGetManagerPropertiesArgs,
+  webGetManagerPropertiesHandler,
+  webGetManagerPropertiesReturns,
+  webGetUnitsByPropertyArgs,
+  webGetUnitsByPropertyHandler,
+  webGetUnitsByPropertyReturns,
+  webAssignTechnicianArgs,
+  webAssignTechnicianHandler,
+  webUpdateMaintenanceStatusArgs,
+  webUpdateMaintenanceStatusHandler,
+  webUpdateMaintenanceCostArgs,
+  webUpdateMaintenanceCostHandler,
+  webBulkUpdateStatusArgs,
+  webBulkUpdateStatusHandler,
   tenantConfirmCompletionArgs,
   tenantConfirmCompletionHandler,
 } from './maintenanceDefinitions/index';
 
-// Queries
-export const getMaintenanceRequests = query({
-  args: getMaintenanceRequestsArgs,
-  returns: getMaintenanceRequestsReturns,
-  handler: getMaintenanceRequestsHandler,
+// Web Queries
+export const webGetMaintenanceRequests = query({
+  args: webGetMaintenanceRequestsArgs,
+  returns: webGetMaintenanceRequestsReturns,
+  handler: webGetMaintenanceRequestsHandler,
 });
 
-export const getMaintenanceKPIs = query({
-  args: getMaintenanceKPIsArgs,
-  returns: getMaintenanceKPIsReturns,
-  handler: getMaintenanceKPIsHandler,
+export const webGetMaintenanceKPIs = query({
+  args: webGetMaintenanceKPIsArgs,
+  returns: webGetMaintenanceKPIsReturns,
+  handler: webGetMaintenanceKPIsHandler,
 });
 
-export const getMaintenanceTrends = query({
-  args: getMaintenanceTrendsArgs,
-  returns: getMaintenanceTrendsReturns,
-  handler: getMaintenanceTrendsHandler,
+export const webGetMaintenanceTrends = query({
+  args: webGetMaintenanceTrendsArgs,
+  returns: webGetMaintenanceTrendsReturns,
+  handler: webGetMaintenanceTrendsHandler,
 });
 
-export const getTechnicianWorkload = query({
-  args: getTechnicianWorkloadArgs,
-  returns: getTechnicianWorkloadReturns,
-  handler: getTechnicianWorkloadHandler,
+export const webGetTechnicianWorkload = query({
+  args: webGetTechnicianWorkloadArgs,
+  returns: webGetTechnicianWorkloadReturns,
+  handler: webGetTechnicianWorkloadHandler,
 });
 
-export const getTechnicians = query({
-  args: getTechniciansArgs,
-  returns: getTechniciansReturns,
-  handler: getTechniciansHandler,
+export const webGetTechnicians = query({
+  args: webGetTechniciansArgs,
+  returns: webGetTechniciansReturns,
+  handler: webGetTechniciansHandler,
 });
 
-export const getManagerProperties = query({
-  args: getManagerPropertiesArgs,
-  returns: getManagerPropertiesReturns,
-  handler: getManagerPropertiesHandler,
+export const webGetManagerProperties = query({
+  args: webGetManagerPropertiesArgs,
+  returns: webGetManagerPropertiesReturns,
+  handler: webGetManagerPropertiesHandler,
 });
 
-export const getUnitsByProperty = query({
-  args: getUnitsByPropertyArgs,
-  returns: getUnitsByPropertyReturns,
-  handler: getUnitsByPropertyHandler,
+export const webGetUnitsByProperty = query({
+  args: webGetUnitsByPropertyArgs,
+  returns: webGetUnitsByPropertyReturns,
+  handler: webGetUnitsByPropertyHandler,
 });
 
-// Mutations
-export const assignTechnician = mutation({
-  args: assignTechnicianArgs,
-  handler: assignTechnicianHandler,
+// Web Mutations
+export const webAssignTechnician = mutation({
+  args: webAssignTechnicianArgs,
+  handler: webAssignTechnicianHandler,
 });
 
-export const updateMaintenanceStatus = mutation({
-  args: updateMaintenanceStatusArgs,
-  handler: updateMaintenanceStatusHandler,
+export const webUpdateMaintenanceStatus = mutation({
+  args: webUpdateMaintenanceStatusArgs,
+  handler: webUpdateMaintenanceStatusHandler,
 });
 
-export const updateMaintenanceCost = mutation({
-  args: updateMaintenanceCostArgs,
-  handler: updateMaintenanceCostHandler,
+export const webUpdateMaintenanceCost = mutation({
+  args: webUpdateMaintenanceCostArgs,
+  handler: webUpdateMaintenanceCostHandler,
 });
 
-export const bulkUpdateStatus = mutation({
-  args: bulkUpdateStatusArgs,
-  handler: bulkUpdateStatusHandler,
+export const webBulkUpdateStatus = mutation({
+  args: webBulkUpdateStatusArgs,
+  handler: webBulkUpdateStatusHandler,
 });
+
+// Mobile Maintenance Function
 import {
   createRequestArgs,
   createRequestHandler,

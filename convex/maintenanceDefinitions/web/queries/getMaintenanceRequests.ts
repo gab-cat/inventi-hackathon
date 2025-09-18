@@ -3,7 +3,7 @@ import { PaginationOptions, paginationOptsValidator, Query } from 'convex/server
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getMaintenanceRequestsArgs = {
+export const webGetMaintenanceRequestsArgs = {
   paginationOpts: paginationOptsValidator,
   propertyId: v.optional(v.id('properties')),
   unitId: v.optional(v.id('units')),
@@ -34,7 +34,7 @@ export const getMaintenanceRequestsArgs = {
   assignedTo: v.optional(v.id('users')),
 } as const;
 
-export const getMaintenanceRequestsReturns = v.object({
+export const webGetMaintenanceRequestsReturns = v.object({
   page: v.array(
     v.object({
       _id: v.id('maintenanceRequests'),
@@ -101,7 +101,7 @@ type Args = {
   assignedTo?: Id<'users'>;
 };
 
-export const getMaintenanceRequestsHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetMaintenanceRequestsHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

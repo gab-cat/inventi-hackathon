@@ -2,13 +2,13 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getMaintenanceKPIsArgs = {
+export const webGetMaintenanceKPIsArgs = {
   propertyId: v.optional(v.id('properties')),
   dateFrom: v.optional(v.number()),
   dateTo: v.optional(v.number()),
 } as const;
 
-export const getMaintenanceKPIsReturns = v.object({
+export const webGetMaintenanceKPIsReturns = v.object({
   totalOpen: v.number(),
   byStatus: v.record(v.string(), v.number()),
   byPriority: v.record(v.string(), v.number()),
@@ -22,7 +22,7 @@ type Args = {
   dateTo?: number;
 };
 
-export const getMaintenanceKPIsHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetMaintenanceKPIsHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 
