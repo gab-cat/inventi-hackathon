@@ -96,7 +96,7 @@ export const webUpdateNoticeHandler = async (ctx: MutationCtx, args: Args) => {
 
   // Validate scheduling
   const now = Date.now();
-  if (args.scheduledAt && args.scheduledAt <= now) {
+  if (args.scheduledAt && args.scheduledAt < now) {
     throw new Error('Scheduled time must be in the future');
   }
   if (args.expiresAt && args.expiresAt <= now) {

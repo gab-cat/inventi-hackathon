@@ -3,7 +3,7 @@ import { Id } from '@convex/_generated/dataModel';
 import { useQuery } from 'convex/react';
 
 export function useUsers(id: Id<'users'>) {
-  const user = useQuery(api.users.getUserById, { id });
+  const user = useQuery(api.user.webGetUserById, { id });
 
   const isLoading = user === undefined;
   const error = user === null ? 'Failed to load user' : undefined;

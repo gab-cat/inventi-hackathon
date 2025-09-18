@@ -1,8 +1,8 @@
 import { QueryCtx } from '../../../_generated/server';
 
-export const getCurrentUserArgs = {};
+export const webGetCurrentUserArgs = {};
 
-export const getCurrentUserHandler = async (ctx: QueryCtx) => {
+export const webGetCurrentUserHandler = async (ctx: QueryCtx) => {
   const identity = await ctx.auth.getUserIdentity();
 
   if (!identity) {

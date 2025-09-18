@@ -2,12 +2,12 @@ import { v } from 'convex/values';
 import { PaginationOptions, paginationOptsValidator } from 'convex/server';
 import { QueryCtx } from '../../../_generated/server';
 
-export const getUsersArgs = {
+export const webGetUsersArgs = {
   paginationOpts: paginationOptsValidator,
   searchQuery: v.optional(v.string()),
 } as const;
 
-export const getUsersReturns = v.object({
+export const webGetUsersReturns = v.object({
   page: v.array(
     v.object({
       _id: v.id('users'),
@@ -36,7 +36,7 @@ type Args = {
   searchQuery?: string;
 };
 
-export const getUsersHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetUsersHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

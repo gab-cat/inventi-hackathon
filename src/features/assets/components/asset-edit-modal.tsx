@@ -48,7 +48,7 @@ export function AssetEditModal({ asset, isOpen, onClose, onSuccess }: AssetEditM
   const { start, stop } = useProgress();
   const { toast } = useToast();
 
-  const editAssetDetails = useMutation(api.assets.editAssetDetails);
+  const editAssetDetails = useMutation(api.assets.webEditAssetDetails);
 
   // Initialize form data when asset changes
   useEffect(() => {

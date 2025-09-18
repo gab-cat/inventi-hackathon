@@ -101,12 +101,12 @@ export function AssetTable({
   const { toast } = useToast();
 
   // Mutations for asset actions
-  const checkOutAsset = useMutation(api.assets.checkOutAsset);
-  const checkInAsset = useMutation(api.assets.checkInAsset);
-  const updateAssetStatus = useMutation(api.assets.updateAssetStatus);
+  const checkOutAsset = useMutation(api.assets.webCheckOutAsset);
+  const checkInAsset = useMutation(api.assets.webCheckInAsset);
+  const updateAssetStatus = useMutation(api.assets.webUpdateAssetStatus);
 
   // Get users for checkout selection
-  const users = useAuthenticatedQuery(api.users.getUsers, {
+  const users = useAuthenticatedQuery(api.user.webGetUsers, {
     paginationOpts: { numItems: 10, cursor: userPagination.cursor },
   });
 
