@@ -29,6 +29,12 @@
       "bundler": "metro"
     },
     "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera for scanning QR codes and taking photos"
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",

@@ -9,11 +9,13 @@ import { Text } from '@/components/ui/text';
 import { Icon } from '@/components/ui/icon';
 import { ArrowLeft, QrCode, Search, Package, CheckCircle, AlertTriangle, ScanLine } from 'lucide-react-native';
 import { AvailableAsset, AvailableAssetsResponse } from '@/lib/tech.types';
+import QRScanner from '@/components/tech/qr-scanner';
 
 export default function TechAssetCheckoutScreen() {
   const [assetTag, setAssetTag] = React.useState('');
   const [notes, setNotes] = React.useState('');
   const [selectedAsset, setSelectedAsset] = React.useState<AvailableAsset | null>(null);
+  const [showScanner, setShowScanner] = React.useState(false);
 
   // Fetch available assets
   const assetsData: AvailableAssetsResponse | undefined = useQuery(api.tech.getAvailableAssets, {});
@@ -24,17 +26,24 @@ export default function TechAssetCheckoutScreen() {
   const assets: AvailableAsset[] = assetsData?.success ? assetsData.data || [] : [];
 
   const handleScanQR = () => {
-    // TODO: Implement QR/barcode scanning functionality
-    Alert.alert('Coming Soon', 'QR/Barcode scanning will be implemented');
+    setShowScanner(true);
   };
 
-  const handleSearchAsset = () => {
-    if (!assetTag.trim()) {
+  const handleQRScan = (scannedData: string) => {
+    setAssetTag(scannedData);
+    setShowScanner(false);
+    // Auto-search for the asset
+    handleSearchAsset(scannedData);
+  };
+
+  const handleSearchAsset = (tag?: string) => {
+    const searchTag = tag || assetTag;
+    if (!searchTag.trim()) {
       Alert.alert('Error', 'Please enter an asset tag');
       return;
     }
 
-    const asset = assets.find(a => a.assetTag.toLowerCase() === assetTag.toLowerCase());
+    const asset = assets.find(a => a.assetTag.toLowerCase() === searchTag.toLowerCase());
     if (asset) {
       setSelectedAsset(asset);
     } else {
@@ -82,7 +91,7 @@ export default function TechAssetCheckoutScreen() {
   return (
     <ThemedView style={{ flex: 1 }} className='bg-background'>
       {/* Header */}
-      <View className='pt-16 px-5 pb-5 bg-purple-800 rounded-b-[20px]'>
+      <View className='pt-12 px-5 bg-purple-800 rounded-b-[20px]'>
         <View className='flex-row items-center gap-4 mb-4'>
           <TouchableOpacity onPress={() => router.back()}>
             <Icon as={ArrowLeft} size={24} className='text-white' />
@@ -94,7 +103,7 @@ export default function TechAssetCheckoutScreen() {
         </View>
       </View>
 
-      <View className='flex-1 px-5'>
+      <View className='flex-1 px-5 mt-4'>
         {/* Scan QR Button */}
         <TouchableOpacity
           onPress={handleScanQR}
@@ -111,22 +120,22 @@ export default function TechAssetCheckoutScreen() {
         <View className='mb-6'>
           <Text className='text-lg font-semibold mb-4'>Or Search Manually</Text>
 
-          <View className='flex-row gap-2 mb-4'>
-            <View className='flex-1 relative'>
+          <View className='flex-row gap-2 mb-4 items-center flex'>
+            <View className='flex-1 relative items-center'>
               <Icon
                 as={ScanLine}
                 size={20}
-                className='absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground'
+                className='absolute left-3 top-3 transform -translate-y-1/2 text-muted-foreground'
               />
               <TextInput
-                className='w-full h-12 pl-12 pr-4 bg-card border border-border rounded-xl'
+                className='w-full h-12 pl-12 pr-4 bg-card border border-border rounded-xl items-center'
                 placeholder='Enter asset tag...'
                 value={assetTag}
                 onChangeText={setAssetTag}
                 autoCapitalize='characters'
               />
             </View>
-            <Button onPress={handleSearchAsset} variant='outline' size='sm'>
+            <Button onPress={() => handleSearchAsset()} variant='outline' size='sm'>
               <Icon as={Search} size={16} />
             </Button>
           </View>
@@ -199,6 +208,13 @@ export default function TechAssetCheckoutScreen() {
                 </Text>
               </View>
             </View>
+          </View>
+        )}
+
+        {/* QR Scanner Modal */}
+        {showScanner && (
+          <View className='absolute inset-0 z-50'>
+            <QRScanner onScan={handleQRScan} onClose={() => setShowScanner(false)} title='Scan Asset QR Code' />
           </View>
         )}
       </View>
