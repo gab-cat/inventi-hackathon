@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Plus, BarChart3, Package, Wrench, AlertTriangle } from 'lucide-react';
 import { AssetDashboard, AssetTable, AssetFilters, AddAssetDialog, AssetAlerts } from '@/features/assets';
+import { ReportsDashboard } from '@/features/reports';
 import { useAssetStore } from '@/stores/asset-store';
 import {
   AssetDashboardSkeleton,
@@ -194,6 +195,7 @@ export default function AssetsPage() {
               <Button
                 variant={selectedPropertyId === undefined ? 'default' : 'outline'}
                 onClick={() => setSelectedPropertyId(undefined)}
+                className={selectedPropertyId === undefined ? 'bg-blue-500 hover:bg-blue-600' : ''}
               >
                 All Properties
               </Button>
@@ -202,6 +204,7 @@ export default function AssetsPage() {
                   key={property._id}
                   variant={selectedPropertyId === property._id ? 'default' : 'outline'}
                   onClick={() => setSelectedPropertyId(property._id)}
+                  className={selectedPropertyId === property._id ? 'bg-blue-500 hover:bg-blue-600' : ''}
                 >
                   {property.name}
                 </Button>
@@ -222,20 +225,25 @@ export default function AssetsPage() {
 
       {/* Main Content */}
       <Tabs value={selectedTab} onValueChange={setSelectedTab} className='space-y-6'>
-        <TabsList className='grid w-full grid-cols-4'>
-          <TabsTrigger value='dashboard' className='gap-2'>
+        <TabsList className='grid w-full grid-cols-3 '>
+          <TabsTrigger
+            value='dashboard'
+            className='gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:border-blue-500'
+          >
             <BarChart3 className='h-4 w-4' />
             Dashboard
           </TabsTrigger>
-          <TabsTrigger value='assets' className='gap-2'>
+          <TabsTrigger
+            value='assets'
+            className='gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:border-blue-500'
+          >
             <Package className='h-4 w-4' />
             Assets
           </TabsTrigger>
-          <TabsTrigger value='maintenance' className='gap-2'>
-            <Wrench className='h-4 w-4' />
-            Maintenance
-          </TabsTrigger>
-          <TabsTrigger value='reports' className='gap-2'>
+          <TabsTrigger
+            value='reports'
+            className='gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:border-blue-500'
+          >
             <AlertTriangle className='h-4 w-4' />
             Reports
           </TabsTrigger>
@@ -303,15 +311,17 @@ export default function AssetsPage() {
         </TabsContent>
 
         <TabsContent value='reports' className='space-y-6'>
-          <Card>
-            <CardHeader>
-              <CardTitle>Reports & Analytics</CardTitle>
-              <CardDescription>Generate reports and view analytics for your assets</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className='text-muted-foreground'>Reports and analytics coming soon...</p>
-            </CardContent>
-          </Card>
+          {dashboardData === undefined ? (
+            <AssetDashboardSkeleton />
+          ) : dashboardData ? (
+            <ReportsDashboard
+              dashboardData={dashboardData}
+              assets={assets?.page || []}
+              propertyName={selectedProperty?.name || 'All Properties'}
+              onRefresh={handleRefresh}
+              loading={isLoading}
+            />
+          ) : null}
         </TabsContent>
       </Tabs>
 

@@ -116,7 +116,7 @@ export function TablePagination({
                   size='sm'
                   onClick={() => onPageChange(pageNum as number)}
                   disabled={isLoading}
-                  className={`min-w-[40px] ${pageNum === currentPage ? 'bg-cyan-500 hover:bg-cyan-600' : ''}`}
+                  className={`min-w-[40px] ${pageNum === currentPage ? 'bg-blue-500 hover:bg-blue-600' : ''}`}
                 >
                   {pageNum}
                 </Button>

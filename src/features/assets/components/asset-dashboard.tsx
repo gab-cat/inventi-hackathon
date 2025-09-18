@@ -88,7 +88,7 @@ export function AssetDashboard({ data, propertyName }: AssetDashboardProps) {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Assets</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
+            <Package className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.totalAssets}</div>
@@ -101,7 +101,7 @@ export function AssetDashboard({ data, propertyName }: AssetDashboardProps) {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Available</CardTitle>
-            <CheckCircle className="h-4 w-4 text-green-600" />
+            <CheckCircle className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.availableAssets}</div>
@@ -114,7 +114,7 @@ export function AssetDashboard({ data, propertyName }: AssetDashboardProps) {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Checked Out</CardTitle>
-            <Clock className="h-4 w-4 text-blue-600" />
+            <Clock className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.checkedOutAssets}</div>
@@ -127,7 +127,7 @@ export function AssetDashboard({ data, propertyName }: AssetDashboardProps) {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Maintenance</CardTitle>
-            <Wrench className="h-4 w-4 text-orange-600" />
+            <Wrench className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.maintenanceAssets}</div>
@@ -143,7 +143,7 @@ export function AssetDashboard({ data, propertyName }: AssetDashboardProps) {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Value</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -158,7 +158,7 @@ export function AssetDashboard({ data, propertyName }: AssetDashboardProps) {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Purchase Value</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <TrendingUp className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -173,7 +173,7 @@ export function AssetDashboard({ data, propertyName }: AssetDashboardProps) {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Depreciation</CardTitle>
-            <TrendingDown className="h-4 w-4 text-red-600" />
+            <TrendingDown className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -199,35 +199,35 @@ export function AssetDashboard({ data, propertyName }: AssetDashboardProps) {
                 <span className="text-sm">Excellent</span>
                 <Badge variant="secondary">{data.excellentCondition}</Badge>
               </div>
-              <Progress value={(data.excellentCondition / data.totalAssets) * 100} className="h-2" />
+              <Progress value={(data.excellentCondition / data.totalAssets) * 100} className="h-2 [&>div]:bg-emerald-500" />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Good</span>
                 <Badge variant="secondary">{data.goodCondition}</Badge>
               </div>
-              <Progress value={(data.goodCondition / data.totalAssets) * 100} className="h-2" />
+              <Progress value={(data.goodCondition / data.totalAssets) * 100} className="h-2 [&>div]:bg-green-500" />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Fair</span>
                 <Badge variant="secondary">{data.fairCondition}</Badge>
               </div>
-              <Progress value={(data.fairCondition / data.totalAssets) * 100} className="h-2" />
+              <Progress value={(data.fairCondition / data.totalAssets) * 100} className="h-2 [&>div]:bg-yellow-500" />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Poor</span>
                 <Badge variant="secondary">{data.poorCondition}</Badge>
               </div>
-              <Progress value={(data.poorCondition / data.totalAssets) * 100} className="h-2" />
+              <Progress value={(data.poorCondition / data.totalAssets) * 100} className="h-2 [&>div]:bg-orange-500" />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Broken</span>
                 <Badge variant="destructive">{data.brokenCondition}</Badge>
               </div>
-              <Progress value={(data.brokenCondition / data.totalAssets) * 100} className="h-2" />
+              <Progress value={(data.brokenCondition / data.totalAssets) * 100} className="h-2 [&>div]:bg-red-500" />
             </div>
           </CardContent>
         </Card>
@@ -243,35 +243,35 @@ export function AssetDashboard({ data, propertyName }: AssetDashboardProps) {
                 <span className="text-sm">Tools</span>
                 <Badge variant="outline">{data.tools}</Badge>
               </div>
-              <Progress value={(data.tools / data.totalAssets) * 100} className="h-2" />
+              <Progress value={(data.tools / data.totalAssets) * 100} className="h-2 [&>div]:bg-blue-500" />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Equipment</span>
                 <Badge variant="outline">{data.equipment}</Badge>
               </div>
-              <Progress value={(data.equipment / data.totalAssets) * 100} className="h-2" />
+              <Progress value={(data.equipment / data.totalAssets) * 100} className="h-2 [&>div]:bg-indigo-500" />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Materials</span>
                 <Badge variant="outline">{data.materials}</Badge>
               </div>
-              <Progress value={(data.materials / data.totalAssets) * 100} className="h-2" />
+              <Progress value={(data.materials / data.totalAssets) * 100} className="h-2 [&>div]:bg-purple-500" />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Furniture</span>
                 <Badge variant="outline">{data.furniture}</Badge>
               </div>
-              <Progress value={(data.furniture / data.totalAssets) * 100} className="h-2" />
+              <Progress value={(data.furniture / data.totalAssets) * 100} className="h-2 [&>div]:bg-teal-500" />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Appliances</span>
                 <Badge variant="outline">{data.appliances}</Badge>
               </div>
-              <Progress value={(data.appliances / data.totalAssets) * 100} className="h-2" />
+              <Progress value={(data.appliances / data.totalAssets) * 100} className="h-2 [&>div]:bg-cyan-500" />
             </div>
           </CardContent>
         </Card>
@@ -334,7 +334,7 @@ export function AssetDashboard({ data, propertyName }: AssetDashboardProps) {
                   <div key={location.location} className="flex items-center justify-between">
                     <span className="text-sm">{location.location}</span>
                     <div className="flex items-center gap-2">
-                      <Progress value={location.percentage} className="w-20 h-2" />
+                      <Progress value={location.percentage} className="w-20 h-2 [&>div]:bg-blue-500" />
                       <span className="text-sm font-medium w-12 text-right">
                         {location.count} ({location.percentage}%)
                       </span>
