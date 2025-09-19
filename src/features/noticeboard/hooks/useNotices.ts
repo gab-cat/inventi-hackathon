@@ -1,10 +1,25 @@
 import { useQuery } from 'convex/react';
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect, useMemo } from 'react';
 import { api } from '@convex/_generated/api';
 import { NoticeFilters, NoticeWithDetails, UseNoticesReturn } from '../types';
 
 export function useNotices(initialFilters: NoticeFilters = {}): UseNoticesReturn {
-  const [filters, setFilters] = useState<NoticeFilters>(initialFilters);
+  // Memoize the initial filters to create a stable reference
+  const memoizedInitialFilters = useMemo(
+    () => initialFilters,
+    [
+      initialFilters.propertyId,
+      initialFilters.unitId,
+      initialFilters.status,
+      initialFilters.priority,
+      initialFilters.dateFrom,
+      initialFilters.dateTo,
+      initialFilters.search,
+      initialFilters.assignedTo,
+    ]
+  );
+
+  const [filters, setFilters] = useState<NoticeFilters>(memoizedInitialFilters);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [cursors, setCursors] = useState<(string | null)[]>([null]); // Store cursors for each page
@@ -70,6 +85,13 @@ export function useNotices(initialFilters: NoticeFilters = {}): UseNoticesReturn
     setCurrentPage(1);
     setCursors([null]);
   }, []);
+
+  // Update filters when initialFilters change (e.g., when property changes)
+  useEffect(() => {
+    setFilters(memoizedInitialFilters);
+    setCurrentPage(1);
+    setCursors([null]);
+  }, [memoizedInitialFilters]);
 
   // Update cursors when we get new data
   useEffect(() => {

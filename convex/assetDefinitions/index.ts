@@ -9,7 +9,6 @@ export * from './web/queries/getInventoryLevels';
 export * from './web/queries/getMaintenanceSchedule';
 export * from './web/queries/getAssetUtilization';
 export * from './web/queries/getAssetReports';
-export * from './web/queries/getManagerProperties';
 
 // Web Mutations
 export * from './web/mutations/addAsset';

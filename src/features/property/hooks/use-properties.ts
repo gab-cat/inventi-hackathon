@@ -1,5 +1,5 @@
-import { useQuery } from 'convex/react';
-import { api } from '../../../../convex/_generated/api';
+import { useAuthenticatedQuery } from '@/hooks/use-authenticated-query';
+import { api } from '@convex/_generated/api';
 import { PropertyWithStats } from '../types';
 
 export function useManagerProperties(): {
@@ -7,7 +7,7 @@ export function useManagerProperties(): {
   isLoading: boolean;
   error?: string;
 } {
-  const properties = useQuery(api.property.webGetManagerProperties) as PropertyWithStats[] | undefined;
+  const properties = useAuthenticatedQuery(api.property.webGetManagerProperties, {}) as PropertyWithStats[] | undefined;
 
   const isLoading = properties === undefined;
   const error = properties === null ? 'Failed to load properties' : undefined;

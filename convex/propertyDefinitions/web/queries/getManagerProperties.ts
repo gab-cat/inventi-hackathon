@@ -1,5 +1,5 @@
-import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
+import { v } from 'convex/values';
 
 export const webGetManagerPropertiesArgs = {} as const;
 
@@ -19,19 +19,19 @@ export const webGetManagerPropertiesReturns = v.array(
     isActive: v.boolean(),
     settings: v.optional(
       v.object({
-        maintenanceHours: v.optional(
-          v.object({
-            start: v.string(),
-            end: v.string(),
-          })
-        ),
+        visitorLimitPerUnit: v.optional(v.number()),
         deliveryHours: v.optional(
           v.object({
             start: v.string(),
             end: v.string(),
           })
         ),
-        visitorLimitPerUnit: v.optional(v.number()),
+        maintenanceHours: v.optional(
+          v.object({
+            start: v.string(),
+            end: v.string(),
+          })
+        ),
       })
     ),
     createdAt: v.number(),
@@ -100,3 +100,4 @@ export const webGetManagerPropertiesHandler = async (ctx: QueryCtx, args: Args) 
 
   return enrichedProperties;
 };
+

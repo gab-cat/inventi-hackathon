@@ -40,7 +40,6 @@ import type * as assetDefinitions_web_queries_getAssetUtilization from "../asset
 import type * as assetDefinitions_web_queries_getAssets from "../assetDefinitions/web/queries/getAssets.js";
 import type * as assetDefinitions_web_queries_getInventoryLevels from "../assetDefinitions/web/queries/getInventoryLevels.js";
 import type * as assetDefinitions_web_queries_getMaintenanceSchedule from "../assetDefinitions/web/queries/getMaintenanceSchedule.js";
-import type * as assetDefinitions_web_queries_getManagerProperties from "../assetDefinitions/web/queries/getManagerProperties.js";
 import type * as assets from "../assets.js";
 import type * as http from "../http.js";
 import type * as maintenance from "../maintenance.js";
@@ -99,6 +98,11 @@ import type * as propertyDefinitions_mobile_index from "../propertyDefinitions/m
 import type * as propertyDefinitions_mobile_queries_getMyProperties from "../propertyDefinitions/mobile/queries/getMyProperties.js";
 import type * as propertyDefinitions_mobile_queries_getProperties from "../propertyDefinitions/mobile/queries/getProperties.js";
 import type * as propertyDefinitions_mobile_queries_index from "../propertyDefinitions/mobile/queries/index.js";
+import type * as propertyDefinitions_web_index from "../propertyDefinitions/web/index.js";
+import type * as propertyDefinitions_web_mutations_createProperty from "../propertyDefinitions/web/mutations/createProperty.js";
+import type * as propertyDefinitions_web_mutations_index from "../propertyDefinitions/web/mutations/index.js";
+import type * as propertyDefinitions_web_queries_getManagerProperties from "../propertyDefinitions/web/queries/getManagerProperties.js";
+import type * as propertyDefinitions_web_queries_index from "../propertyDefinitions/web/queries/index.js";
 import type * as seeders_assets from "../seeders/assets.js";
 import type * as seeders_notice from "../seeders/notice.js";
 import type * as seeders_seed from "../seeders/seed.js";
@@ -185,7 +189,6 @@ declare const fullApi: ApiFromModules<{
   "assetDefinitions/web/queries/getAssets": typeof assetDefinitions_web_queries_getAssets;
   "assetDefinitions/web/queries/getInventoryLevels": typeof assetDefinitions_web_queries_getInventoryLevels;
   "assetDefinitions/web/queries/getMaintenanceSchedule": typeof assetDefinitions_web_queries_getMaintenanceSchedule;
-  "assetDefinitions/web/queries/getManagerProperties": typeof assetDefinitions_web_queries_getManagerProperties;
   assets: typeof assets;
   http: typeof http;
   maintenance: typeof maintenance;
@@ -244,6 +247,11 @@ declare const fullApi: ApiFromModules<{
   "propertyDefinitions/mobile/queries/getMyProperties": typeof propertyDefinitions_mobile_queries_getMyProperties;
   "propertyDefinitions/mobile/queries/getProperties": typeof propertyDefinitions_mobile_queries_getProperties;
   "propertyDefinitions/mobile/queries/index": typeof propertyDefinitions_mobile_queries_index;
+  "propertyDefinitions/web/index": typeof propertyDefinitions_web_index;
+  "propertyDefinitions/web/mutations/createProperty": typeof propertyDefinitions_web_mutations_createProperty;
+  "propertyDefinitions/web/mutations/index": typeof propertyDefinitions_web_mutations_index;
+  "propertyDefinitions/web/queries/getManagerProperties": typeof propertyDefinitions_web_queries_getManagerProperties;
+  "propertyDefinitions/web/queries/index": typeof propertyDefinitions_web_queries_index;
   "seeders/assets": typeof seeders_assets;
   "seeders/notice": typeof seeders_notice;
   "seeders/seed": typeof seeders_seed;

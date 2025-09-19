@@ -1,7 +1,9 @@
 import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 
-export const webGetAllUnitsArgs = {} as const;
+export const webGetAllUnitsArgs = v.object({
+  propertyId: v.optional(v.id('properties')),
+});
 
 export const webGetAllUnitsReturns = v.array(
   v.object({
@@ -41,7 +43,9 @@ export const webGetAllUnitsReturns = v.array(
   })
 );
 
-type Args = {};
+type Args = {
+  propertyId?: string;
+};
 
 export const webGetAllUnitsHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
@@ -54,14 +58,30 @@ export const webGetAllUnitsHandler = async (ctx: QueryCtx, args: Args) => {
     .unique();
   if (!currentUser || !['manager', 'field_technician'].includes(currentUser.role)) throw new Error('Forbidden');
 
-  // Get all properties managed by this user
-  const properties = await ctx.db
-    .query('properties')
-    .withIndex('by_manager', q => q.eq('managerId', currentUser._id))
-    .filter(q => q.eq(q.field('isActive'), true))
-    .collect();
+  // Get properties to query units for
+  let properties;
+  if (args.propertyId) {
+    // If propertyId is provided, verify the user manages this property
+    const property = await ctx.db
+      .query('properties')
+      .withIndex('by_manager', q => q.eq('managerId', currentUser._id))
+      .filter(q => q.and(q.eq(q.field('_id'), args.propertyId as any), q.eq(q.field('isActive'), true)))
+      .first();
 
-  // Get all units for all managed properties
+    if (!property) {
+      throw new Error('Property not found or access denied');
+    }
+    properties = [property];
+  } else {
+    // Get all properties managed by this user
+    properties = await ctx.db
+      .query('properties')
+      .withIndex('by_manager', q => q.eq('managerId', currentUser._id))
+      .filter(q => q.eq(q.field('isActive'), true))
+      .collect();
+  }
+
+  // Get all units for the specified properties
   const allUnits = [];
   for (const property of properties) {
     const units = await ctx.db

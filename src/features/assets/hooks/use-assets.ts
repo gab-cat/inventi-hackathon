@@ -34,5 +34,5 @@ export function useAssetAlerts(propertyId?: Id<'properties'>) {
 }
 
 export function useManagerProperties() {
-  return useAuthenticatedQuery(api.assets.webGetManagerProperties, {});
+  return useAuthenticatedQuery(api.property.webGetManagerProperties, {});
 }

@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/sidebar';
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
+import { PropertySelector, usePropertyStore } from '@/features/property';
 import Image from 'next/image';
 import { FolderKanban, LayoutDashboard, Wrench, Package, Mailbox } from 'lucide-react';
 import { Label } from '../ui/label';
@@ -52,6 +53,8 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { selectedPropertyId, setSelectedPropertyId } = usePropertyStore();
+
   return (
     <Sidebar collapsible='icon' {...props}>
       <SidebarHeader>
@@ -64,8 +67,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <Label className='text-gray-500 text-xs px-2'>Main</Label>
-        <NavMain items={data.navMain} />
+        <div className='px-2 py-2'>
+          <Label className='text-gray-500 text-xs px-2 mb-2 block'>Property</Label>
+          <PropertySelector selectedPropertyId={selectedPropertyId} onPropertySelect={setSelectedPropertyId} />
+        </div>
+        <div className='px-2 py-2'>
+          <Label className='text-gray-500 text-xs px-2 mb-2 block'>Main</Label>
+          <NavMain items={data.navMain} />
+        </div>
         {/* <NavDocuments items={data.documents} />
                 <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>

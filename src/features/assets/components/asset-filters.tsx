@@ -24,7 +24,7 @@ interface AssetFiltersProps {
     address: string;
   }>;
   selectedPropertyId?: Id<'properties'>;
-  onPropertyChange: (propertyId?: Id<'properties'>) => void;
+  onPropertyChange?: (propertyId?: Id<'properties'>) => void;
 }
 
 export function AssetFilters({
@@ -95,7 +95,11 @@ export function AssetFilters({
             <Label>Property</Label>
             <Select
               value={selectedPropertyId || 'all'}
-              onValueChange={value => onPropertyChange(value === 'all' ? undefined : (value as Id<'properties'>))}
+              onValueChange={value => {
+                if (onPropertyChange) {
+                  onPropertyChange(value === 'all' ? undefined : (value as Id<'properties'>));
+                }
+              }}
             >
               <SelectTrigger>
                 <SelectValue placeholder='Select property' />
