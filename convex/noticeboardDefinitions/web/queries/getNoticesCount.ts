@@ -74,6 +74,7 @@ export const webGetNoticesCountHandler = async (ctx: QueryCtx, args: Args) => {
           args.noticeType as 'announcement' | 'maintenance' | 'payment_reminder' | 'emergency' | 'event'
         )
       );
+
   } else if (args.priority) {
     base = ctx.db.query('notices').withIndex('by_priority', q => q.eq('priority', args.priority!));
   } else if (args.isActive !== undefined) {
