@@ -7,6 +7,11 @@ export * from './web/queries/getNoticeAcknowledgments';
 export * from './web/queries/getManagerProperties';
 export * from './web/queries/getUnitsByProperty';
 export * from './web/queries/getAllUnits';
+// Poll Queries
+export * from './web/queries/getPollsByProperty';
+export * from './web/queries/getPollWithResponses';
+export * from './web/queries/getPollStats';
+export * from './web/queries/getPollResponseCounts';
 
 // Web Mutations
 export * from './web/mutations/createNotice';
@@ -16,6 +21,11 @@ export * from './web/mutations/sendNoticeToAll';
 export * from './web/mutations/sendNoticeToUnit';
 export * from './web/mutations/scheduleNotice';
 export * from './web/mutations/acknowledgeNotice';
+// Poll Mutations
+export * from './web/mutations/createPoll';
+export * from './web/mutations/updatePoll';
+export * from './web/mutations/deletePoll';
+export * from './web/mutations/submitPollResponse';
 
 // Mobile Queries
 export {

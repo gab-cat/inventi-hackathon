@@ -43,6 +43,31 @@ import {
   webAcknowledgeNoticeArgs,
   webAcknowledgeNoticeHandler,
   webAcknowledgeNoticeReturns,
+  // Web Poll functions
+  webGetPollsByPropertyArgs,
+  webGetPollsByPropertyHandler,
+  webGetPollsByPropertyReturns,
+  webGetPollWithResponsesArgs,
+  webGetPollWithResponsesHandler,
+  webGetPollWithResponsesReturns,
+  webGetPollStatsArgs,
+  webGetPollStatsHandler,
+  webGetPollStatsReturns,
+  webGetPollResponseCountsArgs,
+  webGetPollResponseCountsHandler,
+  webGetPollResponseCountsReturns,
+  webCreatePollArgs,
+  webCreatePollHandler,
+  webCreatePollReturns,
+  webUpdatePollArgs,
+  webUpdatePollHandler,
+  webUpdatePollReturns,
+  webDeletePollArgs,
+  webDeletePollHandler,
+  webDeletePollReturns,
+  webSubmitPollResponseArgs,
+  webSubmitPollResponseHandler,
+  webSubmitPollResponseReturns,
 
   // Mobile functions
   getNoticesArgs as mobileGetNoticesArgs,
@@ -213,4 +238,53 @@ export const mobileGetCommunityNews = query({
   args: mobileGetCommunityNewsArgs,
   returns: mobileGetCommunityNewsReturns,
   handler: mobileGetCommunityNewsHandler,
+});
+
+// Poll functions
+export const webGetPollsByProperty = query({
+  args: webGetPollsByPropertyArgs,
+  returns: webGetPollsByPropertyReturns,
+  handler: webGetPollsByPropertyHandler,
+});
+
+export const webGetPollWithResponses = query({
+  args: webGetPollWithResponsesArgs,
+  returns: webGetPollWithResponsesReturns,
+  handler: webGetPollWithResponsesHandler,
+});
+
+export const webGetPollStats = query({
+  args: webGetPollStatsArgs,
+  returns: webGetPollStatsReturns,
+  handler: webGetPollStatsHandler,
+});
+
+export const webGetPollResponseCounts = query({
+  args: webGetPollResponseCountsArgs,
+  returns: webGetPollResponseCountsReturns,
+  handler: webGetPollResponseCountsHandler,
+});
+
+export const webCreatePoll = mutation({
+  args: webCreatePollArgs,
+  returns: webCreatePollReturns,
+  handler: webCreatePollHandler,
+});
+
+export const webUpdatePoll = mutation({
+  args: webUpdatePollArgs,
+  returns: webUpdatePollReturns,
+  handler: webUpdatePollHandler,
+});
+
+export const webDeletePoll = mutation({
+  args: webDeletePollArgs,
+  returns: webDeletePollReturns,
+  handler: webDeletePollHandler,
+});
+
+export const webSubmitPollResponse = mutation({
+  args: webSubmitPollResponseArgs,
+  returns: webSubmitPollResponseReturns,
+  handler: webSubmitPollResponseHandler,
 });
