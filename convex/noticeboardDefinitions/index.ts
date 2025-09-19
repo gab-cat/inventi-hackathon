@@ -1,5 +1,6 @@
 // Web Queries
 export * from './web/queries/getNotices';
+export * from './web/queries/getNoticesCount';
 export * from './web/queries/getAllUnits';
 export * from './web/queries/getNoticeById';
 export * from './web/queries/getNoticeAcknowledgments';

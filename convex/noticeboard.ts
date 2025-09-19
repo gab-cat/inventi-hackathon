@@ -4,6 +4,9 @@ import {
   webGetNoticesArgs,
   webGetNoticesHandler,
   webGetNoticesReturns,
+  webGetNoticesCountArgs,
+  webGetNoticesCountHandler,
+  webGetNoticesCountReturns,
   webGetNoticeByIdArgs,
   webGetNoticeByIdHandler,
   webGetNoticeByIdReturns,
@@ -76,6 +79,12 @@ export const webGetNotices = query({
   args: webGetNoticesArgs,
   returns: webGetNoticesReturns,
   handler: webGetNoticesHandler,
+});
+
+export const webGetNoticesCount = query({
+  args: webGetNoticesCountArgs,
+  returns: webGetNoticesCountReturns,
+  handler: webGetNoticesCountHandler,
 });
 
 export const webGetNoticeById = query({

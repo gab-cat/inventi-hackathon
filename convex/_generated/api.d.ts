@@ -91,6 +91,7 @@ import type * as noticeboardDefinitions_web_queries_getManagerProperties from ".
 import type * as noticeboardDefinitions_web_queries_getNoticeAcknowledgments from "../noticeboardDefinitions/web/queries/getNoticeAcknowledgments.js";
 import type * as noticeboardDefinitions_web_queries_getNoticeById from "../noticeboardDefinitions/web/queries/getNoticeById.js";
 import type * as noticeboardDefinitions_web_queries_getNotices from "../noticeboardDefinitions/web/queries/getNotices.js";
+import type * as noticeboardDefinitions_web_queries_getNoticesCount from "../noticeboardDefinitions/web/queries/getNoticesCount.js";
 import type * as noticeboardDefinitions_web_queries_getUnitsByProperty from "../noticeboardDefinitions/web/queries/getUnitsByProperty.js";
 import type * as property from "../property.js";
 import type * as propertyDefinitions_index from "../propertyDefinitions/index.js";
@@ -235,6 +236,7 @@ declare const fullApi: ApiFromModules<{
   "noticeboardDefinitions/web/queries/getNoticeAcknowledgments": typeof noticeboardDefinitions_web_queries_getNoticeAcknowledgments;
   "noticeboardDefinitions/web/queries/getNoticeById": typeof noticeboardDefinitions_web_queries_getNoticeById;
   "noticeboardDefinitions/web/queries/getNotices": typeof noticeboardDefinitions_web_queries_getNotices;
+  "noticeboardDefinitions/web/queries/getNoticesCount": typeof noticeboardDefinitions_web_queries_getNoticesCount;
   "noticeboardDefinitions/web/queries/getUnitsByProperty": typeof noticeboardDefinitions_web_queries_getUnitsByProperty;
   property: typeof property;
   "propertyDefinitions/index": typeof propertyDefinitions_index;
