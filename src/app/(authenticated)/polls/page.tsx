@@ -126,7 +126,7 @@ export default function PollsPage() {
       {/* Header */}
       <div className='flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0'>
         <div className='space-y-1'>
-          <h1 className='text-2xl md:text-3xl font-bold'>Polls</h1>
+          <h1 className='text-xl font-bold'>Polls</h1>
           <p className='text-sm md:text-base text-muted-foreground'>
             Create and manage polls to gather feedback from your tenants
           </p>

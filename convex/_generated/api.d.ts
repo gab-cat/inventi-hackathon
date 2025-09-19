@@ -40,6 +40,7 @@ import type * as assetDefinitions_web_queries_getAssetUtilization from "../asset
 import type * as assetDefinitions_web_queries_getAssets from "../assetDefinitions/web/queries/getAssets.js";
 import type * as assetDefinitions_web_queries_getInventoryLevels from "../assetDefinitions/web/queries/getInventoryLevels.js";
 import type * as assetDefinitions_web_queries_getMaintenanceSchedule from "../assetDefinitions/web/queries/getMaintenanceSchedule.js";
+import type * as assetDefinitions_web_queries_getManagerProperties from "../assetDefinitions/web/queries/getManagerProperties.js";
 import type * as assets from "../assets.js";
 import type * as http from "../http.js";
 import type * as maintenance from "../maintenance.js";
@@ -197,6 +198,7 @@ declare const fullApi: ApiFromModules<{
   "assetDefinitions/web/queries/getAssets": typeof assetDefinitions_web_queries_getAssets;
   "assetDefinitions/web/queries/getInventoryLevels": typeof assetDefinitions_web_queries_getInventoryLevels;
   "assetDefinitions/web/queries/getMaintenanceSchedule": typeof assetDefinitions_web_queries_getMaintenanceSchedule;
+  "assetDefinitions/web/queries/getManagerProperties": typeof assetDefinitions_web_queries_getManagerProperties;
   assets: typeof assets;
   http: typeof http;
   maintenance: typeof maintenance;
