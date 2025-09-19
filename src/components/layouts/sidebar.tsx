@@ -14,7 +14,7 @@ import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
 import { PropertySelector, usePropertyStore } from '@/features/property';
 import Image from 'next/image';
-import { FolderKanban, LayoutDashboard, Wrench, Package, Mailbox } from 'lucide-react';
+import { FolderKanban, LayoutDashboard, Wrench, Package, Mailbox, MessageSquare } from 'lucide-react';
 import { Label } from '../ui/label';
 
 const data = {
@@ -48,6 +48,11 @@ const data = {
       title: 'Assets',
       url: '/assets',
       icon: <Package className='h-5 w-5' />,
+    },
+    {
+      title: 'Messages',
+      url: '/messaging',
+      icon: <MessageSquare className='h-5 w-5' />,
     },
   ],
 };
