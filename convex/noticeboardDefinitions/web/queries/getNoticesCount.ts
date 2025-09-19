@@ -66,7 +66,15 @@ export const webGetNoticesCountHandler = async (ctx: QueryCtx, args: Args) => {
   } else if (args.createdBy) {
     base = ctx.db.query('notices').withIndex('by_created_by', q => q.eq('createdBy', args.createdBy!));
   } else if (args.noticeType) {
-    base = ctx.db.query('notices').withIndex('by_type', q => q.eq('noticeType', args.noticeType!));
+    base = ctx.db
+      .query('notices')
+      .withIndex('by_type', q =>
+        q.eq(
+          'noticeType',
+          args.noticeType as 'announcement' | 'maintenance' | 'payment_reminder' | 'emergency' | 'event'
+        )
+      );
+
   } else if (args.priority) {
     base = ctx.db.query('notices').withIndex('by_priority', q => q.eq('priority', args.priority!));
   } else if (args.isActive !== undefined) {

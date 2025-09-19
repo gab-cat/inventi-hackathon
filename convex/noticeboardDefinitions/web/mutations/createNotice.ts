@@ -109,7 +109,7 @@ export const webCreateNoticeHandler = async (ctx: MutationCtx, args: Args) => {
     createdBy: currentUser._id,
     title: args.title,
     content: args.content,
-    noticeType: args.noticeType,
+    noticeType: args.noticeType as 'announcement' | 'maintenance' | 'payment_reminder' | 'emergency' | 'event',
     priority: args.priority,
     targetAudience: args.targetAudience,
     targetUnits: args.targetUnits,

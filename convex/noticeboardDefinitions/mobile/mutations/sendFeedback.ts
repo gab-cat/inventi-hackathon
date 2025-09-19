@@ -65,7 +65,7 @@ export const mobileSendFeedbackHandler = async (ctx: MutationCtx, args: Infer<ty
     createdBy: currentUser._id,
     title: `[Feedback - ${args.feedbackType.toUpperCase()}] ${args.subject}`,
     content: args.message,
-    noticeType: 'feedback', // Special notice type for feedback
+    noticeType: 'feedback' as 'announcement' | 'maintenance' | 'payment_reminder' | 'emergency' | 'event', // Special notice type for feedback
     priority: args.priority || 'medium',
     targetAudience: 'managers', // Feedback goes to property managers
     targetUnits: undefined,

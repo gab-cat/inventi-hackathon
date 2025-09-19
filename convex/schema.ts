@@ -118,7 +118,13 @@ export default defineSchema({
     expectedArrival: v.number(), // Timestamp
     expectedDeparture: v.optional(v.number()),
     numberOfVisitors: v.number(),
-    status: v.string(), // "pending", "approved", "denied", "cancelled", "expired"
+    status: v.union(
+      v.literal('pending'),
+      v.literal('approved'),
+      v.literal('denied'),
+      v.literal('cancelled'),
+      v.literal('expired')
+    ), // "pending", "approved", "denied", "cancelled", "expired"
     approvedBy: v.optional(v.id('users')),
     approvedAt: v.optional(v.number()),
     deniedReason: v.optional(v.string()),
@@ -148,7 +154,7 @@ export default defineSchema({
     propertyId: v.id('properties'),
     unitId: v.id('units'),
     visitorName: v.string(),
-    action: v.string(), // "check_in", "check_out", "no_show"
+    action: v.union(v.literal('check_in'), v.literal('check_out'), v.literal('no_show')), // "check_in", "check_out", "no_show"
     timestamp: v.number(),
     location: v.optional(v.string()), // Specific location within property
     verifiedBy: v.optional(v.id('users')), // Security guard or system
@@ -170,7 +176,7 @@ export default defineSchema({
     propertyId: v.id('properties'),
     name: v.string(),
     description: v.string(),
-    riskLevel: v.string(), // "low", "medium", "high", "critical"
+    riskLevel: v.union(v.literal('low'), v.literal('medium'), v.literal('high'), v.literal('critical')), // "low", "medium", "high", "critical"
     isActive: v.boolean(),
     createdBy: v.id('users'),
     createdAt: v.number(),
@@ -186,7 +192,13 @@ export default defineSchema({
   deliveries: defineTable({
     propertyId: v.id('properties'),
     unitId: v.optional(v.id('units')), // Optional for common area deliveries
-    deliveryType: v.string(), // "package", "food", "grocery", "mail", "other"
+    deliveryType: v.union(
+      v.literal('package'),
+      v.literal('food'),
+      v.literal('grocery'),
+      v.literal('mail'),
+      v.literal('other')
+    ), // "package", "food", "grocery", "mail", "other"
     senderName: v.string(),
     senderCompany: v.optional(v.string()),
     recipientName: v.string(),
@@ -196,7 +208,14 @@ export default defineSchema({
     description: v.string(),
     estimatedDelivery: v.number(), // Timestamp
     actualDelivery: v.optional(v.number()),
-    status: v.string(), // "pending", "in_transit", "delivered", "collected", "failed", "returned"
+    status: v.union(
+      v.literal('pending'),
+      v.literal('in_transit'),
+      v.literal('delivered'),
+      v.literal('collected'),
+      v.literal('failed'),
+      v.literal('returned')
+    ), // "pending", "in_transit", "delivered", "collected", "failed", "returned"
     deliveryLocation: v.optional(v.string()), // "unit", "lobby", "mailroom", "storage"
     deliveryNotes: v.optional(v.string()),
     photos: v.optional(v.array(v.string())), // Photo URLs
@@ -215,7 +234,13 @@ export default defineSchema({
   deliveryLogs: defineTable({
     deliveryId: v.id('deliveries'),
     propertyId: v.id('properties'),
-    action: v.string(), // "registered", "assigned", "delivered", "collected", "failed"
+    action: v.union(
+      v.literal('registered'),
+      v.literal('assigned'),
+      v.literal('delivered'),
+      v.literal('collected'),
+      v.literal('failed')
+    ), // "registered", "assigned", "delivered", "collected", "failed"
     timestamp: v.number(),
     performedBy: v.optional(v.id('users')),
     notes: v.optional(v.string()),
@@ -235,13 +260,25 @@ export default defineSchema({
     unitId: v.optional(v.id('units')),
     tenantId: v.id('users'),
     invoiceNumber: v.string(),
-    invoiceType: v.string(), // "rent", "maintenance", "utility", "fine", "other"
+    invoiceType: v.union(
+      v.literal('rent'),
+      v.literal('maintenance'),
+      v.literal('utility'),
+      v.literal('fine'),
+      v.literal('other')
+    ), // "rent", "maintenance", "utility", "fine", "other"
     description: v.string(),
     amount: v.number(),
     taxAmount: v.optional(v.number()),
     totalAmount: v.number(),
     dueDate: v.number(),
-    status: v.string(), // "pending", "paid", "overdue", "cancelled", "refunded"
+    status: v.union(
+      v.literal('pending'),
+      v.literal('paid'),
+      v.literal('overdue'),
+      v.literal('cancelled'),
+      v.literal('refunded')
+    ), // "pending", "paid", "overdue", "cancelled", "refunded"
     paidAt: v.optional(v.number()),
     paidAmount: v.optional(v.number()),
     paymentMethod: v.optional(v.string()),
@@ -270,9 +307,14 @@ export default defineSchema({
     propertyId: v.id('properties'),
     tenantId: v.id('users'),
     amount: v.number(),
-    paymentMethod: v.string(), // "credit_card", "bank_transfer", "cash", "crypto"
+    paymentMethod: v.union(
+      v.literal('credit_card'),
+      v.literal('bank_transfer'),
+      v.literal('cash'),
+      v.literal('crypto')
+    ), // "credit_card", "bank_transfer", "cash", "crypto"
     paymentReference: v.optional(v.string()),
-    status: v.string(), // "pending", "completed", "failed", "refunded"
+    status: v.union(v.literal('pending'), v.literal('completed'), v.literal('failed'), v.literal('refunded')), // "pending", "completed", "failed", "refunded"
     processedAt: v.optional(v.number()),
     failureReason: v.optional(v.string()),
     blockchainTxHash: v.optional(v.string()),
@@ -365,7 +407,14 @@ export default defineSchema({
   maintenanceUpdates: defineTable({
     requestId: v.id('maintenanceRequests'),
     propertyId: v.id('properties'),
-    status: v.string(),
+    status: v.union(
+      v.literal('pending'),
+      v.literal('assigned'),
+      v.literal('in_progress'),
+      v.literal('completed'),
+      v.literal('cancelled'),
+      v.literal('rejected')
+    ),
     description: v.string(),
     updatedBy: v.id('users'),
     photos: v.optional(v.array(v.string())),
@@ -385,7 +434,13 @@ export default defineSchema({
     createdBy: v.id('users'),
     title: v.string(),
     content: v.string(),
-    noticeType: v.string(), // "announcement", "maintenance", "payment_reminder", "emergency", "event"
+    noticeType: v.union(
+      v.literal('announcement'),
+      v.literal('maintenance'),
+      v.literal('payment_reminder'),
+      v.literal('emergency'),
+      v.literal('event')
+    ), // "announcement", "maintenance", "payment_reminder", "emergency", "event"
     priority: v.string(), // "low", "medium", "high", "urgent"
     targetAudience: v.string(), // "all", "tenants", "specific_units", "managers"
     targetUnits: v.optional(v.array(v.id('units'))),

@@ -94,7 +94,12 @@ export const seedNotices = mutation({
           createdBy: existingUser._id,
           title: announcement.title,
           content: announcement.content,
-          noticeType: announcement.noticeType,
+          noticeType: announcement.noticeType as
+            | 'announcement'
+            | 'maintenance'
+            | 'payment_reminder'
+            | 'emergency'
+            | 'event',
           priority: announcement.priority,
           targetAudience: announcement.targetAudience,
           targetUnits: undefined,
@@ -147,7 +152,12 @@ export const seedNotices = mutation({
           createdBy: existingUser._id,
           title: reminder.title,
           content: reminder.content,
-          noticeType: reminder.noticeType,
+          noticeType: reminder.noticeType as
+            | 'announcement'
+            | 'maintenance'
+            | 'payment_reminder'
+            | 'emergency'
+            | 'event',
           priority: reminder.priority,
           targetAudience: reminder.targetAudience,
           targetUnits: undefined,
@@ -187,7 +197,12 @@ export const seedNotices = mutation({
           createdBy: existingUser._id,
           title: emergency.title,
           content: emergency.content,
-          noticeType: emergency.noticeType,
+          noticeType: emergency.noticeType as
+            | 'announcement'
+            | 'maintenance'
+            | 'payment_reminder'
+            | 'emergency'
+            | 'event',
           priority: emergency.priority,
           targetAudience: emergency.targetAudience,
           targetUnits: undefined,

@@ -96,7 +96,7 @@ export const webSendNoticeToAllHandler = async (ctx: MutationCtx, args: Args) =>
     createdBy: currentUser._id,
     title: args.title,
     content: args.content,
-    noticeType: args.noticeType,
+    noticeType: args.noticeType as 'announcement' | 'maintenance' | 'payment_reminder' | 'emergency' | 'event',
     priority: args.priority,
     targetAudience: 'all',
     targetUnits: undefined, // No specific units for "all" notices
