@@ -13,15 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
+import { NoticePagination } from './notice-pagination';
 import { NoticeWithDetails } from '../types';
 import { UserAvatar } from '@/components/custom/user-avatar';
 
@@ -29,9 +21,16 @@ interface NoticeTableProps {
   notices: NoticeWithDetails[];
   isLoading?: boolean;
   onNoticeAction?: (action: 'view' | 'edit' | 'delete' | 'acknowledge', notice: NoticeWithDetails) => void;
+  // Pagination props
   currentPage?: number;
   totalPages?: number;
+  hasNextPage?: boolean;
+  hasPreviousPage?: boolean;
   onPageChange?: (page: number) => void;
+  onNextPage?: () => void;
+  onPreviousPage?: () => void;
+  onFirstPage?: () => void;
+  onLastPage?: () => void;
   itemsPerPage?: number;
   totalItems?: number;
 }
@@ -45,7 +44,13 @@ export function NoticeTable({
   onNoticeAction,
   currentPage = 1,
   totalPages = 1,
-  onPageChange,
+  hasNextPage = false,
+  hasPreviousPage = false,
+  onPageChange = () => {},
+  onNextPage = () => {},
+  onPreviousPage = () => {},
+  onFirstPage = () => {},
+  onLastPage = () => {},
   itemsPerPage = 10,
   totalItems = 0,
 }: NoticeTableProps) {
@@ -337,76 +342,23 @@ export function NoticeTable({
         </CardContent>
       </Card>
 
+      {/* Pagination */}
       {totalPages > 1 && (
-        <div className='flex items-center justify-between'>
-          <div className='text-sm text-muted-foreground'>
-            Page {currentPage} of {totalPages}
-          </div>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href='#'
-                  onClick={e => {
-                    e.preventDefault();
-                    if (currentPage > 1 && onPageChange) {
-                      onPageChange(currentPage - 1);
-                    }
-                  }}
-                  className={currentPage <= 1 ? 'pointer-events-none opacity-50' : ''}
-                />
-              </PaginationItem>
-
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                let pageNum;
-                if (totalPages <= 5) {
-                  pageNum = i + 1;
-                } else if (currentPage <= 3) {
-                  pageNum = i + 1;
-                } else if (currentPage >= totalPages - 2) {
-                  pageNum = totalPages - 4 + i;
-                } else {
-                  pageNum = currentPage - 2 + i;
-                }
-
-                return (
-                  <PaginationItem key={pageNum}>
-                    <PaginationLink
-                      href='#'
-                      onClick={e => {
-                        e.preventDefault();
-                        if (onPageChange) {
-                          onPageChange(pageNum);
-                        }
-                      }}
-                      isActive={currentPage === pageNum}
-                    >
-                      {pageNum}
-                    </PaginationLink>
-                  </PaginationItem>
-                );
-              })}
-
-              {totalPages > 5 && currentPage < totalPages - 2 && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-
-              <PaginationItem>
-                <PaginationNext
-                  href='#'
-                  onClick={e => {
-                    e.preventDefault();
-                    if (currentPage < totalPages && onPageChange) {
-                      onPageChange(currentPage + 1);
-                    }
-                  }}
-                  className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : ''}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+        <div className='border-t pt-4'>
+          <NoticePagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            hasNextPage={hasNextPage}
+            hasPreviousPage={hasPreviousPage}
+            onPageChange={onPageChange}
+            onNextPage={onNextPage}
+            onPreviousPage={onPreviousPage}
+            onFirstPage={onFirstPage}
+            onLastPage={onLastPage}
+            isLoading={isLoading}
+            total={totalItems}
+            limit={itemsPerPage}
+          />
         </div>
       )}
     </div>

@@ -31,9 +31,6 @@ import {
   webGetAssetReportsArgs,
   webGetAssetReportsHandler,
   webGetAssetReportsReturns,
-  webGetManagerPropertiesArgs,
-  webGetManagerPropertiesHandler,
-  webGetManagerPropertiesReturns,
 
   // Web Mutations
   webAddAssetArgs,
@@ -145,12 +142,6 @@ export const webGetAssetReports = query({
   args: webGetAssetReportsArgs,
   returns: webGetAssetReportsReturns,
   handler: webGetAssetReportsHandler,
-});
-
-export const webGetManagerProperties = query({
-  args: webGetManagerPropertiesArgs,
-  returns: webGetManagerPropertiesReturns,
-  handler: webGetManagerPropertiesHandler,
 });
 
 // Web Mutations

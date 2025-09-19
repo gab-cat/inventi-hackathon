@@ -84,16 +84,16 @@ export function TablePagination({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className={`flex items-center justify-between ${className}`}>
+    <div className={`flex flex-col sm:flex-row items-center justify-between gap-4 ${className}`}>
       {showPageInfo && (
-        <div className='text-sm text-gray-700'>
+        <div className='text-sm text-gray-700 text-center sm:text-left'>
           {total && limit
             ? `Showing ${(currentPage - 1) * limit + 1} to ${Math.min(currentPage * limit, total)} of ${total} results`
             : `Showing ${(currentPage - 1) * limit + 1} to ${currentPage * limit} results`}
         </div>
       )}
 
-      <div className='flex items-center space-x-2'>
+      <div className='flex items-center space-x-1 sm:space-x-2'>
         <Button
           variant='outline'
           size='sm'
@@ -102,7 +102,7 @@ export function TablePagination({
           className='flex items-center gap-1'
         >
           <ChevronLeft className='h-4 w-4' />
-          Previous
+          <span className='hidden sm:inline'>Previous</span>
         </Button>
 
         <div className='flex items-center space-x-1'>
@@ -116,7 +116,7 @@ export function TablePagination({
                   size='sm'
                   onClick={() => onPageChange(pageNum as number)}
                   disabled={isLoading}
-                  className={`min-w-[40px] ${pageNum === currentPage ? 'bg-blue-500 hover:bg-blue-600' : ''}`}
+                  className={`min-w-[32px] sm:min-w-[40px] ${pageNum === currentPage ? 'bg-blue-500 hover:bg-blue-600' : ''}`}
                 >
                   {pageNum}
                 </Button>
@@ -132,7 +132,7 @@ export function TablePagination({
           disabled={!hasNextPage || isLoading}
           className='flex items-center gap-1'
         >
-          Next
+          <span className='hidden sm:inline'>Next</span>
           <ChevronRight className='h-4 w-4' />
         </Button>
       </div>

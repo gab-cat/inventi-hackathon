@@ -12,6 +12,7 @@ import { Plus, BarChart3, Package, Wrench, AlertTriangle } from 'lucide-react';
 import { AssetDashboard, AssetTable, AssetFilters, AddAssetDialog, AssetAlerts } from '@/features/assets';
 import { ReportsDashboard } from '@/features/reports';
 import { useAssetStore } from '@/stores/asset-store';
+import { usePropertyStore } from '@/features/property';
 import {
   AssetDashboardSkeleton,
   AssetTableSkeleton,
@@ -26,24 +27,17 @@ export default function AssetsPage() {
   // Authentication state
   const { isLoaded, isSignedIn } = useAuth();
 
-  // Zustand store
-  const {
-    selectedTab,
-    setSelectedTab,
-    assetPagination,
-    setAssetPagination,
-    assetFilters,
-    setAssetFilters,
-    selectedPropertyId,
-    setSelectedPropertyId,
-  } = useAssetStore();
+  // Zustand stores
+  const { selectedPropertyId } = usePropertyStore();
+  const { selectedTab, setSelectedTab, assetPagination, setAssetPagination, assetFilters, setAssetFilters } =
+    useAssetStore();
 
   // Local state for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
   // Get properties for the current user
-  const properties = useAuthenticatedQuery(api.assets.webGetManagerProperties, {});
+  const properties = useAuthenticatedQuery(api.property.webGetManagerProperties, {});
 
   // Get dashboard data
   const dashboardData = useAuthenticatedQuery(api.assets.webGetAssetDashboardData, {
@@ -69,6 +63,33 @@ export default function AssetsPage() {
   // We'll use this as a fallback, but for filtered results we'll need to calculate differently
 
   const selectedProperty = properties?.find((p: any) => p._id === selectedPropertyId);
+
+  // Show message if no property is selected
+  if (!selectedPropertyId) {
+    return (
+      <div className='space-y-4 sm:space-y-6'>
+        <div>
+          <h1 className='text-lg sm:text-xl font-bold tracking-tight'>Assets</h1>
+          <p className='text-sm sm:text-base text-muted-foreground'>
+            Please select a property from the sidebar to view assets
+          </p>
+        </div>
+        <div className='flex items-center justify-center py-12'>
+          <div className='text-center space-y-4'>
+            <div className='w-16 h-16 mx-auto bg-muted rounded-full flex items-center justify-center'>
+              <Package className='w-8 h-8 text-muted-foreground' />
+            </div>
+            <div>
+              <h3 className='text-lg font-semibold text-muted-foreground'>No Property Selected</h3>
+              <p className='text-sm text-muted-foreground'>
+                Use the property selector in the sidebar to choose a property and view its assets.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Pagination handlers
   const handlePageChange = (page: number) => {
@@ -187,28 +208,13 @@ export default function AssetsPage() {
       {properties && properties.length > 1 ? (
         <Card>
           <CardHeader>
-            <CardTitle className='text-lg'>Select Property</CardTitle>
-            <CardDescription>Choose a property to view its assets, or view all properties</CardDescription>
+            <CardTitle className='text-lg'>Selected Property</CardTitle>
+            <CardDescription>Assets for the currently selected property</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className='flex gap-2 flex-wrap'>
-              <Button
-                variant={selectedPropertyId === undefined ? 'default' : 'outline'}
-                onClick={() => setSelectedPropertyId(undefined)}
-                className={selectedPropertyId === undefined ? 'bg-blue-500 hover:bg-blue-600' : ''}
-              >
-                All Properties
-              </Button>
-              {properties.map((property: any) => (
-                <Button
-                  key={property._id}
-                  variant={selectedPropertyId === property._id ? 'default' : 'outline'}
-                  onClick={() => setSelectedPropertyId(property._id)}
-                  className={selectedPropertyId === property._id ? 'bg-blue-500 hover:bg-blue-600' : ''}
-                >
-                  {property.name}
-                </Button>
-              ))}
+            <div className='flex items-center gap-2'>
+              <div className='w-3 h-3 bg-blue-500 rounded-full'></div>
+              <span className='font-medium'>{selectedProperty?.name || 'No property selected'}</span>
             </div>
           </CardContent>
         </Card>
@@ -268,7 +274,7 @@ export default function AssetsPage() {
                   onFiltersChange={setAssetFilters}
                   properties={properties}
                   selectedPropertyId={selectedPropertyId as Id<'properties'> | undefined}
-                  onPropertyChange={setSelectedPropertyId}
+                  onPropertyChange={() => {}}
                 />
               )}
             </div>

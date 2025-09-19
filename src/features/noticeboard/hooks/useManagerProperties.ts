@@ -7,7 +7,7 @@ export function useManagerProperties(): {
   isLoading: boolean;
   error?: string;
 } {
-  const properties = useQuery(api.noticeboard.webGetManagerProperties) as PropertyWithStats[] | undefined;
+  const properties = useQuery(api.property.webGetManagerProperties) as PropertyWithStats[] | undefined;
 
   const isLoading = properties === undefined;
   const error = properties === null ? 'Failed to load properties' : undefined;

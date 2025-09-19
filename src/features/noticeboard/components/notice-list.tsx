@@ -15,6 +15,16 @@ export function NoticeList({
   itemsPerPage = 10,
   totalItems = 0,
 }: NoticeListProps) {
+  // Calculate pagination state
+  const hasNextPage = currentPage < totalPages;
+  const hasPreviousPage = currentPage > 1;
+
+  // Simple pagination handlers
+  const handleNextPage = () => onPageChange?.(currentPage + 1);
+  const handlePreviousPage = () => onPageChange?.(currentPage - 1);
+  const handleFirstPage = () => onPageChange?.(1);
+  const handleLastPage = () => onPageChange?.(totalPages);
+
   return (
     <NoticeTable
       notices={notices}
@@ -22,7 +32,13 @@ export function NoticeList({
       onNoticeAction={onNoticeAction}
       currentPage={currentPage}
       totalPages={totalPages}
+      hasNextPage={hasNextPage}
+      hasPreviousPage={hasPreviousPage}
       onPageChange={onPageChange}
+      onNextPage={handleNextPage}
+      onPreviousPage={handlePreviousPage}
+      onFirstPage={handleFirstPage}
+      onLastPage={handleLastPage}
       itemsPerPage={itemsPerPage}
       totalItems={totalItems}
     />

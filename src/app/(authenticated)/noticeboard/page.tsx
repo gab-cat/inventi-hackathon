@@ -16,9 +16,11 @@ import { useNoticeMutations } from '@/features/noticeboard/hooks/useNoticeMutati
 import { useNoticeDetail } from '@/features/noticeboard/hooks/useNoticeDetail';
 import { useAllUnits } from '@/features/noticeboard/hooks/useAllUnits';
 import { useManagerProperties } from '@/features/noticeboard/hooks/useManagerProperties';
+import { usePropertyStore } from '@/features/property';
 import { CreateNoticeForm, UpdateNoticeForm, NoticeWithDetails } from '@/features/noticeboard/types';
 
 export default function NoticeboardPage() {
+  const { selectedPropertyId } = usePropertyStore();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingNotice, setEditingNotice] = useState<NoticeWithDetails | null>(null);
   const [viewingNotice, setViewingNotice] = useState<Id<'notices'> | null>(null);
@@ -37,9 +39,9 @@ export default function NoticeboardPage() {
     onPageChange,
     itemsPerPage,
     totalItems,
-  } = useNotices();
+  } = useNotices({ propertyId: selectedPropertyId });
   const { properties, isLoading: propertiesLoading } = useManagerProperties();
-  const { units, isLoading: unitsLoading } = useAllUnits();
+  const { units, isLoading: unitsLoading } = useAllUnits(selectedPropertyId);
   const {
     createNotice,
     updateNotice,
@@ -106,12 +108,37 @@ export default function NoticeboardPage() {
   // Get units for the selected property
   const selectedPropertyUnits = properties.find(p => p._id === filters.propertyId)?.occupiedUnits || 0;
 
+  // Show message if no property is selected
+  if (!selectedPropertyId) {
+    return (
+      <div className='container mx-auto pb-6 space-y-6'>
+        <div>
+          <h1 className='text-xl font-bold'>Noticeboard Management</h1>
+          <p className='text-muted-foreground'>Please select a property from the sidebar to view notices</p>
+        </div>
+        <div className='flex items-center justify-center py-12'>
+          <div className='text-center space-y-4'>
+            <div className='w-16 h-16 mx-auto bg-muted rounded-full flex items-center justify-center'>
+              <MessageSquare className='w-8 h-8 text-muted-foreground' />
+            </div>
+            <div>
+              <h3 className='text-lg font-semibold text-muted-foreground'>No Property Selected</h3>
+              <p className='text-sm text-muted-foreground'>
+                Use the property selector in the sidebar to choose a property and view its notices.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className='container mx-auto pb-6 space-y-6'>
       <div className='flex items-center justify-between'>
         <div>
           <h1 className='text-xl font-bold'>Noticeboard Management</h1>
-          <p className='text-muted-foreground'>Create and manage notices for your properties</p>
+          <p className='text-muted-foreground'>Create and manage notices for the selected property</p>
         </div>
         <Button
           onClick={() => setShowCreateModal(true)}
