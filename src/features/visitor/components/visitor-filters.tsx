@@ -25,6 +25,8 @@ export function VisitorFilters({ onFiltersChange, onClearFilters }: VisitorFilte
   const [status, setStatus] = useState('all');
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
+  const [startDateOpen, setStartDateOpen] = useState(false);
+  const [endDateOpen, setEndDateOpen] = useState(false);
 
   const handleApplyFilters = () => {
     onFiltersChange({
@@ -40,6 +42,8 @@ export function VisitorFilters({ onFiltersChange, onClearFilters }: VisitorFilte
     setStatus('all');
     setStartDate(undefined);
     setEndDate(undefined);
+    setStartDateOpen(false);
+    setEndDateOpen(false);
     onClearFilters();
   };
 
@@ -73,35 +77,85 @@ export function VisitorFilters({ onFiltersChange, onClearFilters }: VisitorFilte
         </SelectContent>
       </Select>
 
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant='outline'
-            className={cn('w-[240px] justify-start text-left font-normal', !startDate && 'text-muted-foreground')}
-          >
-            <CalendarIcon className='mr-2 h-4 w-4' />
-            {startDate ? format(startDate, 'PPP') : 'Start Date'}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className='w-auto p-0' align='start'>
-          <Calendar mode='single' selected={startDate} onSelect={setStartDate} initialFocus />
-        </PopoverContent>
-      </Popover>
+      <div className='relative flex gap-2'>
+        <Input
+          value={startDate ? format(startDate, 'PPP') : ''}
+          placeholder='Start Date'
+          className='w-[240px] bg-background pr-10'
+          onChange={e => {
+            const date = new Date(e.target.value);
+            if (!isNaN(date.getTime())) {
+              setStartDate(date);
+            }
+          }}
+          onKeyDown={e => {
+            if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              setStartDateOpen(true);
+            }
+          }}
+        />
+        <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
+          <PopoverTrigger asChild>
+            <Button variant='ghost' className='absolute top-1/2 right-2 size-6 -translate-y-1/2'>
+              <CalendarIcon className='size-3.5' />
+              <span className='sr-only'>Select start date</span>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className='w-auto overflow-hidden p-0' align='end' alignOffset={-8} sideOffset={10}>
+            <Calendar
+              mode='single'
+              selected={startDate}
+              captionLayout='dropdown'
+              onSelect={date => {
+                setStartDate(date);
+                setStartDateOpen(false);
+              }}
+              disabled={date => (endDate ? date > endDate : false)}
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
 
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant='outline'
-            className={cn('w-[240px] justify-start text-left font-normal', !endDate && 'text-muted-foreground')}
-          >
-            <CalendarIcon className='mr-2 h-4 w-4' />
-            {endDate ? format(endDate, 'PPP') : 'End Date'}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className='w-auto p-0' align='start'>
-          <Calendar mode='single' selected={endDate} onSelect={setEndDate} initialFocus />
-        </PopoverContent>
-      </Popover>
+      <div className='relative flex gap-2'>
+        <Input
+          value={endDate ? format(endDate, 'PPP') : ''}
+          placeholder='End Date'
+          className='w-[240px] bg-background pr-10'
+          onChange={e => {
+            const date = new Date(e.target.value);
+            if (!isNaN(date.getTime())) {
+              setEndDate(date);
+            }
+          }}
+          onKeyDown={e => {
+            if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              setEndDateOpen(true);
+            }
+          }}
+        />
+        <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
+          <PopoverTrigger asChild>
+            <Button variant='ghost' className='absolute top-1/2 right-2 size-6 -translate-y-1/2'>
+              <CalendarIcon className='size-3.5' />
+              <span className='sr-only'>Select end date</span>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className='w-auto overflow-hidden p-0' align='end' alignOffset={-8} sideOffset={10}>
+            <Calendar
+              mode='single'
+              selected={endDate}
+              captionLayout='dropdown'
+              onSelect={date => {
+                setEndDate(date);
+                setEndDateOpen(false);
+              }}
+              disabled={date => (startDate ? date < startDate : false)}
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
 
       <div className='flex gap-2'>
         <Button onClick={handleApplyFilters} size='sm'>

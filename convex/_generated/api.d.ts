@@ -114,7 +114,10 @@ import type * as propertyDefinitions_web_queries_getManagerProperties from "../p
 import type * as propertyDefinitions_web_queries_index from "../propertyDefinitions/web/queries/index.js";
 import type * as seeders_assets from "../seeders/assets.js";
 import type * as seeders_notice from "../seeders/notice.js";
-import type * as seeders_seed from "../seeders/seed.js";
+import type * as seeders_units from "../seeders/units.js";
+import type * as seeders_visitorLogs from "../seeders/visitorLogs.js";
+import type * as seeders_visitorRequests from "../seeders/visitorRequests.js";
+import type * as seeders_watchlist from "../seeders/watchlist.js";
 import type * as tech from "../tech.js";
 import type * as techDefinitions_mobile_index from "../techDefinitions/mobile/index.js";
 import type * as techDefinitions_mobile_mutations_addMaintenancePhoto from "../techDefinitions/mobile/mutations/addMaintenancePhoto.js";
@@ -294,7 +297,10 @@ declare const fullApi: ApiFromModules<{
   "propertyDefinitions/web/queries/index": typeof propertyDefinitions_web_queries_index;
   "seeders/assets": typeof seeders_assets;
   "seeders/notice": typeof seeders_notice;
-  "seeders/seed": typeof seeders_seed;
+  "seeders/units": typeof seeders_units;
+  "seeders/visitorLogs": typeof seeders_visitorLogs;
+  "seeders/visitorRequests": typeof seeders_visitorRequests;
+  "seeders/watchlist": typeof seeders_watchlist;
   tech: typeof tech;
   "techDefinitions/mobile/index": typeof techDefinitions_mobile_index;
   "techDefinitions/mobile/mutations/addMaintenancePhoto": typeof techDefinitions_mobile_mutations_addMaintenancePhoto;

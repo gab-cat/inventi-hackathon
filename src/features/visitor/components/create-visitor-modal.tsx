@@ -23,7 +23,7 @@ import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { useVisitorMutations } from '../hooks/useVisitorMutations';
-import { Id } from '@/convex/_generated/dataModel';
+import { Id } from '@convex/_generated/dataModel';
 
 const createVisitorSchema = z.object({
   visitorName: z.string().min(1, 'Visitor name is required'),
@@ -33,7 +33,7 @@ const createVisitorSchema = z.object({
   visitorIdType: z.string().optional(),
   purpose: z.string().min(1, 'Purpose is required'),
   expectedArrival: z.date({
-    required_error: 'Expected arrival date is required',
+    error: 'Expected arrival date is required',
   }),
   expectedDeparture: z.date().optional(),
   numberOfVisitors: z.number().min(1, 'Number of visitors must be at least 1'),
@@ -226,70 +226,165 @@ export function CreateVisitorModal({ open, onOpenChange, propertyId, unitId, onS
               <FormField
                 control={form.control}
                 name='expectedArrival'
-                render={({ field }) => (
-                  <FormItem className='flex flex-col'>
-                    <FormLabel>Expected Arrival *</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
+                render={({ field }) => {
+                  const [open, setOpen] = useState(false);
+                  const [month, setMonth] = useState<Date | undefined>(field.value);
+                  const [value, setValue] = useState(field.value ? format(field.value, 'PPP') : '');
+
+                  const formatDate = (date: Date | undefined) => {
+                    if (!date) return '';
+                    return format(date, 'PPP');
+                  };
+
+                  const isValidDate = (date: Date | undefined) => {
+                    if (!date) return false;
+                    return !isNaN(date.getTime());
+                  };
+
+                  return (
+                    <FormItem className='flex flex-col'>
+                      <FormLabel>Expected Arrival *</FormLabel>
+                      <div className='relative flex gap-2'>
                         <FormControl>
-                          <Button
-                            variant='outline'
-                            className={cn('w-full pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}
-                          >
-                            {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
-                            <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
-                          </Button>
+                          <div className='relative'>
+                            <Input
+                              value={value}
+                              placeholder='Pick a date'
+                              className='bg-background pr-10'
+                              onChange={e => {
+                                const date = new Date(e.target.value);
+                                setValue(e.target.value);
+                                if (isValidDate(date)) {
+                                  field.onChange(date);
+                                  setMonth(date);
+                                }
+                              }}
+                              onKeyDown={e => {
+                                if (e.key === 'ArrowDown') {
+                                  e.preventDefault();
+                                  setOpen(true);
+                                }
+                              }}
+                            />
+                            <Popover open={open} onOpenChange={setOpen}>
+                              <PopoverTrigger asChild>
+                                <Button variant='ghost' className='absolute top-1/2 right-2 size-6 -translate-y-1/2'>
+                                  <CalendarIcon className='size-3.5' />
+                                  <span className='sr-only'>Select date</span>
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent
+                                className='w-auto overflow-hidden p-0'
+                                align='end'
+                                alignOffset={-8}
+                                sideOffset={10}
+                              >
+                                <Calendar
+                                  mode='single'
+                                  selected={field.value}
+                                  captionLayout='dropdown'
+                                  month={month}
+                                  onMonthChange={setMonth}
+                                  onSelect={date => {
+                                    field.onChange(date);
+                                    setValue(formatDate(date));
+                                    setOpen(false);
+                                  }}
+                                  disabled={date => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </div>
                         </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className='w-auto p-0' align='start'>
-                        <Calendar
-                          mode='single'
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={date => date < new Date()}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
 
               <FormField
                 control={form.control}
                 name='expectedDeparture'
-                render={({ field }) => (
-                  <FormItem className='flex flex-col'>
-                    <FormLabel>Expected Departure</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
+                render={({ field }) => {
+                  const [open, setOpen] = useState(false);
+                  const [month, setMonth] = useState<Date | undefined>(field.value);
+                  const [value, setValue] = useState(field.value ? format(field.value, 'PPP') : '');
+
+                  const formatDate = (date: Date | undefined) => {
+                    if (!date) return '';
+                    return format(date, 'PPP');
+                  };
+
+                  const isValidDate = (date: Date | undefined) => {
+                    if (!date) return false;
+                    return !isNaN(date.getTime());
+                  };
+
+                  return (
+                    <FormItem className='flex flex-col'>
+                      <FormLabel>Expected Departure</FormLabel>
+                      <div className='relative flex gap-2'>
                         <FormControl>
-                          <Button
-                            variant='outline'
-                            className={cn('w-full pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}
-                          >
-                            {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
-                            <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
-                          </Button>
+                          <div className='relative'>
+                            <Input
+                              value={value}
+                              placeholder='Pick a date'
+                              className='bg-background pr-10'
+                              onChange={e => {
+                                const date = new Date(e.target.value);
+                                setValue(e.target.value);
+                                if (isValidDate(date)) {
+                                  field.onChange(date);
+                                  setMonth(date);
+                                }
+                              }}
+                              onKeyDown={e => {
+                                if (e.key === 'ArrowDown') {
+                                  e.preventDefault();
+                                  setOpen(true);
+                                }
+                              }}
+                            />
+                            <Popover open={open} onOpenChange={setOpen}>
+                              <PopoverTrigger asChild>
+                                <Button variant='ghost' className='absolute top-1/2 right-2 size-6 -translate-y-1/2'>
+                                  <CalendarIcon className='size-3.5' />
+                                  <span className='sr-only'>Select date</span>
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent
+                                className='w-auto overflow-hidden p-0'
+                                align='end'
+                                alignOffset={-8}
+                                sideOffset={10}
+                              >
+                                <Calendar
+                                  mode='single'
+                                  selected={field.value}
+                                  captionLayout='dropdown'
+                                  month={month}
+                                  onMonthChange={setMonth}
+                                  onSelect={date => {
+                                    field.onChange(date);
+                                    setValue(formatDate(date));
+                                    setOpen(false);
+                                  }}
+                                  disabled={date => {
+                                    const arrivalDate = form.getValues('expectedArrival');
+                                    const today = new Date(new Date().setHours(0, 0, 0, 0));
+                                    return date < (arrivalDate || today);
+                                  }}
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </div>
                         </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className='w-auto p-0' align='start'>
-                        <Calendar
-                          mode='single'
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={date => {
-                            const arrivalDate = form.getValues('expectedArrival');
-                            return date < (arrivalDate || new Date());
-                          }}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
             </div>
 
