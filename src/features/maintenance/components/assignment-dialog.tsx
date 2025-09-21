@@ -25,7 +25,7 @@ interface AssignmentDialogProps {
 
 export function AssignmentDialog({ requestId, isOpen, onClose, onSuccess }: AssignmentDialogProps) {
   const [selectedTechnician, setSelectedTechnician] = useState<Id<'users'> | null>(null);
-  const technicians = useQuery(api.maintenance.getTechnicians, {});
+  const technicians = useQuery(api.maintenance.webGetTechnicians, {});
   const { assignTechnician } = useMaintenanceMutations();
 
   const handleAssign = async () => {

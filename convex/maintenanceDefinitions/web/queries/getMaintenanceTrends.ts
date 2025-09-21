@@ -2,7 +2,7 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getMaintenanceTrendsArgs = {
+export const webGetMaintenanceTrendsArgs = {
   propertyId: v.optional(v.id('properties')),
   // interval in days for grouping (1 = daily, 7 = weekly, 30 = monthly approx)
   bucketDays: v.optional(v.number()),
@@ -10,7 +10,7 @@ export const getMaintenanceTrendsArgs = {
   dateTo: v.optional(v.number()),
 } as const;
 
-export const getMaintenanceTrendsReturns = v.object({
+export const webGetMaintenanceTrendsReturns = v.object({
   buckets: v.array(
     v.object({
       start: v.number(),
@@ -28,7 +28,7 @@ type Args = {
   dateTo?: number;
 };
 
-export const getMaintenanceTrendsHandler = async (ctx: QueryCtx, args: Args) => {
+export const webGetMaintenanceTrendsHandler = async (ctx: QueryCtx, args: Args) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
   const currentUser = await ctx.db

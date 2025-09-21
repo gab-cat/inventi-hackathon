@@ -10,6 +10,7 @@ import { useMaintenanceRequests } from '@/features/maintenance/hooks/useMaintena
 import { useMaintenanceKPIs } from '@/features/maintenance/hooks/useMaintenanceKPIs';
 import { useMaintenanceMutations } from '@/features/maintenance/hooks/useMaintenanceMutations';
 import { MaintenanceFilters, STATUSES, PRIORITIES, REQUEST_TYPES } from '@/features/maintenance/types';
+import { usePropertyStore } from '@/features/property';
 import { Id } from '@convex/_generated/dataModel';
 import {
   MaintenancePageSkeleton,
@@ -17,8 +18,10 @@ import {
   MaintenanceDetailSheetSkeleton,
   AssignmentDialogSkeleton,
 } from '@/features/maintenance/components/skeletons';
+import { MaintenanceRequestStatus } from '../../../../mobile/lib/tech.types';
 
 export default function MaintenancePage() {
+  const { selectedPropertyId } = usePropertyStore();
   const [filters, setFilters] = useState<MaintenanceFilters>({});
   const [pagination, setPagination] = useState({ numItems: 20, cursor: null as string | null });
   const [search, setSearch] = useState('');
@@ -32,8 +35,14 @@ export default function MaintenancePage() {
   }>({ isOpen: false, requestId: null });
   const [viewMode, setViewMode] = useState<'kanban' | 'table'>('kanban');
 
-  const requests = useMaintenanceRequests(filters, pagination);
-  const kpis = useMaintenanceKPIs();
+  // Filter maintenance requests by selected property
+  const maintenanceFilters = {
+    ...filters,
+    propertyId: selectedPropertyId,
+  };
+
+  const requests = useMaintenanceRequests(maintenanceFilters, pagination);
+  const kpis = useMaintenanceKPIs({ propertyId: selectedPropertyId });
   const { updateStatus } = useMaintenanceMutations();
 
   const handleFilterChange = (key: keyof MaintenanceFilters, value: any) => {
@@ -62,7 +71,7 @@ export default function MaintenancePage() {
 
   const handleStatusChange = async (requestId: string, newStatus: string) => {
     try {
-      await updateStatus(requestId as Id<'maintenanceRequests'>, newStatus);
+      await updateStatus(requestId as Id<'maintenanceRequests'>, newStatus as MaintenanceRequestStatus);
       // Refresh the data
       setPagination({ numItems: 20, cursor: null });
     } catch (error) {
@@ -70,12 +79,46 @@ export default function MaintenancePage() {
     }
   };
 
+  // Show message if no property is selected
+  if (!selectedPropertyId) {
+    return (
+      <div className='space-y-4 sm:space-y-6'>
+        <div>
+          <h1 className='text-lg sm:text-xl font-bold tracking-tight'>Maintenance</h1>
+          <p className='text-sm sm:text-base text-muted-foreground'>
+            Please select a property from the sidebar to view maintenance requests
+          </p>
+        </div>
+        <div className='flex items-center justify-center py-12'>
+          <div className='text-center space-y-4'>
+            <div className='w-16 h-16 mx-auto bg-muted rounded-full flex items-center justify-center'>
+              <svg className='w-8 h-8 text-muted-foreground' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 className='text-lg font-semibold text-muted-foreground'>No Property Selected</h3>
+              <p className='text-sm text-muted-foreground'>
+                Use the property selector in the sidebar to choose a property and view its maintenance requests.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className='space-y-4 sm:space-y-6'>
       <div>
         <h1 className='text-lg sm:text-xl font-bold tracking-tight'>Maintenance</h1>
         <p className='text-sm sm:text-base text-muted-foreground'>
-          Manage and track maintenance requests across all properties
+          Manage and track maintenance requests for the selected property
         </p>
       </div>
 

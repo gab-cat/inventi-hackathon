@@ -5,5 +5,5 @@ import { api } from '@convex/_generated/api';
 import { TechnicianWorkload } from '../types';
 
 export function useTechnicianWorkload(propertyId?: Id<'properties'>) {
-  return useQuery(api.maintenance.getTechnicianWorkload, { propertyId }) as TechnicianWorkload[] | undefined;
+  return useQuery(api.maintenance.webGetTechnicianWorkload, { propertyId }) as TechnicianWorkload[] | undefined;
 }

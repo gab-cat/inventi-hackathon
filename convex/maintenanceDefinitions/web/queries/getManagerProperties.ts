@@ -2,9 +2,9 @@ import { v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const getManagerPropertiesArgs = {} as const;
+export const webGetManagerPropertiesArgs = {} as const;
 
-export const getManagerPropertiesReturns = v.array(
+export const webGetManagerPropertiesReturns = v.array(
   v.object({
     _id: v.id('properties'),
     name: v.string(),
@@ -18,7 +18,7 @@ export const getManagerPropertiesReturns = v.array(
   })
 );
 
-export const getManagerPropertiesHandler = async (ctx: QueryCtx) => {
+export const webGetManagerPropertiesHandler = async (ctx: QueryCtx) => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new Error('Unauthorized');
 

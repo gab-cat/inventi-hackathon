@@ -2,12 +2,12 @@ import { v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 
-export const assignTechnicianArgs = {
+export const webAssignTechnicianArgs = {
   requestId: v.id('maintenanceRequests'),
   technicianId: v.id('users'),
 } as const;
 
-export const assignTechnicianHandler = async (
+export const webAssignTechnicianHandler = async (
   ctx: MutationCtx,
   args: { requestId: Id<'maintenanceRequests'>; technicianId: Id<'users'> }
 ) => {
