@@ -219,6 +219,8 @@ export interface NoticeFilters {
   dateTo?: number;
   search?: string;
   createdBy?: Id<'users'>;
+  status?: string;
+  assignedTo?: Id<'users'>;
 }
 
 // API response types

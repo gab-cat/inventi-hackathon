@@ -67,6 +67,21 @@ const data = {
       url: '/messages',
       icon: <MessageSquare className='h-5 w-5' />,
     },
+    {
+      title: 'Messages',
+      url: '/messaging',
+      icon: <MessageSquare className='h-5 w-5' />,
+    },
+    {
+      title: 'Polls',
+      url: '/polls',
+      icon: <BarChart3 className='h-5 w-5' />,
+    },
+    {
+      title: 'Visitors',
+      url: '/visitors',
+      icon: <Users className='h-5 w-5' />,
+    },
   ],
 };
 

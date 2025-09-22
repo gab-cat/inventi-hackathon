@@ -1,9 +1,9 @@
 import { api } from '@convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
-import { AssetFilters } from '../types';
+import { AssetFiltersType } from '../types';
 import { useAuthenticatedQuery } from '@/hooks/use-authenticated-query';
 
-export function useAssets(filters: AssetFilters & { propertyId?: Id<'properties'> }) {
+export function useAssets(filters: AssetFiltersType & { propertyId?: Id<'properties'> }) {
   return useAuthenticatedQuery(api.assets.webGetAssets, {
     paginationOpts: { numItems: 50, cursor: null },
     propertyId: filters.propertyId,

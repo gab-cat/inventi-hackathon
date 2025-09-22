@@ -48,7 +48,7 @@ export interface Asset {
   daysUntilWarrantyExpiry?: number;
 }
 
-export interface AssetFilters {
+export interface AssetFiltersType {
   category?: string;
   status?: string;
   condition?: string;
