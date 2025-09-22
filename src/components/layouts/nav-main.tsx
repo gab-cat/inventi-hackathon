@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
 
 interface NavItem {
   title: string;
@@ -9,30 +10,28 @@ interface NavItem {
   icon: React.ReactNode;
 }
 
-interface NavMainProps {
+interface NavItemsProps {
   items: NavItem[];
 }
 
-export function NavMain({ items }: NavMainProps) {
+export function NavItems({ items }: NavItemsProps) {
   const pathname = usePathname();
 
   return (
-    <nav className='flex flex-col space-y-1'>
+    <SidebarMenu>
       {items.map(item => {
         const isActive = pathname === item.url;
         return (
-          <Link
-            key={item.title}
-            href={item.url}
-            className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors
-              ${isActive ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800'}
-            `}
-          >
-            {item.icon}
-            {item.title}
-          </Link>
+          <SidebarMenuItem key={item.title}>
+            <SidebarMenuButton asChild isActive={isActive}>
+              <Link href={item.url}>
+                {item.icon}
+                <span>{item.title}</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         );
       })}
-    </nav>
+    </SidebarMenu>
   );
 }

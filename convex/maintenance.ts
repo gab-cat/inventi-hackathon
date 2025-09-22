@@ -29,6 +29,12 @@ import {
   webUpdateMaintenanceCostHandler,
   webBulkUpdateStatusArgs,
   webBulkUpdateStatusHandler,
+  webGetMaintenanceUpdatesArgs,
+  webGetMaintenanceUpdatesHandler,
+  webGetMaintenanceUpdatesReturns,
+  webGetMaintenanceUpdatesCountArgs,
+  webGetMaintenanceUpdatesCountHandler,
+  webGetMaintenanceUpdatesCountReturns,
   tenantConfirmCompletionArgs,
   tenantConfirmCompletionHandler,
 } from './maintenanceDefinitions/index';
@@ -74,6 +80,18 @@ export const webGetUnitsByProperty = query({
   args: webGetUnitsByPropertyArgs,
   returns: webGetUnitsByPropertyReturns,
   handler: webGetUnitsByPropertyHandler,
+});
+
+export const webGetMaintenanceUpdates = query({
+  args: webGetMaintenanceUpdatesArgs,
+  returns: webGetMaintenanceUpdatesReturns,
+  handler: webGetMaintenanceUpdatesHandler,
+});
+
+export const webGetMaintenanceUpdatesCount = query({
+  args: webGetMaintenanceUpdatesCountArgs,
+  returns: webGetMaintenanceUpdatesCountReturns,
+  handler: webGetMaintenanceUpdatesCountHandler,
 });
 
 // Web Mutations

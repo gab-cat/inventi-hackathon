@@ -85,3 +85,51 @@ export const STATUSES = ['pending', 'assigned', 'in_progress', 'completed', 'can
 export type RequestType = (typeof REQUEST_TYPES)[number];
 export type Priority = (typeof PRIORITIES)[number];
 export type Status = (typeof STATUSES)[number];
+
+export interface MaintenanceUpdate {
+  _id: Id<'maintenanceUpdates'>;
+  _creationTime: number;
+  requestId: Id<'maintenanceRequests'>;
+  propertyId: Id<'properties'>;
+  status: Status;
+  description: string;
+  updatedBy: Id<'users'>;
+  photos?: string[];
+  timestamp: number;
+  // Denormalized fields
+  requestTitle?: string;
+  propertyName?: string;
+  updatedByName?: string;
+  updatedByEmail?: string;
+}
+
+export interface MaintenanceUpdateFilters {
+  requestId?: Id<'maintenanceRequests'>;
+  propertyId?: Id<'properties'>;
+  status?: Status;
+  updatedBy?: Id<'users'>;
+  dateFrom?: number;
+  dateTo?: number;
+}
+
+export interface PaginatedMaintenanceUpdates {
+  page: MaintenanceUpdate[];
+  isDone: boolean;
+  continueCursor: string | null;
+}
+
+export interface UseMaintenanceUpdatesReturn {
+  updates: MaintenanceUpdate[];
+  isLoading: boolean;
+  hasMore: boolean;
+  loadMore: () => void;
+  refetch: () => void;
+  filters: MaintenanceUpdateFilters;
+  setFilters: (filters: MaintenanceUpdateFilters) => void;
+  // Pagination props
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  itemsPerPage: number;
+  totalItems: number;
+}
