@@ -44,7 +44,7 @@ export default function TechRequestDetailsScreen() {
   // Mutations
   const updateStatus = useMutation(api.tech.updateRequestStatus);
   const addPhoto = useMutation(api.tech.addMaintenancePhoto);
-  const generateUploadUrl = useMutation(api.tech.generateUploadUrl);
+  const generateUploadUrl = useMutation(api.file.generateUploadUrl);
   const saveUploadedPhoto = useMutation(api.tech.saveUploadedPhoto);
   const updateCost = useMutation(api.tech.updateMaintenanceCost);
   const requestApproval = useMutation(api.tech.requestTenantApproval);
@@ -69,7 +69,7 @@ export default function TechRequestDetailsScreen() {
       );
 
       // Step 2: Generate upload URL
-      const urlResult = await generateUploadUrl();
+      const urlResult = await generateUploadUrl({});
       if (!urlResult.success || !urlResult.uploadUrl) {
         throw new Error(urlResult.message || 'Failed to generate upload URL');
       }

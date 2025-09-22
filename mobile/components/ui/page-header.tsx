@@ -18,7 +18,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, subtitle, type, icon, rightSlot, className = '' }: PageHeaderProps) {
   return (
-    <View className={`pt-16 px-5 pb-5 bg-blue-800 rounded-b-[20px] ${className}`}>
+    <View className={`pt-12 px-5 pb-5 bg-blue-800 rounded-b-[20px] ${className}`}>
       <View className='flex-row justify-between items-center'>
         {/* Left side: Icon (root) or Back button (back) */}
         {type === 'root' ? (

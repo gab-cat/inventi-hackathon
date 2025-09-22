@@ -61,7 +61,7 @@ export function ErrorPage({ error, onReset }: ErrorPageProps) {
 
         {error && (
           <View className='bg-muted p-4 rounded-lg mb-6 max-w-xs'>
-            <Text className='text-sm text-muted-foreground font-mono'>{error.message}</Text>
+            <Text className='text-sm text-muted-foreground font-mono line-clamp-6'>{error.message}</Text>
           </View>
         )}
       </View>

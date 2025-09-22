@@ -94,9 +94,10 @@ export default function ServicesScreen() {
       </ThemedView>
     );
 
-    if (service.available && service.id === 'maintenance') {
+    if (service.available && (service.id === 'maintenance' || service.id === 'visitor-management')) {
       return (
-        <Link key={service.id} href='/maintenance' asChild>
+        // @ts-expect-error TODO: fix this
+        <Link key={service.id} href={service.route} asChild>
           <TouchableOpacity className='bg-white rounded-xl p-4 shadow-sm border border-gray-100'>
             {cardContent}
           </TouchableOpacity>

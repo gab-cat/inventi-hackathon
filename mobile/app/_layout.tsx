@@ -10,6 +10,9 @@ import { tokenCache } from '@clerk/clerk-expo/token-cache';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { ErrorBoundary } from '@/components/error-boundary';
+import { usePropertyStore } from '@/stores/user.store';
+import { useEffect, useState } from 'react';
+import { View, ActivityIndicator } from 'react-native';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -26,6 +29,36 @@ if (!publishableKey) {
   throw new Error('Missing EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY');
 }
 
+function AppInitializer() {
+  const { initializeStore, isInitialized } = usePropertyStore();
+  const [isStoreLoading, setIsStoreLoading] = useState(true);
+
+  useEffect(() => {
+    const initStore = async () => {
+      try {
+        await initializeStore();
+      } catch (error) {
+        console.error('Failed to initialize store:', error);
+      } finally {
+        setIsStoreLoading(false);
+      }
+    };
+
+    initStore();
+  }, [initializeStore]);
+
+  // Show loading screen while initializing store
+  if (!isInitialized || isStoreLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' color='#007AFF' />
+      </View>
+    );
+  }
+
+  return null; // This component only handles initialization
+}
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
@@ -34,6 +67,7 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
           <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+            <AppInitializer />
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name='(auth)' options={{ headerShown: false }} />
               <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
