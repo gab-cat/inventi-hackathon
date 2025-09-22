@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { TextField } from '@/components/ui/TextField';
 import { Icon } from '@/components/ui/icon';
+import { PageHeader } from '@/components/ui/page-header';
 import { Dropdown } from '@/components/ui/dropdown';
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, FileText, AlertTriangle, Building2, Plus, Home, ArrowRight } from 'lucide-react-native';
@@ -68,27 +69,19 @@ export default function NewMaintenanceRequest() {
 
   return (
     <ThemedView style={{ flex: 1 }} className='bg-slate-50'>
-      {/* Header */}
-      <View className='pt-16 px-5 pb-5 bg-blue-800 rounded-b-[20px]'>
-        <View className='flex-row justify-between items-center'>
-          <View className='flex-row items-center gap-3'>
-            <View className='w-12 h-12 rounded-xl bg-white/20 items-center justify-center'>
-              <Icon as={Plus} size={28} className='text-white' />
-            </View>
-            <View>
-              <Text className='text-3xl font-bold text-white tracking-tight'>New Request</Text>
-              <Text className='text-sm text-white/80 mt-0.5'>Submit a maintenance request</Text>
-            </View>
-          </View>
-
+      <PageHeader
+        title="New Request"
+        subtitle="Submit a maintenance request"
+        type="back"
+        rightSlot={
           <Button className='bg-white rounded-xl px-4 py-3' onPress={() => router.back()}>
             <View className='flex-row items-center gap-2'>
               <Icon as={ArrowLeft} size={18} className='text-blue-800' />
               <Text className='text-blue-800 text-sm font-semibold'>Back</Text>
             </View>
           </Button>
-        </View>
-      </View>
+        }
+      />
 
       <ScrollView
         contentContainerStyle={{ padding: 20, paddingTop: 16 }}

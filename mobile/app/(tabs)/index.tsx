@@ -1,12 +1,12 @@
-import { Text as RNText, TouchableOpacity, ScrollView, RefreshControl, Alert, Animated } from 'react-native';
+import { TouchableOpacity, ScrollView, RefreshControl, Alert, Animated } from 'react-native';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '@convex/_generated/api';
 import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useState, useCallback } from 'react';
 
 import { ThemedView } from '@/components/themed-view';
 import { Text } from '@/components/ui/text';
+import { PageHeader } from '@/components/ui/page-header';
 import { Id } from '@convex/_generated/dataModel';
 
 export default function HomeScreen() {
@@ -187,10 +187,7 @@ export default function HomeScreen() {
   };
 
   const renderHeroSection = () => (
-    <LinearGradient colors={['#3B82F6', '#1D4ED8', '#1E40AF']} className='h-32 justify-end pb-4 px-4 rounded-b-3xl'>
-      <RNText className='text-3xl font-bold text-white mb-0.5'>Welcome to Inventi</RNText>
-      <RNText className='text-white/80 text-xs'>Your digital property noticeboard</RNText>
-    </LinearGradient>
+    <PageHeader title='Welcome to Inventi' subtitle='Your digital property noticeboard' type='root' icon='home' />
   );
 
   const renderNoticeCard = (notice: any) => {

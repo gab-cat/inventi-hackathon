@@ -10,6 +10,7 @@ import { Package, Search, QrCode, CheckCircle, Clock, Wrench, ScanLine } from 'l
 import { AvailableAsset, AvailableAssetsResponse } from '@/lib/tech.types';
 import { Id } from '@convex/_generated/dataModel';
 import QRScanner from '@/components/tech/qr-scanner';
+import { PageHeader } from '@/components/ui/page-header';
 
 export default function TechAssetInventoryScreen() {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -143,30 +144,25 @@ export default function TechAssetInventoryScreen() {
 
   return (
     <ThemedView style={{ flex: 1 }} className='bg-background'>
-      {/* Header */}
-      <View className='pt-16 px-5 pb-8 bg-purple-800 rounded-b-[20px]'>
-        <View className='flex-row justify-between items-center mb-6'>
-          <View className='flex-row items-center gap-3'>
-            <View className='w-12 h-12 rounded-xl bg-white/20 items-center justify-center'>
-              <Icon as={Package} size={28} className='text-white' />
-            </View>
-            <View>
-              <Text className='text-3xl font-bold text-white tracking-tight'>Asset Inventory</Text>
-              <Text className='text-sm text-white/80 mt-0.5'>Available tools and equipment</Text>
-            </View>
-          </View>
+      <PageHeader
+        title='Asset Inventory'
+        subtitle='Available tools and equipment'
+        type='back'
+        rightSlot={
           <TouchableOpacity onPress={handleScanQR}>
             <View className='p-2 bg-white/20 rounded-lg'>
               <Icon as={QrCode} size={24} className='text-white' />
             </View>
           </TouchableOpacity>
-        </View>
+        }
+      />
 
-        {/* Search */}
+      {/* Search */}
+      <View className='px-5 pb-5 pt-4'>
         <View className='relative'>
           <Icon as={Search} size={20} className='absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60' />
           <TextInput
-            className='w-full h-12 pl-12 pr-4 bg-white/10 rounded-xl placeholder:text-white/60'
+            className='w-full h-12 pl-12 pr-4 bg-blue-800 rounded-xl placeholder:text-white/60 text-white'
             placeholder='Search assets...'
             value={searchQuery}
             onChangeText={setSearchQuery}

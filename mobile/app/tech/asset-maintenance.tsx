@@ -1,14 +1,14 @@
 import React from 'react';
-import { FlatList, RefreshControl, View, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { FlatList, RefreshControl, View, ScrollView, Alert } from 'react-native';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '@convex/_generated/api';
 import { ThemedView } from '@/components/themed-view';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Icon } from '@/components/ui/icon';
-import { ArrowLeft, Wrench, Calendar, Clock, AlertTriangle, Package } from 'lucide-react-native';
+import { Wrench, Calendar, Clock, AlertTriangle, Package } from 'lucide-react-native';
 import { AvailableAssetsResponse } from '@/lib/tech.types';
+import { PageHeader } from '@/components/ui/page-header';
 
 type MaintenanceAsset = {
   _id: string;
@@ -21,6 +21,11 @@ type MaintenanceAsset = {
   condition: string;
   status: string;
   maintenanceInterval?: number;
+  maintenanceSchedule?: {
+    lastMaintenance?: number;
+    nextMaintenance?: number;
+    interval?: number;
+  };
 };
 
 export default function TechAssetMaintenanceScreen() {
@@ -38,9 +43,9 @@ export default function TechAssetMaintenanceScreen() {
   };
 
   const assets: MaintenanceAsset[] = React.useMemo(() => {
-    if (!assetsData?.success) return [];
+    if (!assetsData?.success || !assetsData.data) return [];
 
-    return assetsData.data.map(asset => ({
+    return (assetsData.data || []).map(asset => ({
       _id: asset._id,
       assetTag: asset.assetTag,
       name: asset.name,
@@ -51,6 +56,7 @@ export default function TechAssetMaintenanceScreen() {
       condition: asset.condition,
       status: 'available', // This would come from the asset status
       maintenanceInterval: asset.maintenanceSchedule?.interval,
+      maintenanceSchedule: asset.maintenanceSchedule,
     }));
   }, [assetsData]);
 
@@ -220,18 +226,7 @@ export default function TechAssetMaintenanceScreen() {
 
   return (
     <ThemedView style={{ flex: 1 }} className='bg-background'>
-      {/* Header */}
-      <View className='pt-16 px-5 pb-5 bg-orange-800 rounded-b-[20px]'>
-        <View className='flex-row items-center gap-4 mb-4'>
-          <TouchableOpacity onPress={() => router.back()}>
-            <Icon as={ArrowLeft} size={24} className='text-white' />
-          </TouchableOpacity>
-          <View className='flex-1'>
-            <Text className='text-xl font-bold text-white'>Asset Maintenance</Text>
-            <Text className='text-sm text-white/80'>Track and schedule equipment maintenance</Text>
-          </View>
-        </View>
-      </View>
+      <PageHeader title='Asset Maintenance' subtitle='Track and schedule equipment maintenance' type='back' />
 
       <ScrollView
         className='flex-1'

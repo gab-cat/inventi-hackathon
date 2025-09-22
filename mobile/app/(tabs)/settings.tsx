@@ -4,6 +4,7 @@ import { useUser, useAuth } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedView } from '@/components/themed-view';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
+import { PageHeader } from '@/components/ui/page-header';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useQuery } from 'convex/react';
 import { api } from '@convex/_generated/api';
@@ -48,20 +49,12 @@ export default function SettingsScreen() {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: isDark ? '#0b0d12' : '#f8fafc' }}>
-      {/* Header */}
-      <View className='pt-16 px-5 pb-5 bg-blue-800 rounded-b-[20px]'>
-        <View className='flex-row justify-between items-center'>
-          <View className='flex-row items-center gap-3'>
-            <View className='w-12 h-12 rounded-xl bg-white/20 items-center justify-center'>
-              <Ionicons name='settings' size={28} color='white' />
-            </View>
-            <View>
-              <Text className='text-3xl font-bold text-white tracking-tight'>Settings</Text>
-              <Text className='text-sm text-white/80 mt-0.5'>Manage your account and preferences</Text>
-            </View>
-          </View>
-        </View>
-      </View>
+      <PageHeader
+        title="Settings"
+        subtitle="Manage your account and preferences"
+        type="root"
+        icon="settings"
+      />
 
       {/* Profile Section */}
       <ThemedView className='bg-white dark:bg-gray-800 p-6  border-gray-200 dark:border-gray-700'>
