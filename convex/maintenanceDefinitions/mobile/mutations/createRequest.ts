@@ -45,6 +45,16 @@ export const createRequestHandler = async (ctx: MutationCtx, args: Infer<typeof 
     updatedAt: now,
   });
 
+  // Log the initial creation
+  await ctx.db.insert('maintenanceUpdates', {
+    requestId,
+    propertyId: args.propertyId,
+    status: 'pending',
+    description: 'Maintenance request created',
+    updatedBy: args.requestedBy,
+    timestamp: now,
+  });
+
   // Try automatic assignment to a vendor/technician associated to the property
   let assignee: Id<'users'> | undefined;
 

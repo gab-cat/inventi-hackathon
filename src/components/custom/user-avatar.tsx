@@ -1,4 +1,4 @@
-import { useUsers } from '@/features/user/hooks/useUsers';
+import { useUsers } from '@/features/user/hooks/useGetUserById';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Id } from '@convex/_generated/dataModel';
 

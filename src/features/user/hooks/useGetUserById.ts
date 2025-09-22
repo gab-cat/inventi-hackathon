@@ -1,8 +1,8 @@
-import { api } from '@convex/_generated/api';
+import { api } from '../../../../convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
 import { useQuery } from 'convex/react';
 
-export function useUsers(id: Id<'users'>) {
+export function useGetUserById(id: Id<'users'>) {
   const user = useQuery(api.user.webGetUserById, { id });
 
   const isLoading = user === undefined;
@@ -14,3 +14,6 @@ export function useUsers(id: Id<'users'>) {
     error,
   };
 }
+
+// Export for backward compatibility
+export const useUsers = useGetUserById;
