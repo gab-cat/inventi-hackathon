@@ -97,7 +97,7 @@ export function NoticeForm({ initialData, onSubmit, onCancel, isLoading, mode, p
   };
 
   return (
-    <Card className='border-none shadow-none p-0'>
+    <Card className='border-none bg-background shadow-none p-0'>
       <CardHeader className='p-0'>
         <CardTitle>{mode === 'create' ? 'Create New Notice' : 'Edit Notice'}</CardTitle>
         <CardDescription>
