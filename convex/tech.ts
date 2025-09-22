@@ -34,8 +34,6 @@ import {
   scheduleAssetMaintenanceHandler,
   reportAssetIssueArgs,
   reportAssetIssueHandler,
-  generateUploadUrlArgs,
-  generateUploadUrlHandler,
   saveUploadedPhotoArgs,
   saveUploadedPhotoHandler,
 } from './techDefinitions/mobile';
@@ -110,11 +108,6 @@ export const scheduleAssetMaintenance = mutation({
 export const reportAssetIssue = mutation({
   args: reportAssetIssueArgs,
   handler: reportAssetIssueHandler,
-});
-
-export const generateUploadUrl = mutation({
-  args: generateUploadUrlArgs,
-  handler: generateUploadUrlHandler,
 });
 
 export const saveUploadedPhoto = mutation({

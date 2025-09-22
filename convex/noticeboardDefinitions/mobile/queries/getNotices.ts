@@ -39,6 +39,7 @@ export const mobileGetNoticesReturns = v.object({
       attachments: v.optional(v.array(v.string())),
       createdAt: v.number(),
       updatedAt: v.number(),
+      targetUnits: v.optional(v.array(v.id('units'))),
       // Mobile-specific fields
       isRead: v.boolean(),
       acknowledgedAt: v.optional(v.number()),

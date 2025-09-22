@@ -113,7 +113,9 @@ export default defineSchema({
     visitorEmail: v.optional(v.string()),
     visitorPhone: v.optional(v.string()),
     visitorIdNumber: v.optional(v.string()),
-    visitorIdType: v.optional(v.string()), // "driver_license", "passport", "national_id"
+    visitorIdType: v.optional(
+      v.union(v.literal('driver_license'), v.literal('passport'), v.literal('national_id'), v.literal('others'))
+    ), // ID type options
     purpose: v.string(),
     expectedArrival: v.number(), // Timestamp
     expectedDeparture: v.optional(v.number()),
@@ -132,6 +134,7 @@ export default defineSchema({
       v.array(
         v.object({
           fileName: v.string(),
+          storageId: v.optional(v.id('_storage')),
           fileUrl: v.string(),
           uploadedAt: v.number(),
         })

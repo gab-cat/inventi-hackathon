@@ -1,9 +1,10 @@
 import { MutationCtx } from '../../../_generated/server';
 import { v, Infer } from 'convex/values';
+import { api } from '../../../_generated/api';
 
-export const generateUploadUrlArgs = v.object({});
+export const generateMaintenancePhotoUploadUrlArgs = v.object({});
 
-export const generateUploadUrlReturns = v.object({
+export const generateMaintenancePhotoUploadUrlReturns = v.object({
   success: v.boolean(),
   message: v.string(),
   uploadUrl: v.optional(v.string()),
@@ -22,8 +23,10 @@ export const saveUploadedPhotoReturns = v.object({
   fileId: v.optional(v.id('_storage')),
 });
 
-// Generate upload URL for client to upload file directly
-export const generateUploadUrlHandler = async (ctx: MutationCtx) => {
+// Generate upload URL for maintenance photos using centralized file service
+export const generateMaintenancePhotoUploadUrlHandler = async (
+  ctx: MutationCtx
+): Promise<Infer<typeof generateMaintenancePhotoUploadUrlReturns>> => {
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) {
     return { success: false, message: 'User not authenticated' };
@@ -40,16 +43,24 @@ export const generateUploadUrlHandler = async (ctx: MutationCtx) => {
   if (me.role !== 'field_technician') {
     return { success: false, message: 'Access denied. Field technician role required.' };
   }
-  console.log('User found:', me._id, me.role);
+
   try {
-    // Generate upload URL - expires in 1 hour
-    const uploadUrl = await ctx.storage.generateUploadUrl();
-    console.log('Upload URL:', uploadUrl);
+    // Generate upload URL using centralized file service
+    const result = await ctx.runMutation(api.file.generateUploadUrl, {
+      fileType: 'image',
+    });
+
+    if (!result.success) {
+      return {
+        success: false,
+        message: result.message || 'Failed to generate upload URL',
+      };
+    }
 
     return {
       success: true,
       message: 'Upload URL generated successfully',
-      uploadUrl,
+      uploadUrl: result.uploadUrl,
     };
   } catch (error) {
     return {

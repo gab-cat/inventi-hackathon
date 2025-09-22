@@ -7,8 +7,10 @@ export * from './checkinAsset';
 export * from './scheduleAssetMaintenance';
 export * from './reportAssetIssue';
 export {
-  generateUploadUrlArgs,
-  generateUploadUrlHandler,
+  generateMaintenancePhotoUploadUrlArgs as generateUploadUrlArgs,
+  generateMaintenancePhotoUploadUrlHandler as generateUploadUrlHandler,
+  generateMaintenancePhotoUploadUrlReturns as generateUploadUrlReturns,
   saveUploadedPhotoArgs,
   saveUploadedPhotoHandler,
+  saveUploadedPhotoReturns,
 } from './uploadMaintenancePhoto';
