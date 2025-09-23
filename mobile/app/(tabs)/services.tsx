@@ -49,7 +49,7 @@ export default function ServicesScreen() {
       iconColor: '#8B5CF6',
       bgColor: 'bg-purple-50',
       route: '/payments',
-      available: false,
+      available: true,
     },
     {
       id: 'iot',
@@ -96,7 +96,10 @@ export default function ServicesScreen() {
 
     if (
       service.available &&
-      (service.id === 'maintenance' || service.id === 'visitor-management' || service.id === 'deliveries')
+      (service.id === 'maintenance' ||
+        service.id === 'visitor-management' ||
+        service.id === 'deliveries' ||
+        service.id === 'payment-gateway')
     ) {
       return (
         // @ts-expect-error TODO: fix this
