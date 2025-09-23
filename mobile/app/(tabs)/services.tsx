@@ -59,7 +59,7 @@ export default function ServicesScreen() {
       iconColor: '#3B82F6',
       bgColor: 'bg-blue-50',
       route: '/iot',
-      available: false,
+      available: true,
     },
     {
       id: 'chat',
@@ -99,7 +99,8 @@ export default function ServicesScreen() {
       (service.id === 'maintenance' ||
         service.id === 'visitor-management' ||
         service.id === 'deliveries' ||
-        service.id === 'payment-gateway')
+        service.id === 'payment-gateway' ||
+        service.id === 'iot')
     ) {
       return (
         // @ts-expect-error TODO: fix this
