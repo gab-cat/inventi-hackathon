@@ -16,6 +16,7 @@
     "@bprogress/core": "^1.3.4",
     "@bprogress/next": "^3.2.12",
     "@clerk/nextjs": "^6.32.0",
+    "@convex-dev/expo-push-notifications": "^0.2.6",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-checkbox": "^1.3.3",
