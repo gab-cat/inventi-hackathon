@@ -55,7 +55,7 @@ function ChatThreadItem({ thread, isSelected, onClick, currentUserId }: ChatThre
 
   return (
     <Card
-      className={`cursor-pointer rounded-none bg-transparent shadow-none border-b border-t-0 border-l-0 border-r-0 hover:bg-accent/50 transition-colors ${isSelected ? 'bg-accent/50 ' : ''}`}
+      className={`cursor-pointer mb-0 rounded-none bg-transparent shadow-none border-b border-t-0 border-l-0 border-r-0 hover:bg-accent/50 transition-colors ${isSelected ? 'bg-accent/50 ' : ''}`}
       onClick={onClick}
     >
       <CardContent>

@@ -118,6 +118,23 @@ export function MessagingDashboard({ propertyId, currentUserId }: MessagingDashb
     }
   };
 
+  const handleGroupCreate = async (userIds: string[], groupName: string) => {
+    try {
+      const threadId = await createThread({
+        propertyId: propertyId,
+        threadType: 'group',
+        title: groupName,
+        participants: [currentUserId, ...userIds],
+        priority: 'medium',
+      });
+
+      setSelectedThreadId(threadId);
+      setShowUserSelection(false);
+    } catch (error) {
+      console.error('Failed to create group thread:', error);
+    }
+  };
+
   const selectedThread = threads.find(t => t._id === selectedThreadId);
 
   return (
@@ -285,8 +302,10 @@ export function MessagingDashboard({ propertyId, currentUserId }: MessagingDashb
         isOpen={showUserSelection}
         onClose={() => setShowUserSelection(false)}
         onUserSelect={handleUserSelect}
+        onGroupCreate={handleGroupCreate}
         propertyId={propertyId}
         currentUserId={currentUserId}
+        allowMultiple={true}
       />
     </div>
   );
