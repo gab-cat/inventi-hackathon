@@ -2,6 +2,16 @@ import { Id } from '../_generated/dataModel';
 import { mutation } from '../_generated/server';
 import { v } from 'convex/values';
 
+// Mock storage IDs for seeding - in production these would be real storage IDs
+const mockStorageIds = {
+  storage_id_1: 'storage_id_1' as Id<'_storage'>,
+  storage_id_2: 'storage_id_2' as Id<'_storage'>,
+  storage_id_3: 'storage_id_3' as Id<'_storage'>,
+  storage_id_4: 'storage_id_4' as Id<'_storage'>,
+  storage_id_5: 'storage_id_5' as Id<'_storage'>,
+  storage_id_6: 'storage_id_6' as Id<'_storage'>,
+};
+
 export const seedVisitorRequests = mutation({
   args: {},
   returns: v.number(),
@@ -41,7 +51,7 @@ export const seedVisitorRequests = mutation({
         visitorEmail: 'alice.johnson@email.com',
         visitorPhone: '+1-555-1001',
         visitorIdNumber: 'DL123456789',
-        visitorIdType: 'driver_license',
+        visitorIdType: 'driver_license' as const,
         purpose: 'Family visit',
         expectedArrival: Date.now() + 3600000, // 1 hour from now
         expectedDeparture: Date.now() + 7200000, // 2 hours from now
@@ -52,6 +62,7 @@ export const seedVisitorRequests = mutation({
         documents: [
           {
             fileName: 'alice_id.jpg',
+            storageId: mockStorageIds.storage_id_1,
             fileUrl: 'https://example.com/alice_id.jpg',
             uploadedAt: Date.now() - 3600000,
           },
@@ -68,7 +79,7 @@ export const seedVisitorRequests = mutation({
         visitorEmail: 'bob.smith@email.com',
         visitorPhone: '+1-555-1002',
         visitorIdNumber: 'PAS987654321',
-        visitorIdType: 'passport',
+        visitorIdType: 'passport' as const,
         purpose: 'Business meeting',
         expectedArrival: Date.now() + 7200000, // 2 hours from now
         expectedDeparture: Date.now() + 10800000, // 3 hours from now
@@ -79,6 +90,7 @@ export const seedVisitorRequests = mutation({
         documents: [
           {
             fileName: 'bob_passport.jpg',
+            storageId: mockStorageIds.storage_id_2,
             fileUrl: 'https://example.com/bob_passport.jpg',
             uploadedAt: Date.now() - 3600000,
           },
@@ -96,7 +108,7 @@ export const seedVisitorRequests = mutation({
         visitorEmail: 'carol.davis@email.com',
         visitorPhone: '+1-555-1003',
         visitorIdNumber: 'ID456789123',
-        visitorIdType: 'national_id',
+        visitorIdType: 'national_id' as const,
         purpose: 'Delivery service',
         expectedArrival: Date.now() + 1800000, // 30 minutes from now
         expectedDeparture: Date.now() + 2700000, // 45 minutes from now
@@ -105,6 +117,7 @@ export const seedVisitorRequests = mutation({
         documents: [
           {
             fileName: 'carol_id.jpg',
+            storageId: mockStorageIds.storage_id_3,
             fileUrl: 'https://example.com/carol_id.jpg',
             uploadedAt: Date.now() - 1800000,
           },
@@ -121,7 +134,7 @@ export const seedVisitorRequests = mutation({
         visitorEmail: 'david.wilson@email.com',
         visitorPhone: '+1-555-1004',
         visitorIdNumber: 'DL987654321',
-        visitorIdType: 'driver_license',
+        visitorIdType: 'driver_license' as const,
         purpose: 'Maintenance appointment',
         expectedArrival: Date.now() + 14400000, // 4 hours from now
         expectedDeparture: Date.now() + 18000000, // 5 hours from now
@@ -141,7 +154,7 @@ export const seedVisitorRequests = mutation({
         visitorEmail: 'eve.brown@email.com',
         visitorPhone: '+1-555-1005',
         visitorIdNumber: 'PAS123456789',
-        visitorIdType: 'passport',
+        visitorIdType: 'passport' as const,
         purpose: 'Social visit',
         expectedArrival: Date.now() - 3600000, // 1 hour ago (past)
         expectedDeparture: Date.now() - 1800000, // 30 minutes ago (past)
@@ -153,6 +166,7 @@ export const seedVisitorRequests = mutation({
         documents: [
           {
             fileName: 'eve_passport.jpg',
+            storageId: mockStorageIds.storage_id_4,
             fileUrl: 'https://example.com/eve_passport.jpg',
             uploadedAt: Date.now() - 7200000,
           },
@@ -170,7 +184,7 @@ export const seedVisitorRequests = mutation({
         visitorEmail: 'frank.miller@email.com',
         visitorPhone: '+1-555-1006',
         visitorIdNumber: 'DL456789123',
-        visitorIdType: 'driver_license',
+        visitorIdType: 'driver_license' as const,
         purpose: 'Contractor work',
         expectedArrival: Date.now() + 10800000, // 3 hours from now
         expectedDeparture: Date.now() + 18000000, // 5 hours from now
@@ -181,6 +195,7 @@ export const seedVisitorRequests = mutation({
         documents: [
           {
             fileName: 'frank_contractor_license.jpg',
+            storageId: mockStorageIds.storage_id_5,
             fileUrl: 'https://example.com/frank_contractor_license.jpg',
             uploadedAt: Date.now() - 3600000,
           },
@@ -198,7 +213,7 @@ export const seedVisitorRequests = mutation({
         visitorEmail: 'grace.lee@email.com',
         visitorPhone: '+1-555-1007',
         visitorIdNumber: 'ID789123456',
-        visitorIdType: 'national_id',
+        visitorIdType: 'national_id' as const,
         purpose: 'Package delivery',
         expectedArrival: Date.now() - 7200000, // 2 hours ago (past)
         expectedDeparture: Date.now() - 5400000, // 1.5 hours ago (past)
@@ -218,7 +233,7 @@ export const seedVisitorRequests = mutation({
         visitorEmail: 'henry.taylor@email.com',
         visitorPhone: '+1-555-1008',
         visitorIdNumber: 'DL789123456',
-        visitorIdType: 'driver_license',
+        visitorIdType: 'driver_license' as const,
         purpose: 'Inspection visit',
         expectedArrival: Date.now() - 86400000, // 1 day ago (past)
         expectedDeparture: Date.now() - 82800000, // 23 hours ago (past)
@@ -227,6 +242,7 @@ export const seedVisitorRequests = mutation({
         documents: [
           {
             fileName: 'henry_inspection_id.jpg',
+            storageId: mockStorageIds.storage_id_6,
             fileUrl: 'https://example.com/henry_inspection_id.jpg',
             uploadedAt: Date.now() - 86400000,
           },
@@ -237,7 +253,7 @@ export const seedVisitorRequests = mutation({
       },
     ];
 
-    const visitorRequestIds = [];
+    const visitorRequestIds: Id<'visitorRequests'>[] = [];
     for (const request of visitorRequests) {
       const id = await ctx.db.insert('visitorRequests', request);
       visitorRequestIds.push(id);

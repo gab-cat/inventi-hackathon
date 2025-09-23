@@ -4,6 +4,7 @@ import { ThemedView } from '@/components/themed-view';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { PageHeader } from '@/components/ui/page-header';
 import { useLocalSearchParams, router } from 'expo-router';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '@convex/_generated/api';
@@ -84,22 +85,12 @@ export default function MaintenanceDetail() {
 
   return (
     <ThemedView style={{ flex: 1 }} className='bg-slate-50'>
-      {/* Header */}
-      <View className='pt-12 px-5 pb-4 bg-blue-800 rounded-b-[20px]'>
-        <View className='flex-row justify-between items-center'>
-          <Button className='bg-white/15 border border-white/25 rounded-lg px-3 py-2' onPress={() => router.back()}>
-            <View className='flex-row items-center gap-2'>
-              <Icon as={ArrowLeft} size={16} className='text-white' />
-              <Text className='text-white text-sm font-medium'>Back</Text>
-            </View>
-          </Button>
-
-          <View className='flex-1 ml-4'>
-            <Text className='text-3xl font-bold text-white tracking-tight'>Progress</Text>
-            <Text className='text-sm text-white/80 mt-0.5'>Track your maintenance request</Text>
-          </View>
-
-          {req && req.status !== 'completed' && req.status !== 'cancelled' && (
+      <PageHeader
+        title="Progress"
+        subtitle="Track your maintenance request"
+        type="back"
+        rightSlot={
+          req && req.status !== 'completed' && req.status !== 'cancelled' && (
             <Dialog>
               <DialogTrigger asChild>
                 <Button className='bg-red-500/20 border border-red-400/30 rounded-lg px-3 py-2'>
@@ -142,9 +133,9 @@ export default function MaintenanceDetail() {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          )}
-        </View>
-      </View>
+          )
+        }
+      />
 
       {req ? (
         <ScrollView contentContainerStyle={{ padding: 12, paddingTop: 6 }} showsVerticalScrollIndicator={false}>

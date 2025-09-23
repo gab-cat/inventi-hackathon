@@ -7,6 +7,7 @@ import { Link } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Icon } from '@/components/ui/icon';
+import { PageHeader } from '@/components/ui/page-header';
 import { Search, Plus, Wrench, AlertTriangle, Clock, CheckCircle, User, Check } from 'lucide-react-native';
 import { Id } from '@convex/_generated/dataModel';
 
@@ -60,19 +61,12 @@ export default function MaintenanceListScreen() {
 
   return (
     <ThemedView style={{ flex: 1 }} className='bg-background'>
-      {/* Header */}
-      <View className='pt-16 px-5 pb-5 bg-blue-800 rounded-b-[20px]'>
-        <View className='flex-row justify-between items-center'>
-          <View className='flex-row items-center gap-3'>
-            <View className='w-12 h-12 rounded-xl bg-white/20 items-center justify-center'>
-              <Icon as={Wrench} size={28} className='text-white' />
-            </View>
-            <View>
-              <Text className='text-3xl font-bold text-white tracking-tight'>Maintenance</Text>
-              <Text className='text-sm text-white/80 mt-0.5'>Manage your maintenance requests</Text>
-            </View>
-          </View>
-
+      <PageHeader
+        title="Maintenance"
+        subtitle="Manage your maintenance requests"
+        type="root"
+        icon="construct"
+        rightSlot={
           <Link href='/maintenance/new' asChild>
             <Button className='bg-white rounded-lg px-3 py-2' onPress={() => {}}>
               <View className='flex-row items-center gap-1.5'>
@@ -81,8 +75,8 @@ export default function MaintenanceListScreen() {
               </View>
             </Button>
           </Link>
-        </View>
-      </View>
+        }
+      />
 
       {/* Search Bar */}
       <View className='px-5 pb-3 mt-4'>

@@ -7,9 +7,10 @@ import { router } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Icon } from '@/components/ui/icon';
-import { ArrowLeft, QrCode, Search, Package, CheckCircle, AlertTriangle, ScanLine } from 'lucide-react-native';
+import { QrCode, Search, Package, CheckCircle, AlertTriangle, ScanLine } from 'lucide-react-native';
 import { AvailableAsset, AvailableAssetsResponse } from '@/lib/tech.types';
 import QRScanner from '@/components/tech/qr-scanner';
+import { PageHeader } from '@/components/ui/page-header';
 
 export default function TechAssetCheckoutScreen() {
   const [assetTag, setAssetTag] = React.useState('');
@@ -90,18 +91,7 @@ export default function TechAssetCheckoutScreen() {
 
   return (
     <ThemedView style={{ flex: 1 }} className='bg-background'>
-      {/* Header */}
-      <View className='pt-12 px-5 bg-purple-800 rounded-b-[20px]'>
-        <View className='flex-row items-center gap-4 mb-4'>
-          <TouchableOpacity onPress={() => router.back()}>
-            <Icon as={ArrowLeft} size={24} className='text-white' />
-          </TouchableOpacity>
-          <View className='flex-1'>
-            <Text className='text-xl font-bold text-white'>Asset Checkout</Text>
-            <Text className='text-sm text-white/80'>Scan or search for assets</Text>
-          </View>
-        </View>
-      </View>
+      <PageHeader title='Asset Checkout' subtitle='Scan or search for assets' type='back' />
 
       <View className='flex-1 px-5 mt-4'>
         {/* Scan QR Button */}

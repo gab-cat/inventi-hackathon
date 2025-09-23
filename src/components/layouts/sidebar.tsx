@@ -53,7 +53,6 @@ const data = {
       icon: <BarChart3 className='h-5 w-5' />,
     },
   ],
-
   visitorLinks: [
     {
       title: 'Visitor Management',

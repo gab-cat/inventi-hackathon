@@ -13,9 +13,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: cn('bg-blue-800 active:bg-blue-700', Platform.select({ web: 'hover:bg-blue-700 shadow-black/5' })),
+        default: cn(
+          'bg-blue-800 active:bg-blue-700 text-white',
+          Platform.select({ web: 'hover:bg-blue-700 shadow-black/5' })
+        ),
         destructive: cn(
-          'bg-destructive active:bg-destructive/90',
+          'bg-red-500 active:bg-red-600',
           Platform.select({
             web: 'hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 shadow-black/5',
           })

@@ -7,7 +7,17 @@ export const webGetDeliveryLogsByPropertyArgs = {
   paginationOpts: paginationOptsValidator,
   propertyId: v.id('properties'),
   action: v.optional(
+<<<<<<< HEAD
     v.union(v.literal('registered'), v.literal('arrived'), v.literal('collected'), v.literal('failed'))
+=======
+    v.union(
+      v.literal('registered'),
+      v.literal('assigned'),
+      v.literal('delivered'),
+      v.literal('collected'),
+      v.literal('failed')
+    )
+>>>>>>> origin
   ),
   dateFrom: v.optional(v.number()),
   dateTo: v.optional(v.number()),
@@ -20,7 +30,11 @@ export const webGetDeliveryLogsByPropertyReturns = v.object({
       _creationTime: v.number(),
       deliveryId: v.id('deliveries'),
       propertyId: v.id('properties'),
+<<<<<<< HEAD
       action: v.union(v.literal('registered'), v.literal('arrived'), v.literal('collected'), v.literal('failed')),
+=======
+      action: v.string(),
+>>>>>>> origin
       timestamp: v.number(),
       performedBy: v.optional(v.id('users')),
       notes: v.optional(v.string()),
@@ -52,7 +66,11 @@ export const webGetDeliveryLogsByPropertyReturns = v.object({
 type Args = {
   paginationOpts: PaginationOptions;
   propertyId: Id<'properties'>;
+<<<<<<< HEAD
   action?: 'registered' | 'arrived' | 'collected' | 'failed';
+=======
+  action?: 'registered' | 'assigned' | 'delivered' | 'collected' | 'failed';
+>>>>>>> origin
   dateFrom?: number;
   dateTo?: number;
 };

@@ -44,7 +44,11 @@ export interface DeliveryLog {
   _creationTime: number;
   deliveryId: Id<'deliveries'>;
   propertyId: Id<'properties'>;
+<<<<<<< HEAD
   action: 'registered' | 'arrived' | 'collected' | 'failed';
+=======
+  action: 'registered' | 'assigned' | 'delivered' | 'collected' | 'failed';
+>>>>>>> origin
   timestamp: number;
   performedBy?: Id<'users'>;
   notes?: string;
@@ -77,7 +81,10 @@ export interface CreateDeliveryForm {
   deliveryType: 'package' | 'food' | 'grocery' | 'mail' | 'other';
   senderName: string;
   senderCompany?: string;
+<<<<<<< HEAD
   recipientId?: string;
+=======
+>>>>>>> origin
   recipientName: string;
   recipientPhone?: string;
   recipientEmail?: string;
@@ -91,7 +98,11 @@ export interface CreateDeliveryForm {
 
 export interface UpdateDeliveryForm {
   unitId?: string;
+<<<<<<< HEAD
   status: 'registered' | 'arrived' | 'collected' | 'failed' | 'returned';
+=======
+  status: 'pending' | 'in_transit' | 'delivered' | 'collected' | 'failed' | 'returned';
+>>>>>>> origin
   notes?: string;
   actualDelivery?: string; // ISO string for form
 }

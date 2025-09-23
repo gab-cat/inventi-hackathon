@@ -53,8 +53,8 @@ export function DeliveryDetailSheet({
     return <Badge className={colorClass}>{status.replace('_', ' ').toUpperCase()}</Badge>;
   };
 
-  const canAssign = delivery.status === 'pending';
-  const canCollect = ['in_transit', 'delivered'].includes(delivery.status);
+  const canAssign = delivery.status === 'registered';
+  const canCollect = ['arrived', 'collected'].includes(delivery.status);
   const canUpdateStatus = true;
 
   return (

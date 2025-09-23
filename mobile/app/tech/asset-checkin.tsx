@@ -7,10 +7,11 @@ import { router } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Icon } from '@/components/ui/icon';
-import { ArrowLeft, QrCode, Search, Package, CheckCircle, AlertTriangle, ScanLine, MapPin } from 'lucide-react-native';
+import { QrCode, Search, Package, CheckCircle, AlertTriangle, ScanLine, MapPin } from 'lucide-react-native';
 import { CheckedOutAsset, CheckedOutAssetsResponse, AssetCondition } from '@/lib/tech.types';
 import QRScanner from '@/components/tech/qr-scanner';
 import { Id } from '@convex/_generated/dataModel';
+import { PageHeader } from '@/components/ui/page-header';
 
 export default function TechAssetCheckinScreen() {
   const [assetTag, setAssetTag] = React.useState('');
@@ -110,18 +111,9 @@ export default function TechAssetCheckinScreen() {
 
   return (
     <ThemedView style={{ flex: 1 }} className='bg-background'>
-      {/* Header */}
-      <View className='pt-16 px-5 pb-5 bg-green-800 rounded-b-[20px]'>
-        <View className='flex-row items-center gap-4 mb-4'>
-          <TouchableOpacity onPress={() => router.back()}>
-            <Icon as={ArrowLeft} size={24} className='text-white' />
-          </TouchableOpacity>
-          <View className='flex-1'>
-            <Text className='text-xl font-bold text-white'>Asset Check-in</Text>
-            <Text className='text-sm text-white/80'>Return equipment to inventory</Text>
-          </View>
-        </View>
+      <PageHeader title='Asset Check-in' subtitle='Return equipment to inventory' type='back' />
 
+      <View className='px-5 pt-6 pb-4'>
         {/* Search */}
         <View className='relative mb-4'>
           <Icon as={Search} size={20} className='absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60' />
@@ -150,7 +142,7 @@ export default function TechAssetCheckinScreen() {
       <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
         {/* Selected Asset Details */}
         {selectedAsset && (
-          <View className='px-5 pt-6 pb-4'>
+          <View className='mb-6'>
             <View className='bg-white rounded-2xl p-5 border border-gray-200/50 dark:border-gray-700/50 shadow-sm'>
               <View className='flex-row items-center justify-between mb-4'>
                 <View className='flex-1'>
@@ -256,7 +248,7 @@ export default function TechAssetCheckinScreen() {
 
         {/* Checked Out Assets List */}
         {!selectedAsset && (
-          <View className='px-5 pt-6'>
+          <View className='pt-6'>
             <Text className='text-lg font-semibold mb-4'>Your Checked Out Assets</Text>
             {assets.length > 0 ? (
               <View className='space-y-3'>
@@ -306,7 +298,7 @@ export default function TechAssetCheckinScreen() {
 
         {/* Instructions */}
         {!selectedAsset && (
-          <View className='px-5 pb-8'>
+          <View className='pb-8'>
             <View className='bg-blue-50 dark:bg-blue-950/20 p-4 rounded-xl border border-blue-200 dark:border-blue-800'>
               <View className='flex-row items-start gap-3'>
                 <Icon as={AlertTriangle} size={20} className='text-blue-600 mt-0.5' />

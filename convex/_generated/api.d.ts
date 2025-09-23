@@ -8,11 +8,6 @@
  * @module
  */
 
-import type {
-  ApiFromModules,
-  FilterApi,
-  FunctionReference,
-} from "convex/server";
 import type * as assetDefinitions_index from "../assetDefinitions/index.js";
 import type * as assetDefinitions_web_mutations_addAsset from "../assetDefinitions/web/mutations/addAsset.js";
 import type * as assetDefinitions_web_mutations_assignAssetToUser from "../assetDefinitions/web/mutations/assignAssetToUser.js";
@@ -70,6 +65,16 @@ import type * as deliveryLog from "../deliveryLog.js";
 import type * as deliveryLogDefinitions_index from "../deliveryLogDefinitions/index.js";
 import type * as deliveryLogDefinitions_web_queries_getDeliveryLogsByProperty from "../deliveryLogDefinitions/web/queries/getDeliveryLogsByProperty.js";
 import type * as http from "../http.js";
+import type * as iot from "../iot.js";
+import type * as iotDefinitions_index from "../iotDefinitions/index.js";
+import type * as iotDefinitions_mobile_index from "../iotDefinitions/mobile/index.js";
+import type * as iotDefinitions_mobile_queries_index from "../iotDefinitions/mobile/queries/index.js";
+import type * as iotDefinitions_mobile_queries_mobileGetIoTDevices from "../iotDefinitions/mobile/queries/mobileGetIoTDevices.js";
+import type * as iotDefinitions_mobile_queries_mobileGetIoTReadings from "../iotDefinitions/mobile/queries/mobileGetIoTReadings.js";
+import type * as iotDefinitions_web_mutations_handleElectricityMeterReading from "../iotDefinitions/web/mutations/handleElectricityMeterReading.js";
+import type * as iotDefinitions_web_mutations_handleWaterMeterReading from "../iotDefinitions/web/mutations/handleWaterMeterReading.js";
+import type * as iotDefinitions_web_queries_getIoTDevices from "../iotDefinitions/web/queries/getIoTDevices.js";
+import type * as iotDefinitions_web_queries_getIoTReadings from "../iotDefinitions/web/queries/getIoTReadings.js";
 import type * as maintenance from "../maintenance.js";
 import type * as maintenanceDefinitions_index from "../maintenanceDefinitions/index.js";
 import type * as maintenanceDefinitions_mobile_index from "../maintenanceDefinitions/mobile/index.js";
@@ -143,6 +148,16 @@ import type * as noticeboardDefinitions_web_queries_getPollStats from "../notice
 import type * as noticeboardDefinitions_web_queries_getPollWithResponses from "../noticeboardDefinitions/web/queries/getPollWithResponses.js";
 import type * as noticeboardDefinitions_web_queries_getPollsByProperty from "../noticeboardDefinitions/web/queries/getPollsByProperty.js";
 import type * as noticeboardDefinitions_web_queries_getUnitsByProperty from "../noticeboardDefinitions/web/queries/getUnitsByProperty.js";
+import type * as paymentDefinitions_index from "../paymentDefinitions/index.js";
+import type * as paymentDefinitions_mobile_index from "../paymentDefinitions/mobile/index.js";
+import type * as paymentDefinitions_mobile_mutations_downloadReceiptNFT from "../paymentDefinitions/mobile/mutations/downloadReceiptNFT.js";
+import type * as paymentDefinitions_mobile_mutations_index from "../paymentDefinitions/mobile/mutations/index.js";
+import type * as paymentDefinitions_mobile_mutations_payInvoice from "../paymentDefinitions/mobile/mutations/payInvoice.js";
+import type * as paymentDefinitions_mobile_queries_getMyInvoices from "../paymentDefinitions/mobile/queries/getMyInvoices.js";
+import type * as paymentDefinitions_mobile_queries_getMyReceipts from "../paymentDefinitions/mobile/queries/getMyReceipts.js";
+import type * as paymentDefinitions_mobile_queries_getReceiptById from "../paymentDefinitions/mobile/queries/getReceiptById.js";
+import type * as paymentDefinitions_mobile_queries_index from "../paymentDefinitions/mobile/queries/index.js";
+import type * as payments from "../payments.js";
 import type * as property from "../property.js";
 import type * as propertyDefinitions_index from "../propertyDefinitions/index.js";
 import type * as propertyDefinitions_mobile_index from "../propertyDefinitions/mobile/index.js";
@@ -154,8 +169,12 @@ import type * as propertyDefinitions_web_mutations_createProperty from "../prope
 import type * as propertyDefinitions_web_mutations_index from "../propertyDefinitions/web/mutations/index.js";
 import type * as propertyDefinitions_web_queries_getManagerProperties from "../propertyDefinitions/web/queries/getManagerProperties.js";
 import type * as propertyDefinitions_web_queries_index from "../propertyDefinitions/web/queries/index.js";
+import type * as pushNotifications from "../pushNotifications.js";
 import type * as seeders_assets from "../seeders/assets.js";
+import type * as seeders_deliveries from "../seeders/deliveries.js";
+import type * as seeders_iot from "../seeders/iot.js";
 import type * as seeders_notice from "../seeders/notice.js";
+import type * as seeders_payments from "../seeders/payments.js";
 import type * as seeders_units from "../seeders/units.js";
 import type * as seeders_visitorLogs from "../seeders/visitorLogs.js";
 import type * as seeders_visitorRequests from "../seeders/visitorRequests.js";
@@ -195,6 +214,7 @@ import type * as user from "../user.js";
 import type * as userDefinitions_index from "../userDefinitions/index.js";
 import type * as userDefinitions_mobile_index from "../userDefinitions/mobile/index.js";
 import type * as userDefinitions_mobile_queries_getCurrentUser from "../userDefinitions/mobile/queries/getCurrentUser.js";
+import type * as userDefinitions_mobile_queries_getUserProperties from "../userDefinitions/mobile/queries/getUserProperties.js";
 import type * as userDefinitions_mobile_queries_index from "../userDefinitions/mobile/queries/index.js";
 import type * as userDefinitions_web_index from "../userDefinitions/web/index.js";
 import type * as userDefinitions_web_queries_getCurrentUser from "../userDefinitions/web/queries/getCurrentUser.js";
@@ -211,6 +231,15 @@ import type * as visitorLogDefinitions_web_queries_getVisitorLog from "../visito
 import type * as visitorLogDefinitions_web_queries_index from "../visitorLogDefinitions/web/queries/index.js";
 import type * as visitorRequest from "../visitorRequest.js";
 import type * as visitorRequestDefinitions_index from "../visitorRequestDefinitions/index.js";
+import type * as visitorRequestDefinitions_mobile_index from "../visitorRequestDefinitions/mobile/index.js";
+import type * as visitorRequestDefinitions_mobile_mutations_cancelVisitorRequest from "../visitorRequestDefinitions/mobile/mutations/cancelVisitorRequest.js";
+import type * as visitorRequestDefinitions_mobile_mutations_index from "../visitorRequestDefinitions/mobile/mutations/index.js";
+import type * as visitorRequestDefinitions_mobile_mutations_requestVisitorPass from "../visitorRequestDefinitions/mobile/mutations/requestVisitorPass.js";
+import type * as visitorRequestDefinitions_mobile_mutations_saveUploadedVisitorDocument from "../visitorRequestDefinitions/mobile/mutations/saveUploadedVisitorDocument.js";
+import type * as visitorRequestDefinitions_mobile_mutations_uploadVisitorDocument from "../visitorRequestDefinitions/mobile/mutations/uploadVisitorDocument.js";
+import type * as visitorRequestDefinitions_mobile_queries_getMyVisitors from "../visitorRequestDefinitions/mobile/queries/getMyVisitors.js";
+import type * as visitorRequestDefinitions_mobile_queries_getVisitorStatus from "../visitorRequestDefinitions/mobile/queries/getVisitorStatus.js";
+import type * as visitorRequestDefinitions_mobile_queries_index from "../visitorRequestDefinitions/mobile/queries/index.js";
 import type * as visitorRequestDefinitions_web_mutations_approveVisitorRequest from "../visitorRequestDefinitions/web/mutations/approveVisitorRequest.js";
 import type * as visitorRequestDefinitions_web_mutations_createVisitorEntry from "../visitorRequestDefinitions/web/mutations/createVisitorEntry.js";
 import type * as visitorRequestDefinitions_web_mutations_denyVisitorRequest from "../visitorRequestDefinitions/web/mutations/denyVisitorRequest.js";
@@ -229,6 +258,12 @@ import type * as webhookDefinitions_handleUserDeleted from "../webhookDefinition
 import type * as webhookDefinitions_handleUserUpdated from "../webhookDefinitions/handleUserUpdated.js";
 import type * as webhookDefinitions_index from "../webhookDefinitions/index.js";
 import type * as webhookDefinitions_verifyWebhook from "../webhookDefinitions/verifyWebhook.js";
+
+import type {
+  ApiFromModules,
+  FilterApi,
+  FunctionReference,
+} from "convex/server";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -296,6 +331,16 @@ declare const fullApi: ApiFromModules<{
   "deliveryLogDefinitions/index": typeof deliveryLogDefinitions_index;
   "deliveryLogDefinitions/web/queries/getDeliveryLogsByProperty": typeof deliveryLogDefinitions_web_queries_getDeliveryLogsByProperty;
   http: typeof http;
+  iot: typeof iot;
+  "iotDefinitions/index": typeof iotDefinitions_index;
+  "iotDefinitions/mobile/index": typeof iotDefinitions_mobile_index;
+  "iotDefinitions/mobile/queries/index": typeof iotDefinitions_mobile_queries_index;
+  "iotDefinitions/mobile/queries/mobileGetIoTDevices": typeof iotDefinitions_mobile_queries_mobileGetIoTDevices;
+  "iotDefinitions/mobile/queries/mobileGetIoTReadings": typeof iotDefinitions_mobile_queries_mobileGetIoTReadings;
+  "iotDefinitions/web/mutations/handleElectricityMeterReading": typeof iotDefinitions_web_mutations_handleElectricityMeterReading;
+  "iotDefinitions/web/mutations/handleWaterMeterReading": typeof iotDefinitions_web_mutations_handleWaterMeterReading;
+  "iotDefinitions/web/queries/getIoTDevices": typeof iotDefinitions_web_queries_getIoTDevices;
+  "iotDefinitions/web/queries/getIoTReadings": typeof iotDefinitions_web_queries_getIoTReadings;
   maintenance: typeof maintenance;
   "maintenanceDefinitions/index": typeof maintenanceDefinitions_index;
   "maintenanceDefinitions/mobile/index": typeof maintenanceDefinitions_mobile_index;
@@ -369,6 +414,16 @@ declare const fullApi: ApiFromModules<{
   "noticeboardDefinitions/web/queries/getPollWithResponses": typeof noticeboardDefinitions_web_queries_getPollWithResponses;
   "noticeboardDefinitions/web/queries/getPollsByProperty": typeof noticeboardDefinitions_web_queries_getPollsByProperty;
   "noticeboardDefinitions/web/queries/getUnitsByProperty": typeof noticeboardDefinitions_web_queries_getUnitsByProperty;
+  "paymentDefinitions/index": typeof paymentDefinitions_index;
+  "paymentDefinitions/mobile/index": typeof paymentDefinitions_mobile_index;
+  "paymentDefinitions/mobile/mutations/downloadReceiptNFT": typeof paymentDefinitions_mobile_mutations_downloadReceiptNFT;
+  "paymentDefinitions/mobile/mutations/index": typeof paymentDefinitions_mobile_mutations_index;
+  "paymentDefinitions/mobile/mutations/payInvoice": typeof paymentDefinitions_mobile_mutations_payInvoice;
+  "paymentDefinitions/mobile/queries/getMyInvoices": typeof paymentDefinitions_mobile_queries_getMyInvoices;
+  "paymentDefinitions/mobile/queries/getMyReceipts": typeof paymentDefinitions_mobile_queries_getMyReceipts;
+  "paymentDefinitions/mobile/queries/getReceiptById": typeof paymentDefinitions_mobile_queries_getReceiptById;
+  "paymentDefinitions/mobile/queries/index": typeof paymentDefinitions_mobile_queries_index;
+  payments: typeof payments;
   property: typeof property;
   "propertyDefinitions/index": typeof propertyDefinitions_index;
   "propertyDefinitions/mobile/index": typeof propertyDefinitions_mobile_index;
@@ -380,8 +435,12 @@ declare const fullApi: ApiFromModules<{
   "propertyDefinitions/web/mutations/index": typeof propertyDefinitions_web_mutations_index;
   "propertyDefinitions/web/queries/getManagerProperties": typeof propertyDefinitions_web_queries_getManagerProperties;
   "propertyDefinitions/web/queries/index": typeof propertyDefinitions_web_queries_index;
+  pushNotifications: typeof pushNotifications;
   "seeders/assets": typeof seeders_assets;
+  "seeders/deliveries": typeof seeders_deliveries;
+  "seeders/iot": typeof seeders_iot;
   "seeders/notice": typeof seeders_notice;
+  "seeders/payments": typeof seeders_payments;
   "seeders/units": typeof seeders_units;
   "seeders/visitorLogs": typeof seeders_visitorLogs;
   "seeders/visitorRequests": typeof seeders_visitorRequests;
@@ -421,6 +480,7 @@ declare const fullApi: ApiFromModules<{
   "userDefinitions/index": typeof userDefinitions_index;
   "userDefinitions/mobile/index": typeof userDefinitions_mobile_index;
   "userDefinitions/mobile/queries/getCurrentUser": typeof userDefinitions_mobile_queries_getCurrentUser;
+  "userDefinitions/mobile/queries/getUserProperties": typeof userDefinitions_mobile_queries_getUserProperties;
   "userDefinitions/mobile/queries/index": typeof userDefinitions_mobile_queries_index;
   "userDefinitions/web/index": typeof userDefinitions_web_index;
   "userDefinitions/web/queries/getCurrentUser": typeof userDefinitions_web_queries_getCurrentUser;
@@ -437,6 +497,15 @@ declare const fullApi: ApiFromModules<{
   "visitorLogDefinitions/web/queries/index": typeof visitorLogDefinitions_web_queries_index;
   visitorRequest: typeof visitorRequest;
   "visitorRequestDefinitions/index": typeof visitorRequestDefinitions_index;
+  "visitorRequestDefinitions/mobile/index": typeof visitorRequestDefinitions_mobile_index;
+  "visitorRequestDefinitions/mobile/mutations/cancelVisitorRequest": typeof visitorRequestDefinitions_mobile_mutations_cancelVisitorRequest;
+  "visitorRequestDefinitions/mobile/mutations/index": typeof visitorRequestDefinitions_mobile_mutations_index;
+  "visitorRequestDefinitions/mobile/mutations/requestVisitorPass": typeof visitorRequestDefinitions_mobile_mutations_requestVisitorPass;
+  "visitorRequestDefinitions/mobile/mutations/saveUploadedVisitorDocument": typeof visitorRequestDefinitions_mobile_mutations_saveUploadedVisitorDocument;
+  "visitorRequestDefinitions/mobile/mutations/uploadVisitorDocument": typeof visitorRequestDefinitions_mobile_mutations_uploadVisitorDocument;
+  "visitorRequestDefinitions/mobile/queries/getMyVisitors": typeof visitorRequestDefinitions_mobile_queries_getMyVisitors;
+  "visitorRequestDefinitions/mobile/queries/getVisitorStatus": typeof visitorRequestDefinitions_mobile_queries_getVisitorStatus;
+  "visitorRequestDefinitions/mobile/queries/index": typeof visitorRequestDefinitions_mobile_queries_index;
   "visitorRequestDefinitions/web/mutations/approveVisitorRequest": typeof visitorRequestDefinitions_web_mutations_approveVisitorRequest;
   "visitorRequestDefinitions/web/mutations/createVisitorEntry": typeof visitorRequestDefinitions_web_mutations_createVisitorEntry;
   "visitorRequestDefinitions/web/mutations/denyVisitorRequest": typeof visitorRequestDefinitions_web_mutations_denyVisitorRequest;
@@ -456,11 +525,177 @@ declare const fullApi: ApiFromModules<{
   "webhookDefinitions/index": typeof webhookDefinitions_index;
   "webhookDefinitions/verifyWebhook": typeof webhookDefinitions_verifyWebhook;
 }>;
+declare const fullApiWithMounts: typeof fullApi;
+
 export declare const api: FilterApi<
-  typeof fullApi,
+  typeof fullApiWithMounts,
   FunctionReference<any, "public">
 >;
 export declare const internal: FilterApi<
-  typeof fullApi,
+  typeof fullApiWithMounts,
   FunctionReference<any, "internal">
 >;
+
+export declare const components: {
+  pushNotifications: {
+    public: {
+      deleteNotificationsForUser: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR"; userId: string },
+        any
+      >;
+      getNotification: FunctionReference<
+        "query",
+        "internal",
+        { id: string; logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR" },
+        null | {
+          _contentAvailable?: boolean;
+          _creationTime: number;
+          badge?: number;
+          body?: string;
+          categoryId?: string;
+          channelId?: string;
+          data?: any;
+          expiration?: number;
+          interruptionLevel?:
+            | "active"
+            | "critical"
+            | "passive"
+            | "time-sensitive";
+          mutableContent?: boolean;
+          numPreviousFailures: number;
+          priority?: "default" | "normal" | "high";
+          sound?: string | null;
+          state:
+            | "awaiting_delivery"
+            | "in_progress"
+            | "delivered"
+            | "needs_retry"
+            | "failed"
+            | "maybe_delivered"
+            | "unable_to_deliver";
+          subtitle?: string;
+          title?: string;
+          ttl?: number;
+        }
+      >;
+      getNotificationsForUser: FunctionReference<
+        "query",
+        "internal",
+        {
+          limit?: number;
+          logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR";
+          userId: string;
+        },
+        Array<{
+          _contentAvailable?: boolean;
+          _creationTime: number;
+          badge?: number;
+          body?: string;
+          categoryId?: string;
+          channelId?: string;
+          data?: any;
+          expiration?: number;
+          id: string;
+          interruptionLevel?:
+            | "active"
+            | "critical"
+            | "passive"
+            | "time-sensitive";
+          mutableContent?: boolean;
+          numPreviousFailures: number;
+          priority?: "default" | "normal" | "high";
+          sound?: string | null;
+          state:
+            | "awaiting_delivery"
+            | "in_progress"
+            | "delivered"
+            | "needs_retry"
+            | "failed"
+            | "maybe_delivered"
+            | "unable_to_deliver";
+          subtitle?: string;
+          title?: string;
+          ttl?: number;
+        }>
+      >;
+      getStatusForUser: FunctionReference<
+        "query",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR"; userId: string },
+        { hasToken: boolean; paused: boolean }
+      >;
+      pauseNotificationsForUser: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR"; userId: string },
+        null
+      >;
+      recordPushNotificationToken: FunctionReference<
+        "mutation",
+        "internal",
+        {
+          logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR";
+          pushToken: string;
+          userId: string;
+        },
+        null
+      >;
+      removePushNotificationToken: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR"; userId: string },
+        null
+      >;
+      restart: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR" },
+        boolean
+      >;
+      sendPushNotification: FunctionReference<
+        "mutation",
+        "internal",
+        {
+          allowUnregisteredTokens?: boolean;
+          logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR";
+          notification: {
+            _contentAvailable?: boolean;
+            badge?: number;
+            body?: string;
+            categoryId?: string;
+            channelId?: string;
+            data?: any;
+            expiration?: number;
+            interruptionLevel?:
+              | "active"
+              | "critical"
+              | "passive"
+              | "time-sensitive";
+            mutableContent?: boolean;
+            priority?: "default" | "normal" | "high";
+            sound?: string | null;
+            subtitle?: string;
+            title?: string;
+            ttl?: number;
+          };
+          userId: string;
+        },
+        string | null
+      >;
+      shutdown: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR" },
+        { data?: any; message: string }
+      >;
+      unpauseNotificationsForUser: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR"; userId: string },
+        null
+      >;
+    };
+  };
+};

@@ -73,7 +73,7 @@ export const webCreateVisitorEntryHandler = async (ctx: MutationCtx, args: Args)
     visitorEmail: args.visitorEmail,
     visitorPhone: args.visitorPhone,
     visitorIdNumber: args.visitorIdNumber,
-    visitorIdType: args.visitorIdType,
+    visitorIdType: args.visitorIdType as 'driver_license' | 'passport' | 'national_id' | 'others' | undefined,
     purpose: args.purpose,
     expectedArrival: args.expectedArrival,
     expectedDeparture: args.expectedDeparture,

@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Animated, Pressable } from 'react-native';
+import { View, Text, Animated, Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import { MapPin, Home, Compass } from 'lucide-react-native';
-import { ThemedView } from '@/components/themed-view';
 import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
@@ -38,158 +37,65 @@ export default function NotFound() {
   });
 
   return (
-    <ThemedView style={styles.container}>
+    <View className='flex-1 bg-background'>
       <Animated.View
-        style={[
-          styles.content,
-          {
-            opacity: fadeAnim,
-            transform: [{ scale: scaleAnim }],
-          },
-        ]}
+        className='flex-1 justify-center items-center px-6 py-10'
+        style={{
+          opacity: fadeAnim,
+          transform: [{ scale: scaleAnim }],
+        }}
       >
         {/* Animated 404 Icon */}
         <Animated.View style={{ transform: [{ translateY: bounce }] }}>
-          <View style={styles.iconContainer}>
-            <Compass size={80} color='#6366f1' />
-            <View style={styles.questionMark}>
-              <Text style={styles.questionMarkText}>?</Text>
+          <View className='relative mb-8'>
+            <Compass size={80} className='text-primary' />
+            <View className='absolute -top-1 -right-1 bg-amber-500 rounded-full w-7 h-7 items-center justify-center shadow-lg'>
+              <Text className='text-white text-lg font-bold'>?</Text>
             </View>
           </View>
         </Animated.View>
 
         {/* Main Title */}
-        <Text style={styles.title}>404</Text>
-        <Text style={styles.subtitle}>Page Not Found</Text>
+        <Text className='text-7xl font-bold text-foreground text-center mb-2'>404</Text>
+        <Text className='text-2xl font-semibold text-muted-foreground text-center mb-6'>Page Not Found</Text>
 
         {/* Friendly Message */}
-        <Text style={styles.message}>
+        <Text className='text-base text-muted-foreground text-center leading-6 mb-10 max-w-xs'>
           Looks like you&apos;ve ventured into uncharted territory! The page you&apos;re looking for doesn&apos;t exist.
         </Text>
 
         {/* Action Buttons */}
-        <View style={styles.buttonContainer}>
+        <View className='w-full max-w-xs mb-10'>
           <Link href='/' asChild>
             <Pressable>
-              <Button
-                variant='default'
-                size='lg'
-                className='flex-row items-center gap-2 bg-primary active:bg-primary/90'
-              >
-                <Home size={20} color='white' />
-                <Text style={styles.buttonText}>Go Home</Text>
+              <Button className='flex-row items-center justify-center gap-2 bg-primary active:bg-primary/90 py-4 px-6 rounded-lg mb-3'>
+                <Home size={20} className='text-primary-foreground' />
+                <Text className='text-primary-foreground font-semibold text-base'>Go Home</Text>
               </Button>
             </Pressable>
           </Link>
 
-          <Link href='/(tabs)/explore' asChild>
+          <Link href='/(tabs)/services' asChild>
             <Pressable>
-              <Button variant='outline' size='lg' className='flex-row items-center gap-2 mt-3'>
-                <MapPin size={20} color='#374151' />
-                <Text style={styles.outlineButtonText}>Explore</Text>
+              <Button
+                variant='outline'
+                className='flex-row items-center justify-center gap-2 py-4 px-6 rounded-lg border border-border'
+              >
+                <MapPin size={20} className='text-foreground' />
+                <Text className='text-foreground font-semibold text-base'>Services</Text>
               </Button>
             </Pressable>
           </Link>
         </View>
 
         {/* Fun Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>&ldquo;Not all those who wander are lost.&rdquo;</Text>
-          <Text style={styles.footerSubtext}>&mdash; J.R.R. Tolkien</Text>
+        <View className='items-center pt-5'>
+          <Text className='text-base text-muted-foreground text-center italic mb-1'>
+            &ldquo;Not all those who wander are lost.&rdquo;
+          </Text>
+          <Text className='text-sm text-muted-foreground text-center'>&mdash; J.R.R. Tolkien</Text>
         </View>
       </Animated.View>
-    </ThemedView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'hsl(var(--background))',
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 40,
-  },
-  iconContainer: {
-    position: 'relative',
-    marginBottom: 32,
-  },
-  questionMark: {
-    position: 'absolute',
-    top: -5,
-    right: -5,
-    backgroundColor: '#f59e0b',
-    borderRadius: 20,
-    width: 30,
-    height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#f59e0b',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 4,
-  },
-  questionMarkText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  title: {
-    fontSize: 72,
-    fontWeight: 'bold',
-    color: 'hsl(var(--foreground))',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: 'hsl(var(--muted-foreground))',
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  message: {
-    fontSize: 16,
-    color: 'hsl(var(--muted-foreground))',
-    textAlign: 'center',
-    lineHeight: 24,
-    marginBottom: 40,
-    maxWidth: 320,
-  },
-  buttonContainer: {
-    width: '100%',
-    maxWidth: 250,
-    marginBottom: 40,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  outlineButtonText: {
-    color: 'hsl(var(--foreground))',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  footer: {
-    alignItems: 'center',
-    paddingTop: 20,
-  },
-  footerText: {
-    fontSize: 16,
-    color: 'hsl(var(--muted-foreground))',
-    textAlign: 'center',
-    fontStyle: 'italic',
-    marginBottom: 4,
-  },
-  footerSubtext: {
-    fontSize: 14,
-    color: 'hsl(var(--muted-foreground))',
-    textAlign: 'center',
-  },
-});

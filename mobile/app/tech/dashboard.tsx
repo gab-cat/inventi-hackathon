@@ -6,6 +6,7 @@ import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
 import { Text } from '@/components/ui/text';
 import { Icon } from '@/components/ui/icon';
+import { PageHeader } from '@/components/ui/page-header';
 import {
   RefreshCw,
   ArrowRight,
@@ -164,23 +165,16 @@ export default function TechDashboardScreen() {
 
   return (
     <ThemedView style={{ flex: 1 }} className='bg-background'>
-      {/* Header */}
-      <View className='pt-12 px-5 pb-3 bg-blue-800 rounded-b-2xl'>
-        <View className='flex-row justify-between items-center'>
-          <View className='flex-row items-center gap-3'>
-            <View className='w-10 h-10 rounded-xl bg-white/20 items-center justify-center'>
-              <Icon as={Wrench} size={24} className='text-white' />
-            </View>
-            <View>
-              <Text className='text-2xl font-bold text-white tracking-tight'>Tech Dashboard</Text>
-              <Text className='text-sm text-white/80'>Field technician overview</Text>
-            </View>
-          </View>
+      <PageHeader
+        title='Tech Dashboard'
+        subtitle='Field technician overview'
+        type='back'
+        rightSlot={
           <TouchableOpacity onPress={onRefresh} disabled={refreshing}>
             <Icon as={RefreshCw} size={20} className={`text-white ${refreshing ? 'opacity-50' : ''}`} />
           </TouchableOpacity>
-        </View>
-      </View>
+        }
+      />
 
       <ScrollView
         className='flex-1 w-full'

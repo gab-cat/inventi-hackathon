@@ -7,6 +7,7 @@ import { ThemedView } from '@/components/themed-view';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Icon } from '@/components/ui/icon';
+import { PageHeader } from '@/components/ui/page-header';
 import { TextField } from '@/components/ui/TextField';
 import { Building2, Plus, Home, MapPin, Hash } from 'lucide-react-native';
 import {
@@ -314,204 +315,195 @@ export default function PropertiesScreen() {
 
   return (
     <ThemedView style={{ flex: 1 }} className='bg-background'>
-      {/* Header */}
-      <View className='pt-16 px-5 pb-5 bg-blue-800 rounded-b-[20px]'>
-        <View className='flex-row justify-between items-center'>
-          <View className='flex-row items-center gap-3'>
-            <View className='w-12 h-12 rounded-xl bg-white/20 items-center justify-center'>
-              <Icon as={Building2} size={28} className='text-white' />
-            </View>
-            <View>
-              <Text className='text-3xl font-bold text-white tracking-tight'>Properties</Text>
-              <Text className='text-sm text-white/80 mt-0.5'>Manage your real estate portfolio</Text>
-            </View>
-          </View>
+      <PageHeader
+        title="Properties"
+        subtitle="Manage your real estate portfolio"
+        type="root"
+        icon="business"
+        rightSlot={
+          <Dialog open={showUnitForm} onOpenChange={setShowUnitForm}>
+            <DialogTrigger asChild>
+              <Button
+                className='bg-white rounded-xl px-4 py-3'
+                onPress={() => {
+                  setShowUnitForm(true);
+                }}
+                disabled={false}
+              >
+                <View className='flex-row items-center gap-2'>
+                  <Icon as={Plus} size={18} className='text-blue-800' />
+                  <Text className='text-blue-800 text-sm font-semibold'>Add Unit</Text>
+                </View>
+              </Button>
+            </DialogTrigger>
+            <DialogContent portalHost='root' className='max-w-md bg-white p-6 border-none rounded-2xl'>
+              <DialogHeader className='mb-2'>
+                <DialogTitle className='text-2xl font-bold text-blue-800 mb-2'>Create Unit</DialogTitle>
+                <DialogDescription className='text-sm text-gray-600 leading-5'>
+                  Select a property and enter your unit details to create and assign yourself to a new unit
+                </DialogDescription>
+              </DialogHeader>
 
-          {
-            <Dialog open={showUnitForm} onOpenChange={setShowUnitForm}>
-              <DialogTrigger asChild>
-                <Button
-                  className='bg-white rounded-xl px-4 py-3'
-                  onPress={() => {
-                    setShowUnitForm(true);
-                  }}
-                  disabled={false}
-                >
-                  <View className='flex-row items-center gap-2'>
-                    <Icon as={Plus} size={18} className='text-blue-800' />
-                    <Text className='text-blue-800 text-sm font-semibold'>Add Unit</Text>
-                  </View>
-                </Button>
-              </DialogTrigger>
-              <DialogContent portalHost='root' className='max-w-md bg-white p-6 border-none rounded-2xl'>
-                <DialogHeader className='mb-2'>
-                  <DialogTitle className='text-2xl font-bold text-blue-800 mb-2'>Create Unit</DialogTitle>
-                  <DialogDescription className='text-sm text-gray-600 leading-5'>
-                    Select a property and enter your unit details to create and assign yourself to a new unit
-                  </DialogDescription>
-                </DialogHeader>
-
-                <ScrollView className='max-h-96' contentContainerStyle={{ paddingVertical: 4 }}>
-                  <View className='gap-1'>
+              <ScrollView className='max-h-96' contentContainerStyle={{ paddingVertical: 4 }}>
+                <View className='gap-1'>
+                  <View className='gap-3'>
+                    <Text className='text-base font-semibold text-blue-800'>Select Property *</Text>
                     <View className='gap-3'>
-                      <Text className='text-base font-semibold text-blue-800'>Select Property *</Text>
-                      <View className='gap-3'>
-                        {allPropertiesList.map(property => (
-                          <Button
-                            key={property._id}
-                            onPress={() => setUnitFormData(prev => ({ ...prev, propertyId: property._id }))}
-                            className={`
-                              ${unitFormData.propertyId === property._id ? 'bg-blue-800 border border-blue-800' : 'bg-white border border-gray-200'}
-                              rounded-xl p-4 justify-start h-fit
-                            `}
-                          >
-                            <View className='flex-row items-center gap-3'>
-                              <View
-                                className={`
-                                w-10 h-10 rounded-lg items-center justify-center
-                                ${unitFormData.propertyId === property._id ? 'bg-white/20' : 'bg-cyan-50'}
-                              `}
-                              >
-                                <Icon
-                                  as={Building2}
-                                  size={20}
-                                  className={unitFormData.propertyId === property._id ? 'text-white' : 'text-blue-800'}
-                                />
-                              </View>
-                              <View className='flex-1 mr-2'>
-                                <Text
-                                  className={`
-                                  text-base font-semibold flex-1 h-full
-                                  ${unitFormData.propertyId === property._id ? 'text-white' : 'text-gray-900'}
-                                `}
-                                >
-                                  {property.name}
-                                </Text>
-                                <Text
-                                  className={`
-                                  text-sm leading-4
-                                  ${unitFormData.propertyId === property._id ? 'text-white/80' : 'text-gray-500'}
-                                `}
-                                >
-                                  {property.address}
-                                </Text>
-                              </View>
-                              {unitFormData.propertyId === property._id && (
-                                <Text className='text-lg text-white font-semibold'>✓</Text>
-                              )}
-                            </View>
-                          </Button>
-                        ))}
-                      </View>
-                    </View>
-
-                    <Separator className='my-1' />
-
-                    <View className='gap-2'>
-                      <Text className='text-base font-semibold text-blue-800'>Unit Number *</Text>
-                      <TextField
-                        placeholder='e.g. 101, 2A, B12'
-                        value={unitFormData.unitNumber}
-                        onChangeText={text => setUnitFormData(prev => ({ ...prev, unitNumber: text }))}
-                        className='border-2 border-gray-200 rounded-lg p-3 text-gray-900'
-                      />
-                    </View>
-
-                    <Separator className='my-1' />
-
-                    <View className='gap-3'>
-                      <Text className='text-base font-semibold text-blue-800'>Unit Type</Text>
-                      <View className='flex-row flex-wrap gap-2.5'>
-                        {(['apartment', 'condo', 'house', 'office', 'retail', 'storage'] as const).map(type => (
-                          <Button
-                            key={type}
-                            onPress={() => setUnitFormData(prev => ({ ...prev, unitType: type }))}
-                            className={`
-                              ${unitFormData.unitType === type ? 'bg-blue-800  border-blue-800' : 'bg-white  border-gray-200'}
-                              rounded-lg px-4 py-0 flex-1 min-w-[100px] border 
-                            `}
-                          >
-                            <Text
+                      {allPropertiesList.map(property => (
+                        <Button
+                          key={property._id}
+                          onPress={() => setUnitFormData(prev => ({ ...prev, propertyId: property._id }))}
+                          className={`
+                            ${unitFormData.propertyId === property._id ? 'bg-blue-800 border border-blue-800' : 'bg-white border border-gray-200'}
+                            rounded-xl p-4 justify-start h-fit
+                          `}
+                        >
+                          <View className='flex-row items-center gap-3'>
+                            <View
                               className={`
-                              text-sm font-semibold text-center
-                              ${unitFormData.unitType === type ? 'text-white' : 'text-gray-900'}
+                              w-10 h-10 rounded-lg items-center justify-center
+                              ${unitFormData.propertyId === property._id ? 'bg-white/20' : 'bg-cyan-50'}
                             `}
                             >
-                              {type.charAt(0).toUpperCase() + type.slice(1)}
-                            </Text>
-                          </Button>
-                        ))}
-                      </View>
+                              <Icon
+                                as={Building2}
+                                size={20}
+                                className={unitFormData.propertyId === property._id ? 'text-white' : 'text-blue-800'}
+                              />
+                            </View>
+                            <View className='flex-1 mr-2'>
+                              <Text
+                                className={`
+                                text-base font-semibold flex-1 h-full
+                                ${unitFormData.propertyId === property._id ? 'text-white' : 'text-gray-900'}
+                              `}
+                              >
+                                {property.name}
+                              </Text>
+                              <Text
+                                className={`
+                                text-sm leading-4
+                                ${unitFormData.propertyId === property._id ? 'text-white/80' : 'text-gray-500'}
+                              `}
+                              >
+                                {property.address}
+                              </Text>
+                            </View>
+                            {unitFormData.propertyId === property._id && (
+                              <Text className='text-lg text-white font-semibold'>✓</Text>
+                            )}
+                          </View>
+                        </Button>
+                      ))}
                     </View>
+                  </View>
 
-                    <Separator className='my-1' />
+                  <Separator className='my-1' />
 
-                    <View className='gap-2'>
-                      <Text className='text-base font-semibold text-blue-800'>Floor (optional)</Text>
+                  <View className='gap-2'>
+                    <Text className='text-base font-semibold text-blue-800'>Unit Number *</Text>
+                    <TextField
+                      placeholder='e.g. 101, 2A, B12'
+                      value={unitFormData.unitNumber}
+                      onChangeText={text => setUnitFormData(prev => ({ ...prev, unitNumber: text }))}
+                      className='border-2 border-gray-200 rounded-lg p-3 text-gray-900'
+                    />
+                  </View>
+
+                  <Separator className='my-1' />
+
+                  <View className='gap-3'>
+                    <Text className='text-base font-semibold text-blue-800'>Unit Type</Text>
+                    <View className='flex-row flex-wrap gap-2.5'>
+                      {(['apartment', 'condo', 'house', 'office', 'retail', 'storage'] as const).map(type => (
+                        <Button
+                          key={type}
+                          onPress={() => setUnitFormData(prev => ({ ...prev, unitType: type }))}
+                          className={`
+                            ${unitFormData.unitType === type ? 'bg-blue-800  border-blue-800' : 'bg-white  border-gray-200'}
+                            rounded-lg px-4 py-0 flex-1 min-w-[100px] border
+                          `}
+                        >
+                          <Text
+                            className={`
+                            text-sm font-semibold text-center
+                            ${unitFormData.unitType === type ? 'text-white' : 'text-gray-900'}
+                          `}
+                          >
+                            {type.charAt(0).toUpperCase() + type.slice(1)}
+                          </Text>
+                        </Button>
+                      ))}
+                    </View>
+                  </View>
+
+                  <Separator className='my-1' />
+
+                  <View className='gap-2'>
+                    <Text className='text-base font-semibold text-blue-800'>Floor (optional)</Text>
+                    <TextField
+                      placeholder='e.g. 1, 2, Ground'
+                      value={unitFormData.floor}
+                      onChangeText={text => setUnitFormData(prev => ({ ...prev, floor: text }))}
+                      keyboardType='numeric'
+                      className='border-2 border-gray-200 rounded-lg p-3 text-gray-900'
+                    />
+                  </View>
+
+                  <Separator className='my-1' />
+
+                  <View className='flex-row gap-3'>
+                    <View className='flex-1 gap-2'>
+                      <Text className='text-base font-semibold text-blue-800'>Bedrooms (optional)</Text>
                       <TextField
-                        placeholder='e.g. 1, 2, Ground'
-                        value={unitFormData.floor}
-                        onChangeText={text => setUnitFormData(prev => ({ ...prev, floor: text }))}
+                        placeholder='2'
+                        value={unitFormData.bedrooms}
+                        onChangeText={text => setUnitFormData(prev => ({ ...prev, bedrooms: text }))}
                         keyboardType='numeric'
                         className='border-2 border-gray-200 rounded-lg p-3 text-gray-900'
                       />
                     </View>
-
-                    <Separator className='my-1' />
-
-                    <View className='flex-row gap-3'>
-                      <View className='flex-1 gap-2'>
-                        <Text className='text-base font-semibold text-blue-800'>Bedrooms (optional)</Text>
-                        <TextField
-                          placeholder='2'
-                          value={unitFormData.bedrooms}
-                          onChangeText={text => setUnitFormData(prev => ({ ...prev, bedrooms: text }))}
-                          keyboardType='numeric'
-                          className='border-2 border-gray-200 rounded-lg p-3 text-gray-900'
-                        />
-                      </View>
-                      <View className='flex-1 gap-2'>
-                        <Text className='text-base font-semibold text-blue-800'>Bathrooms (optional)</Text>
-                        <TextField
-                          placeholder='1.5'
-                          value={unitFormData.bathrooms}
-                          onChangeText={text => setUnitFormData(prev => ({ ...prev, bathrooms: text }))}
-                          keyboardType='numeric'
-                          className='border-2 border-gray-200 rounded-lg p-3 text-gray-900'
-                        />
-                      </View>
-                    </View>
-
-                    <Separator className='my-1' />
-
-                    <View className='gap-2'>
-                      <Text className='text-base font-semibold text-blue-800'>Square Footage (optional)</Text>
+                    <View className='flex-1 gap-2'>
+                      <Text className='text-base font-semibold text-blue-800'>Bathrooms (optional)</Text>
                       <TextField
-                        placeholder='1200'
-                        value={unitFormData.squareFootage}
-                        onChangeText={text => setUnitFormData(prev => ({ ...prev, squareFootage: text }))}
+                        placeholder='1.5'
+                        value={unitFormData.bathrooms}
+                        onChangeText={text => setUnitFormData(prev => ({ ...prev, bathrooms: text }))}
                         keyboardType='numeric'
                         className='border-2 border-gray-200 rounded-lg p-3 text-gray-900'
                       />
                     </View>
                   </View>
-                </ScrollView>
 
-                <DialogFooter className='flex-row gap-3 pt-6 border-t border-gray-100'>
-                  <DialogClose asChild>
-                    <Button variant='outline' className='flex-1 border border-gray-300 rounded-xl py-3'>
-                      <Text className='text-gray-700 font-semibold'>Cancel</Text>
-                    </Button>
-                  </DialogClose>
-                  <Button onPress={handleUnitFormSubmit} className='flex-1 bg-blue-800 rounded-xl py-3'>
-                    <Text className='text-white font-semibold'>Create Unit</Text>
+                  <Separator className='my-1' />
+
+                  <View className='gap-2'>
+                    <Text className='text-base font-semibold text-blue-800'>Square Footage (optional)</Text>
+                    <TextField
+                      placeholder='1200'
+                      value={unitFormData.squareFootage}
+                      onChangeText={text => setUnitFormData(prev => ({ ...prev, squareFootage: text }))}
+                      keyboardType='numeric'
+                      className='border-2 border-gray-200 rounded-lg p-3 text-gray-900'
+                    />
+                  </View>
+                </View>
+              </ScrollView>
+
+              <DialogFooter className='flex-row gap-3 pt-6 border-t border-gray-100'>
+                <DialogClose asChild>
+                  <Button variant='outline' className='flex-1 border border-gray-300 rounded-xl py-3'>
+                    <Text className='text-gray-700 font-semibold'>Cancel</Text>
                   </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          }
-        </View>
-      </View>
+                </DialogClose>
+                <Button onPress={handleUnitFormSubmit} className='flex-1 bg-blue-800 rounded-xl py-3'>
+                  <Text className='text-white font-semibold'>Create Unit</Text>
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        }
+      />
 
       {/* Content */}
       <FlatList
