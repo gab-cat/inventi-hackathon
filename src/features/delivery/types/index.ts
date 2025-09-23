@@ -113,7 +113,7 @@ export interface DeliveryFilters {
   propertyId?: string;
   unitId?: string;
   deliveryType?: 'package' | 'food' | 'grocery' | 'mail' | 'other';
-  status?: 'pending' | 'in_transit' | 'delivered' | 'collected' | 'failed' | 'returned';
+  status?: 'registered' | 'arrived' | 'collected' | 'failed' | 'returned';
   dateFrom?: number;
   dateTo?: number;
   search?: string;
@@ -122,7 +122,7 @@ export interface DeliveryFilters {
 
 export interface DeliveryLogFilters {
   propertyId?: string;
-  action?: 'registered' | 'assigned' | 'delivered' | 'collected' | 'failed';
+  action?: 'registered' | 'arrived' | 'collected' | 'failed' | 'returned';
   dateFrom?: number;
   dateTo?: number;
 }
