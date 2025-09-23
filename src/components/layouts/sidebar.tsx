@@ -53,7 +53,6 @@ const data = {
       icon: <BarChart3 className='h-5 w-5' />,
     },
   ],
-
   visitorLinks: [
     {
       title: 'Visitor Management',
@@ -129,7 +128,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
           <SidebarLabel>Delivery</SidebarLabel>
           <NavItems items={data.deliveryLinks} />
-
+        
           <SidebarLabel>Engagement</SidebarLabel>
           <NavItems items={data.engagementLinks} />
         </div>
