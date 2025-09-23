@@ -1,6 +1,7 @@
 import { httpRouter } from 'convex/server';
 import { httpAction } from './_generated/server';
 import { handleClerkEvent } from './webhook';
+import { handleWaterMeterWebhook, handleElectricityMeterWebhook } from './iot';
 import { api } from './_generated/api';
 import { Id } from './_generated/dataModel';
 
@@ -10,6 +11,19 @@ http.route({
   path: '/webhook/clerk',
   method: 'POST',
   handler: httpAction(handleClerkEvent),
+});
+
+// IoT Webhook routes
+http.route({
+  path: '/webhooks/water-meter',
+  method: 'POST',
+  handler: handleWaterMeterWebhook,
+});
+
+http.route({
+  path: '/webhooks/electricity-meter',
+  method: 'POST',
+  handler: handleElectricityMeterWebhook,
 });
 
 // Visitor document upload HTTP action
