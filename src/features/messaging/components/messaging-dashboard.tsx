@@ -4,15 +4,13 @@ import { useState } from 'react';
 import { useQuery } from 'convex/react';
 import { api } from '@convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
-import { MessageCircle, Plus, Filter, Search } from 'lucide-react';
 import { Button } from '../../../components/ui/button';
 import { Input } from '../../../components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Badge } from '../../../components/ui/badge';
-import { ChatThreadList } from './chat-thread-list';
-import { MessageList } from './message-list';
-import { MessageInput } from './message-input';
+import { ChatSidebar } from './chat-sidebar';
+import { ChatMain } from './chat-main';
+import { NoThreadSelected } from './no-thread-selected';
 import { ChatThreadDetail } from './chat-thread-detail';
 import { UserSelectionModal } from './user-selection-modal';
 import {
@@ -140,140 +138,41 @@ export function MessagingDashboard({ propertyId, currentUserId }: MessagingDashb
   return (
     <div className='flex h-[calc(100vh-100px)] border rounded-lg overflow-hidden'>
       {/* Thread List Sidebar */}
-      <div className='w-80 border-r  flex flex-col'>
-        <div className='p-4 border-b '>
-          <div className='flex items-center justify-between mb-4'>
-            <h2 className='text-lg font-semibold flex items-center'>
-              <MessageCircle className='h-5 w-5 mr-2' />
-              Messages
-              {totalUnread > 0 && (
-                <Badge variant='destructive' className='ml-2'>
-                  {totalUnread}
-                </Badge>
-              )}
-            </h2>
-            <Button size='sm' onClick={() => setShowUserSelection(true)}>
-              <Plus className='h-4 w-4 mr-1' />
-              New
-            </Button>
-          </div>
-
-          <div className='space-y-3'>
-            <div className='flex space-x-2'>
-              <Input placeholder='Search conversations...' className='flex-1' />
-              <Button variant='outline' size='sm'>
-                <Search className='h-4 w-4' />
-              </Button>
-            </div>
-
-            <div className='flex space-x-2'>
-              <Select value={threadTypeFilter} onValueChange={setThreadTypeFilter}>
-                <SelectTrigger className='flex-1'>
-                  <SelectValue placeholder='All types' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='all'>All Types</SelectItem>
-                  <SelectItem value='individual'>Individual</SelectItem>
-                  <SelectItem value='group'>Group</SelectItem>
-                  <SelectItem value='maintenance'>Maintenance</SelectItem>
-                  <SelectItem value='emergency'>Emergency</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select
-                value={isArchivedFilter === undefined ? 'all' : isArchivedFilter ? 'archived' : 'active'}
-                onValueChange={value => {
-                  if (value === 'all') setIsArchivedFilter(undefined);
-                  else setIsArchivedFilter(value === 'archived');
-                }}
-              >
-                <SelectTrigger className='flex-1'>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='active'>Active</SelectItem>
-                  <SelectItem value='archived'>Archived</SelectItem>
-                  <SelectItem value='all'>All</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </div>
-
-        <div className='flex-1 overflow-y-auto'>
-          <ChatThreadList
-            threads={threads}
-            isLoading={threadsLoading}
-            onThreadSelect={handleThreadSelect}
-            selectedThreadId={selectedThreadId}
-            currentUserId={currentUserId}
-          />
-        </div>
-      </div>
+      <ChatSidebar
+        threads={threads}
+        threadsLoading={threadsLoading}
+        selectedThreadId={selectedThreadId}
+        currentUserId={currentUserId}
+        totalUnread={totalUnread}
+        threadTypeFilter={threadTypeFilter}
+        isArchivedFilter={isArchivedFilter}
+        onThreadSelect={handleThreadSelect}
+        onStartNewChat={() => setShowUserSelection(true)}
+        onThreadTypeFilterChange={setThreadTypeFilter}
+        onArchivedFilterChange={value => {
+          if (value === 'all') setIsArchivedFilter(undefined);
+          else setIsArchivedFilter(value === 'archived');
+        }}
+      />
 
       {/* Chat Area */}
-      <div className='flex-1 flex flex-col'>
-        {selectedThread ? (
-          <>
-            {/* Chat Header */}
-            <div className='p-4 border-b flex items-center justify-between'>
-              <div className='flex items-center space-x-3'>
-                <div>
-                  <h3 className='font-medium'>
-                    {selectedThread.threadType === 'individual'
-                      ? (() => {
-                          const otherParticipant = selectedThread.participantDetails.find(p => p._id !== currentUserId);
-                          return otherParticipant
-                            ? `${otherParticipant.firstName} ${otherParticipant.lastName}`
-                            : 'Individual Chat';
-                        })()
-                      : selectedThread.title ||
-                        `${selectedThread.threadType.charAt(0).toUpperCase() + selectedThread.threadType.slice(1)} Chat`}
-                  </h3>
-                  <p className='text-sm text-gray-500'>
-                    {selectedThread.participantDetails.length} participant
-                    {selectedThread.participantDetails.length !== 1 ? 's' : ''}
-                  </p>
-                </div>
-              </div>
-              <Button variant='outline' size='sm' onClick={() => setShowThreadDetail(true)}>
-                <Filter className='h-4 w-4 mr-1' />
-                Details
-              </Button>
-            </div>
-
-            {/* Messages */}
-            <div className='flex-1 overflow-y-auto p-4 space-y-4'>
-              <MessageList
-                messages={messages}
-                isLoading={messagesLoading}
-                onLoadMore={hasMore ? loadMore : undefined}
-                hasMore={hasMore}
-                currentUserId={currentUserId}
-              />
-            </div>
-
-            {/* Message Input */}
-            <div className='p-4 border-t '>
-              <MessageInput
-                threadId={selectedThreadId!}
-                onSendMessage={handleSendMessage}
-                onUploadAttachment={handleUploadAttachment}
-                replyTo={replyToMessage}
-                onCancelReply={() => setReplyToMessage(null)}
-              />
-            </div>
-          </>
-        ) : (
-          <div className='flex-1 flex items-center justify-center'>
-            <div className='text-center'>
-              <MessageCircle className='h-12 w-12 text-gray-400 mx-auto mb-4' />
-              <h3 className='text-lg font-medium text-gray-900 mb-2'>Select a conversation</h3>
-              <p className='text-gray-500'>Choose a conversation from the sidebar to start messaging.</p>
-            </div>
-          </div>
-        )}
-      </div>
+      {selectedThread ? (
+        <ChatMain
+          selectedThread={selectedThread}
+          messages={messages}
+          messagesLoading={messagesLoading}
+          hasMore={hasMore}
+          currentUserId={currentUserId}
+          onLoadMore={hasMore ? loadMore : undefined}
+          onSendMessage={handleSendMessage}
+          onUploadAttachment={handleUploadAttachment}
+          onShowThreadDetail={() => setShowThreadDetail(true)}
+          replyToMessage={replyToMessage}
+          onCancelReply={() => setReplyToMessage(null)}
+        />
+      ) : (
+        <NoThreadSelected />
+      )}
 
       {/* Thread Detail Sheet */}
       {selectedThreadId && (

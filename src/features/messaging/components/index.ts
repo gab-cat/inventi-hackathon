@@ -4,3 +4,8 @@ export * from './message-input';
 export * from './chat-thread-detail';
 export * from './user-selection-modal';
 export * from './messaging-dashboard';
+export * from './chat-header';
+export * from './chat-area';
+export * from './chat-sidebar';
+export * from './chat-main';
+export * from './no-thread-selected';
