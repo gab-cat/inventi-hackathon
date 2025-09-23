@@ -39,7 +39,7 @@ export default function ServicesScreen() {
       iconColor: '#F59E0B',
       bgColor: 'bg-yellow-50',
       route: '/deliveries',
-      available: false,
+      available: true,
     },
     {
       id: 'payment-gateway',
@@ -94,7 +94,10 @@ export default function ServicesScreen() {
       </ThemedView>
     );
 
-    if (service.available && (service.id === 'maintenance' || service.id === 'visitor-management')) {
+    if (
+      service.available &&
+      (service.id === 'maintenance' || service.id === 'visitor-management' || service.id === 'deliveries')
+    ) {
       return (
         // @ts-expect-error TODO: fix this
         <Link key={service.id} href={service.route} asChild>

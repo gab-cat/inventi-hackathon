@@ -17,11 +17,6 @@ export default function HomeScreen() {
   const [acknowledgedNotices, setAcknowledgedNotices] = useState<Set<string>>(new Set());
   const [eventRSVPStatus, setEventRSVPStatus] = useState<{ [eventId: string]: 'attending' | 'maybe' | 'declined' }>({});
 
-  // Noticeboard data queries
-  const notices = useQuery(api.noticeboard.mobileGetNotices, {
-    paginationOpts: { numItems: 10, cursor: null },
-  });
-
   const communityNews = useQuery(api.noticeboard.mobileGetCommunityNews, {
     paginationOpts: { numItems: 8, cursor: null },
   });
@@ -33,6 +28,11 @@ export default function HomeScreen() {
   // Use a stable key to ensure consistent query identity
   const activePolls = useQuery(api.noticeboard.mobileGetActivePolls, {
     paginationOpts: { numItems: 5, cursor: null },
+  });
+
+  // Noticeboard data queries
+  const notices = useQuery(api.noticeboard.mobileGetNotices, {
+    paginationOpts: { numItems: 10, cursor: null },
   });
 
   // Mutations

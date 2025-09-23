@@ -11,6 +11,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { usePropertyStore } from '@/stores/user.store';
+import { NotificationProvider } from '@/providers/notification.provider';
 import { useEffect, useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 
@@ -67,15 +68,17 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
           <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-            <AppInitializer />
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name='(auth)' options={{ headerShown: false }} />
-              <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-              <Stack.Screen name='(tech)' options={{ headerShown: false }} />
-              <Stack.Screen name='modal' options={{ presentation: 'modal', title: 'Modal' }} />
-            </Stack>
-            <PortalHost name='root' />
-            <StatusBar style='auto' />
+            <NotificationProvider>
+              <AppInitializer />
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+                <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+                <Stack.Screen name='(tech)' options={{ headerShown: false }} />
+                <Stack.Screen name='modal' options={{ presentation: 'modal', title: 'Modal' }} />
+              </Stack>
+              <PortalHost name='root' />
+              <StatusBar style='auto' />
+            </NotificationProvider>
           </ConvexProviderWithClerk>
         </ClerkProvider>
       </ThemeProvider>
