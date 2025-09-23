@@ -709,6 +709,9 @@ export default defineSchema({
         batteryLevel: v.optional(v.number()),
         signalStrength: v.optional(v.number()),
         temperature: v.optional(v.number()),
+        voltage: v.optional(v.number()),
+        current: v.optional(v.number()),
+        powerFactor: v.optional(v.number()),
       })
     ),
     createdAt: v.number(),
