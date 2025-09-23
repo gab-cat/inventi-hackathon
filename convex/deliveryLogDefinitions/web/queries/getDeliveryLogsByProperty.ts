@@ -7,13 +7,7 @@ export const webGetDeliveryLogsByPropertyArgs = {
   paginationOpts: paginationOptsValidator,
   propertyId: v.id('properties'),
   action: v.optional(
-    v.union(
-      v.literal('registered'),
-      v.literal('assigned'),
-      v.literal('delivered'),
-      v.literal('collected'),
-      v.literal('failed')
-    )
+    v.union(v.literal('registered'), v.literal('arrived'), v.literal('collected'), v.literal('failed'))
   ),
   dateFrom: v.optional(v.number()),
   dateTo: v.optional(v.number()),
@@ -26,7 +20,7 @@ export const webGetDeliveryLogsByPropertyReturns = v.object({
       _creationTime: v.number(),
       deliveryId: v.id('deliveries'),
       propertyId: v.id('properties'),
-      action: v.string(),
+      action: v.union(v.literal('registered'), v.literal('arrived'), v.literal('collected'), v.literal('failed')),
       timestamp: v.number(),
       performedBy: v.optional(v.id('users')),
       notes: v.optional(v.string()),
@@ -58,7 +52,7 @@ export const webGetDeliveryLogsByPropertyReturns = v.object({
 type Args = {
   paginationOpts: PaginationOptions;
   propertyId: Id<'properties'>;
-  action?: 'registered' | 'assigned' | 'delivered' | 'collected' | 'failed';
+  action?: 'registered' | 'arrived' | 'collected' | 'failed';
   dateFrom?: number;
   dateTo?: number;
 };

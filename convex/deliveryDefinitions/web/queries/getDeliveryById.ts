@@ -30,9 +30,8 @@ export const webGetDeliveryByIdReturns = v.union(
     estimatedDelivery: v.number(),
     actualDelivery: v.optional(v.number()),
     status: v.union(
-      v.literal('pending'),
-      v.literal('in_transit'),
-      v.literal('delivered'),
+      v.literal('registered'),
+      v.literal('arrived'),
       v.literal('collected'),
       v.literal('failed'),
       v.literal('returned')

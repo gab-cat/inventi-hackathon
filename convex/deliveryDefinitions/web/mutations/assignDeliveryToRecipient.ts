@@ -64,8 +64,8 @@ export const webAssignDeliveryToRecipientHandler = async (ctx: MutationCtx, args
   if (unit.propertyId !== delivery.propertyId) throw new Error('Unit does not belong to the delivery property');
 
   // Check if delivery can be assigned
-  if (delivery.status !== 'pending') {
-    throw new Error('Only pending deliveries can be assigned');
+  if (delivery.status !== 'registered') {
+    throw new Error('Only registered deliveries can be assigned');
   }
 
   const now = Date.now();
@@ -73,7 +73,7 @@ export const webAssignDeliveryToRecipientHandler = async (ctx: MutationCtx, args
   // Update the delivery
   await ctx.db.patch(args.deliveryId, {
     unitId: args.unitId,
-    status: 'in_transit',
+    status: 'arrived',
     updatedAt: now,
   });
 
@@ -81,7 +81,7 @@ export const webAssignDeliveryToRecipientHandler = async (ctx: MutationCtx, args
   await ctx.db.insert('deliveryLogs', {
     deliveryId: args.deliveryId,
     propertyId: delivery.propertyId,
-    action: 'assigned',
+    action: 'arrived',
     timestamp: now,
     performedBy: currentUser._id,
     notes:

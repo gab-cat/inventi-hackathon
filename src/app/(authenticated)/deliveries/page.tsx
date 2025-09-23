@@ -19,13 +19,11 @@ import {
   DeliveryListSkeleton,
   DeliveryStatsSkeleton,
 } from '@/features/delivery/components';
-import { useDeliveries } from '@/features/delivery/hooks/useDeliveries';
-import { useDeliveryMutations } from '@/features/delivery/hooks/useDeliveryMutations';
-import { useDeliveryLogs } from '@/features/delivery/hooks/useDeliveryLogs';
 import { useManagerProperties } from '@/features/noticeboard/hooks/useManagerProperties';
 import { useAllUnits } from '@/features/noticeboard/hooks/useAllUnits';
 import { usePropertyStore } from '@/features/property';
 import { CreateDeliveryForm, UpdateDeliveryForm, DeliveryWithDetails } from '@/features/delivery/types';
+import { useDeliveries, useDeliveryLogs, useDeliveryMutations } from '@/features/delivery';
 
 export default function DeliveriesPage() {
   const { selectedPropertyId } = usePropertyStore();
@@ -56,8 +54,8 @@ export default function DeliveriesPage() {
     isLoading: logsLoading,
     hasMore: logsHasMore,
     loadMore: logsLoadMore,
-    logsFilters,
-    setLogsFilters,
+    filters: logsFilters,
+    setFilters: setLogsFilters,
   } = useDeliveryLogs({ propertyId: selectedPropertyId });
 
   const { properties, isLoading: propertiesLoading } = useManagerProperties();
@@ -77,7 +75,7 @@ export default function DeliveriesPage() {
       await registerDelivery(data);
       setShowCreateModal(false);
     } catch (error) {
-      console.error('Failed to create delivery:', error);
+      // Error handling is now done in the mutation hook with toast notifications
     }
   };
 
@@ -115,7 +113,7 @@ export default function DeliveriesPage() {
       });
       setAssigningDelivery(null);
     } catch (error) {
-      console.error('Failed to assign delivery:', error);
+      // Error handling is now done in the mutation hook with toast notifications
     }
   };
 
@@ -129,7 +127,7 @@ export default function DeliveriesPage() {
       });
       setUpdatingStatusDelivery(null);
     } catch (error) {
-      console.error('Failed to update delivery status:', error);
+      // Error handling is now done in the mutation hook with toast notifications
     }
   };
 
@@ -140,7 +138,7 @@ export default function DeliveriesPage() {
       console.log('Editing delivery:', editingDelivery._id, data);
       setEditingDelivery(null);
     } catch (error) {
-      console.error('Failed to edit delivery:', error);
+      // Error handling is now done in the mutation hook with toast notifications
     }
   };
 
@@ -175,8 +173,8 @@ export default function DeliveriesPage() {
 
   // Calculate stats
   const totalDeliveries = deliveries.length;
-  const pendingDeliveries = deliveries.filter(d => d.status === 'pending').length;
-  const inTransitDeliveries = deliveries.filter(d => d.status === 'in_transit').length;
+  const pendingDeliveries = deliveries.filter(d => d.status === 'registered').length;
+  const inTransitDeliveries = deliveries.filter(d => d.status === 'arrived').length;
   const collectedDeliveries = deliveries.filter(d => d.status === 'collected').length;
 
   return (

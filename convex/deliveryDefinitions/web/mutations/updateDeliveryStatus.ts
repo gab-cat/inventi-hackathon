@@ -5,9 +5,8 @@ import { Id } from '../../../_generated/dataModel';
 export const webUpdateDeliveryStatusArgs = {
   deliveryId: v.id('deliveries'),
   status: v.union(
-    v.literal('pending'),
-    v.literal('in_transit'),
-    v.literal('delivered'),
+    v.literal('registered'),
+    v.literal('arrived'),
     v.literal('collected'),
     v.literal('failed'),
     v.literal('returned')
@@ -31,7 +30,13 @@ export const webUpdateDeliveryStatusReturns = v.object({
   description: v.string(),
   estimatedDelivery: v.number(),
   actualDelivery: v.optional(v.number()),
-  status: v.string(),
+  status: v.union(
+    v.literal('registered'),
+    v.literal('arrived'),
+    v.literal('collected'),
+    v.literal('failed'),
+    v.literal('returned')
+  ),
   deliveryLocation: v.optional(v.string()),
   deliveryNotes: v.optional(v.string()),
   photos: v.optional(v.array(v.string())),
@@ -42,7 +47,7 @@ export const webUpdateDeliveryStatusReturns = v.object({
 
 type Args = {
   deliveryId: Id<'deliveries'>;
-  status: 'pending' | 'in_transit' | 'delivered' | 'collected' | 'failed' | 'returned';
+  status: 'registered' | 'arrived' | 'collected' | 'failed' | 'returned';
   notes?: string;
   actualDelivery?: number;
 };
@@ -69,11 +74,10 @@ export const webUpdateDeliveryStatusHandler = async (ctx: MutationCtx, args: Arg
 
   // Validate status transition
   const validTransitions: Record<string, string[]> = {
-    pending: ['in_transit', 'failed', 'returned'],
-    in_transit: ['delivered', 'failed', 'returned'],
-    delivered: ['collected', 'failed', 'returned'],
+    registered: ['arrived', 'failed', 'returned'],
+    arrived: ['collected', 'failed', 'returned'],
     collected: [], // Final state
-    failed: ['pending', 'returned'],
+    failed: ['registered', 'returned'],
     returned: [], // Final state
   };
 
@@ -89,10 +93,10 @@ export const webUpdateDeliveryStatusHandler = async (ctx: MutationCtx, args: Arg
     updatedAt: now,
   };
 
-  // Set actual delivery time if provided or if status is delivered/collected
+  // Set actual delivery time if provided or if status is arrived/collected
   if (args.actualDelivery) {
     updateData.actualDelivery = args.actualDelivery;
-  } else if (['delivered', 'collected'].includes(args.status) && !delivery.actualDelivery) {
+  } else if (['arrived', 'collected'].includes(args.status) && !delivery.actualDelivery) {
     updateData.actualDelivery = now;
   }
 
@@ -103,7 +107,7 @@ export const webUpdateDeliveryStatusHandler = async (ctx: MutationCtx, args: Arg
   await ctx.db.insert('deliveryLogs', {
     deliveryId: args.deliveryId,
     propertyId: delivery.propertyId,
-    action: args.status === 'delivered' ? 'delivered' : 'failed',
+    action: args.status === 'arrived' ? 'arrived' : args.status === 'collected' ? 'collected' : 'failed',
     timestamp: now,
     performedBy: currentUser._id,
     notes: args.notes || `Status updated to ${args.status} by ${currentUser.firstName} ${currentUser.lastName}`,

@@ -56,18 +56,17 @@ export function DeliveryUpdateStatusModal({
   // Define valid status transitions
   const getValidStatuses = (currentStatus: string) => {
     const validTransitions: Record<string, string[]> = {
-      pending: ['in_transit', 'failed', 'returned'],
-      in_transit: ['delivered', 'failed', 'returned'],
-      delivered: ['collected', 'failed', 'returned'],
+      registered: ['arrived', 'failed', 'returned'],
+      arrived: ['collected', 'failed', 'returned'],
       collected: [], // Final state
-      failed: ['pending', 'returned'],
+      failed: ['registered', 'returned'],
       returned: [], // Final state
     };
     return validTransitions[currentStatus] || [];
   };
 
   const validStatuses = getValidStatuses(currentStatus);
-  const showActualDeliveryField = ['delivered', 'collected'].includes(selectedStatus);
+  const showActualDeliveryField = ['arrived', 'collected'].includes(selectedStatus);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

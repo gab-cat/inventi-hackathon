@@ -5,6 +5,8 @@ import { format } from 'date-fns';
 import { CalendarIcon, Plus, X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useQuery } from 'convex/react';
+import { api } from '@convex/_generated/api';
 import { Button } from '../../../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../../../components/ui/form';
@@ -19,6 +21,7 @@ const deliveryFormSchema = z.object({
   deliveryType: z.enum(['package', 'food', 'grocery', 'mail', 'other']),
   senderName: z.string().min(1, 'Sender name is required').max(100, 'Sender name must be less than 100 characters'),
   senderCompany: z.string().optional(),
+  recipientId: z.string().optional(),
   recipientName: z
     .string()
     .min(1, 'Recipient name is required')
@@ -52,6 +55,7 @@ export function DeliveryForm({
       deliveryType: initialData?.deliveryType || 'package',
       senderName: initialData?.senderName || '',
       senderCompany: initialData?.senderCompany || '',
+      recipientId: initialData?.recipientId || '',
       recipientName: initialData?.recipientName || '',
       recipientPhone: initialData?.recipientPhone || '',
       recipientEmail: initialData?.recipientEmail || '',
@@ -65,7 +69,19 @@ export function DeliveryForm({
   });
 
   const selectedPropertyId = form.watch('propertyId');
+  const selectedUnitId = form.watch('unitId');
   const availableUnits = units.filter(unit => unit.propertyId === selectedPropertyId);
+
+  // Fetch users based on selected property and unit
+  const users = useQuery(
+    api.user.webGetUsersByPropertyAndUnit,
+    selectedPropertyId
+      ? {
+          propertyId: selectedPropertyId as any,
+          unitId: selectedUnitId ? (selectedUnitId as any) : undefined,
+        }
+      : 'skip'
+  );
 
   const handleSubmit = (data: DeliveryFormData) => {
     onSubmit(data);
@@ -226,6 +242,49 @@ export function DeliveryForm({
               <CardTitle className='text-lg'>Recipient Information</CardTitle>
             </CardHeader>
             <CardContent className='space-y-4'>
+              <FormField
+                control={form.control}
+                name='recipientId'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Select Recipient (Optional)</FormLabel>
+                    <Select
+                      onValueChange={value => {
+                        field.onChange(value);
+                        if (value && value !== 'manual' && users) {
+                          const selectedUser = users.find(user => user._id === value);
+                          if (selectedUser) {
+                            form.setValue('recipientName', selectedUser.fullName);
+                            form.setValue('recipientPhone', selectedUser.phone || '');
+                            form.setValue('recipientEmail', selectedUser.email);
+                          }
+                        } else {
+                          form.setValue('recipientName', '');
+                          form.setValue('recipientPhone', '');
+                          form.setValue('recipientEmail', '');
+                        }
+                      }}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select a recipient from the property/unit' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value='manual'>Manual Entry</SelectItem>
+                        {users?.map(user => (
+                          <SelectItem key={user._id} value={user._id}>
+                            {user.fullName} {user.unitNumber && `(Unit ${user.unitNumber})`}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name='recipientName'
