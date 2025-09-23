@@ -1,18 +1,18 @@
 import React from 'react';
-import { ScrollView, View, TouchableOpacity, Alert, Image } from 'react-native';
+import { ScrollView, View, Alert, Image } from 'react-native';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '@convex/_generated/api';
 import { ThemedView } from '@/components/themed-view';
-import { useLocalSearchParams, router } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Icon } from '@/components/ui/icon';
+import { PageHeader } from '@/components/ui/page-header';
 
 import { CostTrackerModal } from '@/components/tech/cost-tracker-modal';
 import { AddUpdateModal } from '@/components/tech/add-update-modal';
 import { compressImage } from '../../lib/image-utils';
 import {
-  ArrowLeft,
   Wrench,
   User,
   MapPin,
@@ -44,7 +44,7 @@ export default function TechRequestDetailsScreen() {
   // Mutations
   const updateStatus = useMutation(api.tech.updateRequestStatus);
   const addPhoto = useMutation(api.tech.addMaintenancePhoto);
-  const generateUploadUrl = useMutation(api.tech.generateUploadUrl);
+  const generateUploadUrl = useMutation(api.file.generateUploadUrl);
   const saveUploadedPhoto = useMutation(api.tech.saveUploadedPhoto);
   const updateCost = useMutation(api.tech.updateMaintenanceCost);
   const requestApproval = useMutation(api.tech.requestTenantApproval);
@@ -69,7 +69,7 @@ export default function TechRequestDetailsScreen() {
       );
 
       // Step 2: Generate upload URL
-      const urlResult = await generateUploadUrl();
+      const urlResult = await generateUploadUrl({});
       if (!urlResult.success || !urlResult.uploadUrl) {
         throw new Error(urlResult.message || 'Failed to generate upload URL');
       }
@@ -354,31 +354,19 @@ export default function TechRequestDetailsScreen() {
 
   return (
     <ThemedView style={{ flex: 1 }} className='bg-background'>
-      {/* Header */}
-      <View className='pt-12 px-5 pb-4 bg-blue-800 rounded-b-[20px]'>
-        <View className='flex-row items-center justify-between'>
-          {/* Left side: Arrow + Title */}
-          <View className='flex-row items-center gap-4 flex-1'>
-            <TouchableOpacity onPress={() => router.back()}>
-              <Icon as={ArrowLeft} size={24} className='text-white' />
-            </TouchableOpacity>
-            <View className='flex-1'>
-              <Text className='text-xl font-bold text-white'>Request Details</Text>
-              <Text className='text-sm text-white/80' numberOfLines={1}>
-                {request.title}
-              </Text>
-            </View>
-          </View>
-
-          {/* Right side: Status Badge */}
+      <PageHeader
+        title='Request Details'
+        subtitle={request.title}
+        type='back'
+        rightSlot={
           <View className={`px-3 py-1 rounded-full border border-white/20 ${getStatusColor(request.status)}`}>
             <View className='flex-row items-center gap-2'>
               {getStatusIcon(request.status)}
               <Text className='text-sm font-medium capitalize'>{request.status.replace('_', ' ')}</Text>
             </View>
           </View>
-        </View>
-      </View>
+        }
+      />
 
       {/* Top Action Button */}
       {request.status === 'assigned' && (

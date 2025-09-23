@@ -1,5 +1,6 @@
 import { query } from './_generated/server';
 import { getCurrentUserArgs, getCurrentUserHandler } from './userDefinitions/mobile/queries/getCurrentUser';
+import { getUserPropertiesArgs, getUserPropertiesHandler, getUserPropertiesReturns } from './userDefinitions';
 import {
   webGetCurrentUserArgs,
   webGetCurrentUserHandler,
@@ -31,4 +32,10 @@ export const webGetUsers = query({
 export const getCurrentUser = query({
   args: getCurrentUserArgs,
   handler: getCurrentUserHandler,
+});
+
+export const getUserProperties = query({
+  args: getUserPropertiesArgs,
+  returns: getUserPropertiesReturns,
+  handler: getUserPropertiesHandler,
 });

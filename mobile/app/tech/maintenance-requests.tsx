@@ -7,6 +7,7 @@ import { Link } from 'expo-router';
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
 import { Icon } from '@/components/ui/icon';
+import { PageHeader } from '@/components/ui/page-header';
 import {
   Wrench,
   Search,
@@ -143,25 +144,14 @@ export default function TechMaintenanceRequestsScreen() {
 
   return (
     <ThemedView style={{ flex: 1 }} className='bg-background'>
-      {/* Header */}
-      <View className='pt-12 px-5 pb-8 bg-blue-800 rounded-b-[20px]'>
-        <View className='flex-row justify-between items-center mb-6'>
-          <View className='flex-row items-center gap-3'>
-            <View className='w-12 h-12 rounded-xl bg-white/20 items-center justify-center'>
-              <Icon as={Wrench} size={28} className='text-white' />
-            </View>
-            <View>
-              <Text className='text-3xl font-bold text-white tracking-tight'>My Requests</Text>
-              <Text className='text-sm text-white/80 mt-0.5'>Assigned maintenance tasks</Text>
-            </View>
-          </View>
-        </View>
+      <PageHeader title='My Requests' subtitle='Assigned maintenance tasks' type='back' />
 
-        {/* Search */}
+      {/* Search */}
+      <View className='px-5 pb-5 pt-4'>
         <View className='relative'>
           <Icon as={Search} size={20} className='absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60' />
           <TextInput
-            className='w-full h-12 pl-12 pr-4 bg-white/10 rounded-xl placeholder:text-white/60'
+            className='w-full h-12 pl-12 pr-4 bg-blue-800 rounded-xl placeholder:text-white/60 text-white'
             placeholder='Search requests...'
             value={searchQuery}
             onChangeText={setSearchQuery}

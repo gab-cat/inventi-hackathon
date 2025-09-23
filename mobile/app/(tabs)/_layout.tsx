@@ -39,20 +39,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name='explore'
+        name='services'
         options={{
-          title: 'Explore',
+          title: 'Services',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons size={focused ? 28 : 24} name='compass' color={focused ? color : color + '80'} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name='maintenance'
-        options={{
-          title: 'Maintenance',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons size={focused ? 28 : 24} name='construct' color={focused ? color : color + '80'} />
+            <Ionicons size={focused ? 28 : 24} name='grid' color={focused ? color : color + '80'} />
           ),
         }}
       />
