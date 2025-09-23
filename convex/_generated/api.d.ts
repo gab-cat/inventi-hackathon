@@ -8,11 +8,6 @@
  * @module
  */
 
-import type {
-  ApiFromModules,
-  FilterApi,
-  FunctionReference,
-} from "convex/server";
 import type * as assetDefinitions_index from "../assetDefinitions/index.js";
 import type * as assetDefinitions_web_mutations_addAsset from "../assetDefinitions/web/mutations/addAsset.js";
 import type * as assetDefinitions_web_mutations_assignAssetToUser from "../assetDefinitions/web/mutations/assignAssetToUser.js";
@@ -42,9 +37,15 @@ import type * as assetDefinitions_web_queries_getInventoryLevels from "../assetD
 import type * as assetDefinitions_web_queries_getMaintenanceSchedule from "../assetDefinitions/web/queries/getMaintenanceSchedule.js";
 import type * as assetDefinitions_web_queries_getManagerProperties from "../assetDefinitions/web/queries/getManagerProperties.js";
 import type * as assets from "../assets.js";
-import type * as file from "../file.js";
 import type * as delivery from "../delivery.js";
 import type * as deliveryDefinitions_index from "../deliveryDefinitions/index.js";
+import type * as deliveryDefinitions_mobile_index from "../deliveryDefinitions/mobile/index.js";
+import type * as deliveryDefinitions_mobile_mutations_confirmDeliveryReceipt from "../deliveryDefinitions/mobile/mutations/confirmDeliveryReceipt.js";
+import type * as deliveryDefinitions_mobile_mutations_notifyIncomingDelivery from "../deliveryDefinitions/mobile/mutations/notifyIncomingDelivery.js";
+import type * as deliveryDefinitions_mobile_mutations_reportDeliveryIssue from "../deliveryDefinitions/mobile/mutations/reportDeliveryIssue.js";
+import type * as deliveryDefinitions_mobile_queries_getDeliveryLog from "../deliveryDefinitions/mobile/queries/getDeliveryLog.js";
+import type * as deliveryDefinitions_mobile_queries_getDeliveryStatus from "../deliveryDefinitions/mobile/queries/getDeliveryStatus.js";
+import type * as deliveryDefinitions_mobile_queries_getMyDeliveries from "../deliveryDefinitions/mobile/queries/getMyDeliveries.js";
 import type * as deliveryDefinitions_web_mutations_assignDeliveryToRecipient from "../deliveryDefinitions/web/mutations/assignDeliveryToRecipient.js";
 import type * as deliveryDefinitions_web_mutations_markDeliveryAsCollected from "../deliveryDefinitions/web/mutations/markDeliveryAsCollected.js";
 import type * as deliveryDefinitions_web_mutations_registerDelivery from "../deliveryDefinitions/web/mutations/registerDelivery.js";
@@ -56,6 +57,7 @@ import type * as deliveryDefinitions_web_queries_searchDeliveryHistory from "../
 import type * as deliveryLog from "../deliveryLog.js";
 import type * as deliveryLogDefinitions_index from "../deliveryLogDefinitions/index.js";
 import type * as deliveryLogDefinitions_web_queries_getDeliveryLogsByProperty from "../deliveryLogDefinitions/web/queries/getDeliveryLogsByProperty.js";
+import type * as file from "../file.js";
 import type * as http from "../http.js";
 import type * as maintenance from "../maintenance.js";
 import type * as maintenanceDefinitions_index from "../maintenanceDefinitions/index.js";
@@ -128,7 +130,9 @@ import type * as propertyDefinitions_web_mutations_createProperty from "../prope
 import type * as propertyDefinitions_web_mutations_index from "../propertyDefinitions/web/mutations/index.js";
 import type * as propertyDefinitions_web_queries_getManagerProperties from "../propertyDefinitions/web/queries/getManagerProperties.js";
 import type * as propertyDefinitions_web_queries_index from "../propertyDefinitions/web/queries/index.js";
+import type * as pushNotifications from "../pushNotifications.js";
 import type * as seeders_assets from "../seeders/assets.js";
+import type * as seeders_deliveries from "../seeders/deliveries.js";
 import type * as seeders_notice from "../seeders/notice.js";
 import type * as seeders_units from "../seeders/units.js";
 import type * as seeders_visitorLogs from "../seeders/visitorLogs.js";
@@ -213,6 +217,12 @@ import type * as webhookDefinitions_handleUserUpdated from "../webhookDefinition
 import type * as webhookDefinitions_index from "../webhookDefinitions/index.js";
 import type * as webhookDefinitions_verifyWebhook from "../webhookDefinitions/verifyWebhook.js";
 
+import type {
+  ApiFromModules,
+  FilterApi,
+  FunctionReference,
+} from "convex/server";
+
 /**
  * A utility for referencing Convex functions in your app's API.
  *
@@ -251,9 +261,15 @@ declare const fullApi: ApiFromModules<{
   "assetDefinitions/web/queries/getMaintenanceSchedule": typeof assetDefinitions_web_queries_getMaintenanceSchedule;
   "assetDefinitions/web/queries/getManagerProperties": typeof assetDefinitions_web_queries_getManagerProperties;
   assets: typeof assets;
-  file: typeof file;
   delivery: typeof delivery;
   "deliveryDefinitions/index": typeof deliveryDefinitions_index;
+  "deliveryDefinitions/mobile/index": typeof deliveryDefinitions_mobile_index;
+  "deliveryDefinitions/mobile/mutations/confirmDeliveryReceipt": typeof deliveryDefinitions_mobile_mutations_confirmDeliveryReceipt;
+  "deliveryDefinitions/mobile/mutations/notifyIncomingDelivery": typeof deliveryDefinitions_mobile_mutations_notifyIncomingDelivery;
+  "deliveryDefinitions/mobile/mutations/reportDeliveryIssue": typeof deliveryDefinitions_mobile_mutations_reportDeliveryIssue;
+  "deliveryDefinitions/mobile/queries/getDeliveryLog": typeof deliveryDefinitions_mobile_queries_getDeliveryLog;
+  "deliveryDefinitions/mobile/queries/getDeliveryStatus": typeof deliveryDefinitions_mobile_queries_getDeliveryStatus;
+  "deliveryDefinitions/mobile/queries/getMyDeliveries": typeof deliveryDefinitions_mobile_queries_getMyDeliveries;
   "deliveryDefinitions/web/mutations/assignDeliveryToRecipient": typeof deliveryDefinitions_web_mutations_assignDeliveryToRecipient;
   "deliveryDefinitions/web/mutations/markDeliveryAsCollected": typeof deliveryDefinitions_web_mutations_markDeliveryAsCollected;
   "deliveryDefinitions/web/mutations/registerDelivery": typeof deliveryDefinitions_web_mutations_registerDelivery;
@@ -265,6 +281,7 @@ declare const fullApi: ApiFromModules<{
   deliveryLog: typeof deliveryLog;
   "deliveryLogDefinitions/index": typeof deliveryLogDefinitions_index;
   "deliveryLogDefinitions/web/queries/getDeliveryLogsByProperty": typeof deliveryLogDefinitions_web_queries_getDeliveryLogsByProperty;
+  file: typeof file;
   http: typeof http;
   maintenance: typeof maintenance;
   "maintenanceDefinitions/index": typeof maintenanceDefinitions_index;
@@ -337,7 +354,9 @@ declare const fullApi: ApiFromModules<{
   "propertyDefinitions/web/mutations/index": typeof propertyDefinitions_web_mutations_index;
   "propertyDefinitions/web/queries/getManagerProperties": typeof propertyDefinitions_web_queries_getManagerProperties;
   "propertyDefinitions/web/queries/index": typeof propertyDefinitions_web_queries_index;
+  pushNotifications: typeof pushNotifications;
   "seeders/assets": typeof seeders_assets;
+  "seeders/deliveries": typeof seeders_deliveries;
   "seeders/notice": typeof seeders_notice;
   "seeders/units": typeof seeders_units;
   "seeders/visitorLogs": typeof seeders_visitorLogs;
@@ -422,11 +441,177 @@ declare const fullApi: ApiFromModules<{
   "webhookDefinitions/index": typeof webhookDefinitions_index;
   "webhookDefinitions/verifyWebhook": typeof webhookDefinitions_verifyWebhook;
 }>;
+declare const fullApiWithMounts: typeof fullApi;
+
 export declare const api: FilterApi<
-  typeof fullApi,
+  typeof fullApiWithMounts,
   FunctionReference<any, "public">
 >;
 export declare const internal: FilterApi<
-  typeof fullApi,
+  typeof fullApiWithMounts,
   FunctionReference<any, "internal">
 >;
+
+export declare const components: {
+  pushNotifications: {
+    public: {
+      deleteNotificationsForUser: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR"; userId: string },
+        any
+      >;
+      getNotification: FunctionReference<
+        "query",
+        "internal",
+        { id: string; logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR" },
+        null | {
+          _contentAvailable?: boolean;
+          _creationTime: number;
+          badge?: number;
+          body?: string;
+          categoryId?: string;
+          channelId?: string;
+          data?: any;
+          expiration?: number;
+          interruptionLevel?:
+            | "active"
+            | "critical"
+            | "passive"
+            | "time-sensitive";
+          mutableContent?: boolean;
+          numPreviousFailures: number;
+          priority?: "default" | "normal" | "high";
+          sound?: string | null;
+          state:
+            | "awaiting_delivery"
+            | "in_progress"
+            | "delivered"
+            | "needs_retry"
+            | "failed"
+            | "maybe_delivered"
+            | "unable_to_deliver";
+          subtitle?: string;
+          title?: string;
+          ttl?: number;
+        }
+      >;
+      getNotificationsForUser: FunctionReference<
+        "query",
+        "internal",
+        {
+          limit?: number;
+          logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR";
+          userId: string;
+        },
+        Array<{
+          _contentAvailable?: boolean;
+          _creationTime: number;
+          badge?: number;
+          body?: string;
+          categoryId?: string;
+          channelId?: string;
+          data?: any;
+          expiration?: number;
+          id: string;
+          interruptionLevel?:
+            | "active"
+            | "critical"
+            | "passive"
+            | "time-sensitive";
+          mutableContent?: boolean;
+          numPreviousFailures: number;
+          priority?: "default" | "normal" | "high";
+          sound?: string | null;
+          state:
+            | "awaiting_delivery"
+            | "in_progress"
+            | "delivered"
+            | "needs_retry"
+            | "failed"
+            | "maybe_delivered"
+            | "unable_to_deliver";
+          subtitle?: string;
+          title?: string;
+          ttl?: number;
+        }>
+      >;
+      getStatusForUser: FunctionReference<
+        "query",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR"; userId: string },
+        { hasToken: boolean; paused: boolean }
+      >;
+      pauseNotificationsForUser: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR"; userId: string },
+        null
+      >;
+      recordPushNotificationToken: FunctionReference<
+        "mutation",
+        "internal",
+        {
+          logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR";
+          pushToken: string;
+          userId: string;
+        },
+        null
+      >;
+      removePushNotificationToken: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR"; userId: string },
+        null
+      >;
+      restart: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR" },
+        boolean
+      >;
+      sendPushNotification: FunctionReference<
+        "mutation",
+        "internal",
+        {
+          allowUnregisteredTokens?: boolean;
+          logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR";
+          notification: {
+            _contentAvailable?: boolean;
+            badge?: number;
+            body?: string;
+            categoryId?: string;
+            channelId?: string;
+            data?: any;
+            expiration?: number;
+            interruptionLevel?:
+              | "active"
+              | "critical"
+              | "passive"
+              | "time-sensitive";
+            mutableContent?: boolean;
+            priority?: "default" | "normal" | "high";
+            sound?: string | null;
+            subtitle?: string;
+            title?: string;
+            ttl?: number;
+          };
+          userId: string;
+        },
+        string | null
+      >;
+      shutdown: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR" },
+        { data?: any; message: string }
+      >;
+      unpauseNotificationsForUser: FunctionReference<
+        "mutation",
+        "internal",
+        { logLevel: "DEBUG" | "INFO" | "WARN" | "ERROR"; userId: string },
+        null
+      >;
+    };
+  };
+};
