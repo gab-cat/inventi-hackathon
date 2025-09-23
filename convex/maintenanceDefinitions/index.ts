@@ -4,6 +4,8 @@ export * from './mobile';
 export * from './web/queries/getMaintenanceKPIs';
 export * from './web/queries/getMaintenanceRequests';
 export * from './web/queries/getMaintenanceTrends';
+export * from './web/queries/getMaintenanceUpdates';
+export * from './web/queries/getMaintenanceUpdatesCount';
 export * from './web/queries/getManagerProperties';
 export * from './web/queries/getTechnicianWorkload';
 export * from './web/queries/getTechnicians';

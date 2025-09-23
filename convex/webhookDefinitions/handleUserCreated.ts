@@ -36,7 +36,7 @@ export const handleUserCreatedHandler = async (ctx: MutationCtx, args: Infer<typ
     lastName,
     phone,
     profileImage,
-    role: 'tenant',
+    role: 'manager',
     isActive: true,
     lastLoginAt: Date.now(),
     createdAt: Date.now(),

@@ -8,6 +8,8 @@ import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { DialogTitle } from '@/components/ui/dialog';
 import { MaintenanceRequest } from '../types';
 import { PriorityBadge } from './priority-badge';
+import { MaintenanceUpdatesTimeline } from './maintenance-updates-timeline';
+import { useMaintenanceUpdates } from '../hooks/useMaintenanceUpdates';
 import {
   MapPin,
   User,
@@ -38,6 +40,11 @@ export function MaintenanceDetailSheet({
   onStatusChange,
 }: MaintenanceDetailSheetProps) {
   const [selectedStatus, setSelectedStatus] = useState<string>('');
+
+  // Fetch maintenance updates for this request
+  const { updates, isLoading: updatesLoading } = useMaintenanceUpdates({
+    requestId: request?._id,
+  });
 
   if (!request) return null;
 
@@ -322,6 +329,11 @@ export function MaintenanceDetailSheet({
                 )}
               </div>
             </div>
+          </div>
+
+          {/* Status Updates Timeline */}
+          <div className='space-y-4 pt-4 border-t'>
+            <MaintenanceUpdatesTimeline updates={updates} isLoading={updatesLoading} />
           </div>
 
           {/* Actions */}

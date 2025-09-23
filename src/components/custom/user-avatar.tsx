@@ -1,10 +1,9 @@
-import { useUsers } from '@/features/user/hooks/useUsers';
+import { useGetUserById } from '@/features/user/hooks/useGetUserById';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Id } from '@convex/_generated/dataModel';
 
 export const UserAvatar = ({ id }: { id: Id<'users'> }) => {
-  const user = useUsers(id);
-  console.log(user);
+  const user = useGetUserById(id);
   return (
     <div className='flex items-center gap-2  text-left text-sm'>
       <Avatar className='h-7 w-7 rounded-full'>
