@@ -54,7 +54,7 @@ export const seedDeliveries = mutation({
         description: 'Wireless Bluetooth Headphones - Black',
         estimatedDelivery: Date.now() + 2 * 24 * 60 * 60 * 1000, // 2 days from now
         actualDelivery: undefined,
-        status: 'pending' as const,
+        status: 'registered' as const,
         deliveryLocation: 'lobby',
         deliveryNotes: 'Fragile item - handle with care',
         photos: [],
@@ -75,7 +75,7 @@ export const seedDeliveries = mutation({
         description: 'Chicken Joy with Jolly Hotdog and Tuna Pie',
         estimatedDelivery: Date.now() + 1 * 60 * 60 * 1000, // 1 hour from now
         actualDelivery: undefined,
-        status: 'in_transit' as const,
+        status: 'arrived' as const,
         deliveryLocation: 'unit',
         deliveryNotes: 'Hot food - please deliver quickly',
         photos: [],
@@ -98,7 +98,7 @@ export const seedDeliveries = mutation({
         description: 'Weekly grocery delivery - fruits, vegetables, and household items',
         estimatedDelivery: Date.now() - 2 * 24 * 60 * 60 * 1000, // 2 days ago
         actualDelivery: Date.now() - 1 * 24 * 60 * 60 * 1000, // 1 day ago
-        status: 'delivered' as const,
+        status: 'arrived' as const,
         deliveryLocation: 'mailroom',
         deliveryNotes: 'Perishable items included - refrigerate immediately',
         photos: ['https://example.com/delivery1.jpg'],
@@ -119,7 +119,7 @@ export const seedDeliveries = mutation({
         description: 'Official document and bank statements',
         estimatedDelivery: Date.now() - 3 * 24 * 60 * 60 * 1000, // 3 days ago
         actualDelivery: Date.now() - 2 * 24 * 60 * 60 * 1000, // 2 days ago
-        status: 'delivered' as const,
+        status: 'arrived' as const,
         deliveryLocation: 'lobby',
         deliveryNotes: 'Requires signature upon pickup',
         photos: [],
@@ -296,7 +296,7 @@ export const seedDeliveries = mutation({
       {
         deliveryId: deliveryIds[2],
         propertyId: sampleProperties[1]._id,
-        action: 'delivered' as const,
+        action: 'arrived' as const,
         notes: 'Package delivered to mailroom successfully',
         performedBy: targetUser._id,
         timestamp: Date.now() - 1 * 24 * 60 * 60 * 1000,
@@ -305,7 +305,7 @@ export const seedDeliveries = mutation({
       {
         deliveryId: deliveryIds[3],
         propertyId: sampleProperties[1]._id,
-        action: 'delivered' as const,
+        action: 'arrived' as const,
         notes: 'Mail delivered to lobby reception',
         performedBy: targetUser._id,
         timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000,

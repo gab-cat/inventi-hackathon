@@ -53,6 +53,13 @@ import type * as chatThreadDefinitions_web_queries_index from "../chatThreadDefi
 import type * as chatThreads from "../chatThreads.js";
 import type * as delivery from "../delivery.js";
 import type * as deliveryDefinitions_index from "../deliveryDefinitions/index.js";
+import type * as deliveryDefinitions_mobile_index from "../deliveryDefinitions/mobile/index.js";
+import type * as deliveryDefinitions_mobile_mutations_confirmDeliveryReceipt from "../deliveryDefinitions/mobile/mutations/confirmDeliveryReceipt.js";
+import type * as deliveryDefinitions_mobile_mutations_notifyIncomingDelivery from "../deliveryDefinitions/mobile/mutations/notifyIncomingDelivery.js";
+import type * as deliveryDefinitions_mobile_mutations_reportDeliveryIssue from "../deliveryDefinitions/mobile/mutations/reportDeliveryIssue.js";
+import type * as deliveryDefinitions_mobile_queries_getDeliveryLog from "../deliveryDefinitions/mobile/queries/getDeliveryLog.js";
+import type * as deliveryDefinitions_mobile_queries_getDeliveryStatus from "../deliveryDefinitions/mobile/queries/getDeliveryStatus.js";
+import type * as deliveryDefinitions_mobile_queries_getMyDeliveries from "../deliveryDefinitions/mobile/queries/getMyDeliveries.js";
 import type * as deliveryDefinitions_web_mutations_assignDeliveryToRecipient from "../deliveryDefinitions/web/mutations/assignDeliveryToRecipient.js";
 import type * as deliveryDefinitions_web_mutations_markDeliveryAsCollected from "../deliveryDefinitions/web/mutations/markDeliveryAsCollected.js";
 import type * as deliveryDefinitions_web_mutations_registerDelivery from "../deliveryDefinitions/web/mutations/registerDelivery.js";
@@ -64,6 +71,7 @@ import type * as deliveryDefinitions_web_queries_searchDeliveryHistory from "../
 import type * as deliveryLog from "../deliveryLog.js";
 import type * as deliveryLogDefinitions_index from "../deliveryLogDefinitions/index.js";
 import type * as deliveryLogDefinitions_web_queries_getDeliveryLogsByProperty from "../deliveryLogDefinitions/web/queries/getDeliveryLogsByProperty.js";
+import type * as file from "../file.js";
 import type * as http from "../http.js";
 import type * as iot from "../iot.js";
 import type * as iotDefinitions_index from "../iotDefinitions/index.js";
@@ -319,6 +327,13 @@ declare const fullApi: ApiFromModules<{
   chatThreads: typeof chatThreads;
   delivery: typeof delivery;
   "deliveryDefinitions/index": typeof deliveryDefinitions_index;
+  "deliveryDefinitions/mobile/index": typeof deliveryDefinitions_mobile_index;
+  "deliveryDefinitions/mobile/mutations/confirmDeliveryReceipt": typeof deliveryDefinitions_mobile_mutations_confirmDeliveryReceipt;
+  "deliveryDefinitions/mobile/mutations/notifyIncomingDelivery": typeof deliveryDefinitions_mobile_mutations_notifyIncomingDelivery;
+  "deliveryDefinitions/mobile/mutations/reportDeliveryIssue": typeof deliveryDefinitions_mobile_mutations_reportDeliveryIssue;
+  "deliveryDefinitions/mobile/queries/getDeliveryLog": typeof deliveryDefinitions_mobile_queries_getDeliveryLog;
+  "deliveryDefinitions/mobile/queries/getDeliveryStatus": typeof deliveryDefinitions_mobile_queries_getDeliveryStatus;
+  "deliveryDefinitions/mobile/queries/getMyDeliveries": typeof deliveryDefinitions_mobile_queries_getMyDeliveries;
   "deliveryDefinitions/web/mutations/assignDeliveryToRecipient": typeof deliveryDefinitions_web_mutations_assignDeliveryToRecipient;
   "deliveryDefinitions/web/mutations/markDeliveryAsCollected": typeof deliveryDefinitions_web_mutations_markDeliveryAsCollected;
   "deliveryDefinitions/web/mutations/registerDelivery": typeof deliveryDefinitions_web_mutations_registerDelivery;
@@ -330,6 +345,7 @@ declare const fullApi: ApiFromModules<{
   deliveryLog: typeof deliveryLog;
   "deliveryLogDefinitions/index": typeof deliveryLogDefinitions_index;
   "deliveryLogDefinitions/web/queries/getDeliveryLogsByProperty": typeof deliveryLogDefinitions_web_queries_getDeliveryLogsByProperty;
+  file: typeof file;
   http: typeof http;
   iot: typeof iot;
   "iotDefinitions/index": typeof iotDefinitions_index;
