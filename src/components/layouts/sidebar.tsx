@@ -15,7 +15,17 @@ import { NavItems } from './nav-main';
 import { NavUser } from './nav-user';
 import { PropertySelector, usePropertyStore } from '@/features/property';
 import Image from 'next/image';
-import { FolderKanban, LayoutDashboard, Wrench, Package, Mailbox, MessageSquare, BarChart3, Users } from 'lucide-react';
+import {
+  FolderKanban,
+  LayoutDashboard,
+  Wrench,
+  Package,
+  Mailbox,
+  MessageSquare,
+  BarChart3,
+  Users,
+  Truck,
+} from 'lucide-react';
 import { Label } from '../ui/label';
 
 const data = {
@@ -43,12 +53,18 @@ const data = {
       icon: <BarChart3 className='h-5 w-5' />,
     },
   ],
-
   visitorLinks: [
     {
       title: 'Visitor Management',
       url: '/visitors',
       icon: <Users className='h-5 w-5' />,
+    },
+  ],
+  deliveryLinks: [
+    {
+      title: 'Delivery Management',
+      url: '/deliveries',
+      icon: <Truck className='h-5 w-5' />,
     },
   ],
   engagementLinks: [
@@ -66,21 +82,6 @@ const data = {
       title: 'Messages',
       url: '/messages',
       icon: <MessageSquare className='h-5 w-5' />,
-    },
-    {
-      title: 'Messages',
-      url: '/messaging',
-      icon: <MessageSquare className='h-5 w-5' />,
-    },
-    {
-      title: 'Polls',
-      url: '/polls',
-      icon: <BarChart3 className='h-5 w-5' />,
-    },
-    {
-      title: 'Visitors',
-      url: '/visitors',
-      icon: <Users className='h-5 w-5' />,
     },
   ],
 };
@@ -125,6 +126,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarLabel>Visitor</SidebarLabel>
           <NavItems items={data.visitorLinks} />
 
+          <SidebarLabel>Delivery</SidebarLabel>
+          <NavItems items={data.deliveryLinks} />
+        
           <SidebarLabel>Engagement</SidebarLabel>
           <NavItems items={data.engagementLinks} />
         </div>
