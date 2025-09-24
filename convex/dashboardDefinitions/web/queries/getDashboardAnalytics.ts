@@ -1,5 +1,6 @@
-import { query } from '../../../_generated/server';
+import { query, QueryCtx } from '../../../_generated/server';
 import { v } from 'convex/values';
+import { Id } from '../../../_generated/dataModel';
 
 export const webGetDashboardAnalyticsArgs = {
   propertyId: v.id('properties'),
@@ -149,7 +150,13 @@ export const webGetDashboardAnalyticsReturns = v.object({
   }),
 });
 
-export const webGetDashboardAnalyticsHandler = async (ctx: any, args: any) => {
+type Args = {
+  propertyId: Id<'properties'>;
+  startDate?: number;
+  endDate?: number;
+};
+
+export const webGetDashboardAnalyticsHandler = async (ctx: QueryCtx, args: Args) => {
   const { propertyId, startDate, endDate } = args;
 
   // Get current user

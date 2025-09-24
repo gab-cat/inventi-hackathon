@@ -24,6 +24,7 @@ import { useAllUnits } from '@/features/noticeboard/hooks/useAllUnits';
 import { usePropertyStore } from '@/features/property';
 import { CreateDeliveryForm, UpdateDeliveryForm, DeliveryWithDetails } from '@/features/delivery/types';
 import { useDeliveries, useDeliveryLogs, useDeliveryMutations } from '@/features/delivery';
+import { motion } from 'framer-motion';
 
 export default function DeliveriesPage() {
   const { selectedPropertyId } = usePropertyStore();
@@ -178,8 +179,18 @@ export default function DeliveriesPage() {
   const collectedDeliveries = deliveries.filter(d => d.status === 'collected').length;
 
   return (
-    <div className='container mx-auto pb-6 space-y-6'>
-      <div className='flex items-center justify-between'>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className='container mx-auto pb-6 space-y-6'
+    >
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className='flex items-center justify-between'
+      >
         <div>
           <h1 className='text-xl font-bold'>Delivery Management</h1>
           <p className='text-muted-foreground'>Track and manage deliveries for the selected property</p>
@@ -191,57 +202,68 @@ export default function DeliveriesPage() {
           <Plus className='w-4 h-4' />
           Register Delivery
         </Button>
-      </div>
+      </motion.div>
 
       {/* Stats Cards */}
-      <div className='grid grid-cols-1 md:grid-cols-4 gap-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+        className='grid grid-cols-1 md:grid-cols-4 gap-4'
+      >
         <StatCard title='Total Deliveries' value={totalDeliveries} description='All time' icon={Package} />
         <StatCard title='Pending' value={pendingDeliveries} description='Awaiting assignment' icon={Package} />
         <StatCard title='In Transit' value={inTransitDeliveries} description='Assigned to units' icon={Package} />
         <StatCard title='Collected' value={collectedDeliveries} description='Successfully delivered' icon={Package} />
-      </div>
+      </motion.div>
 
       {/* Tabs for Deliveries and Logs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className='space-y-4'>
-        <TabsList>
-          <TabsTrigger value='deliveries' className='flex items-center gap-2'>
-            <Package className='w-4 h-4' />
-            Deliveries
-          </TabsTrigger>
-          <TabsTrigger value='logs' className='flex items-center gap-2'>
-            <FileText className='w-4 h-4' />
-            Audit Logs
-          </TabsTrigger>
-        </TabsList>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
+      >
+        <Tabs value={activeTab} onValueChange={setActiveTab} className='space-y-4'>
+          <TabsList>
+            <TabsTrigger value='deliveries' className='flex items-center gap-2'>
+              <Package className='w-4 h-4' />
+              Deliveries
+            </TabsTrigger>
+            <TabsTrigger value='logs' className='flex items-center gap-2'>
+              <FileText className='w-4 h-4' />
+              Audit Logs
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value='deliveries' className='space-y-4'>
-          <DeliveryFilters filters={filters} onFiltersChange={setFilters} properties={properties} units={units} />
+          <TabsContent value='deliveries' className='space-y-4'>
+            <DeliveryFilters filters={filters} onFiltersChange={setFilters} properties={properties} units={units} />
 
-          <DeliveryList
-            deliveries={deliveries}
-            isLoading={isLoading}
-            onLoadMore={loadMore}
-            hasMore={hasMore}
-            onDeliveryAction={handleDeliveryAction}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={onPageChange}
-            itemsPerPage={itemsPerPage}
-            totalItems={totalItems}
-          />
-        </TabsContent>
+            <DeliveryList
+              deliveries={deliveries}
+              isLoading={isLoading}
+              onLoadMore={loadMore}
+              hasMore={hasMore}
+              onDeliveryAction={handleDeliveryAction}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+              itemsPerPage={itemsPerPage}
+              totalItems={totalItems}
+            />
+          </TabsContent>
 
-        <TabsContent value='logs' className='space-y-4'>
-          <DeliveryLogsList
-            logs={deliveryLogs}
-            isLoading={logsLoading}
-            onLoadMore={logsLoadMore}
-            hasMore={logsHasMore}
-            filters={logsFilters}
-            onFiltersChange={setLogsFilters}
-          />
-        </TabsContent>
-      </Tabs>
+          <TabsContent value='logs' className='space-y-4'>
+            <DeliveryLogsList
+              logs={deliveryLogs}
+              isLoading={logsLoading}
+              onLoadMore={logsLoadMore}
+              hasMore={logsHasMore}
+              filters={logsFilters}
+              onFiltersChange={setLogsFilters}
+            />
+          </TabsContent>
+        </Tabs>
+      </motion.div>
 
       {/* Modals and Sheets */}
       <DeliveryCreateModal
@@ -306,6 +328,6 @@ export default function DeliveriesPage() {
           <p className='text-sm'>{mutationError}</p>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

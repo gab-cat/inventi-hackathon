@@ -7,9 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { LayoutDashboard, BarChart3, Activity, Zap, RefreshCw, Calendar, TrendingUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { usePropertyStore } from '@/features/property';
 import { useDashboardAnalytics } from '@/features/dashboard';
 import { DashboardOverview, MaintenanceMetrics, ActivityTrends, QuickActions } from '@/features/dashboard/components';
+import { Id } from '@convex/_generated/dataModel';
 
 export default function DashboardPage() {
   const { selectedPropertyId } = usePropertyStore();
@@ -18,7 +20,7 @@ export default function DashboardPage() {
 
   // Get dashboard analytics
   const { analytics, isLoading, error } = useDashboardAnalytics({
-    propertyId: selectedPropertyId!,
+    propertyId: selectedPropertyId as Id<'properties'>,
   });
 
   const handleRefresh = () => {
@@ -59,14 +61,43 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className='container mx-auto space-y-6'>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className='container mx-auto space-y-6'
+    >
       {/* Header */}
-      <div className='flex items-center justify-between'>
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className='flex items-center justify-between'
+      >
         <div>
-          <h1 className='text-xl font-bold tracking-tight'>Dashboard</h1>
-          <p className='text-muted-foreground'>Property management overview and analytics</p>
+          <motion.h1
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+            className='text-xl font-bold tracking-tight'
+          >
+            Dashboard
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
+            className='text-muted-foreground'
+          >
+            Property management overview and analytics
+          </motion.p>
         </div>
-        <div className='flex items-center gap-2'>
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+          className='flex items-center gap-2'
+        >
           <Badge variant='outline' className='flex items-center gap-1'>
             <Calendar className='h-3 w-3' />
             Last updated: {lastUpdated.toLocaleTimeString()}
@@ -75,85 +106,131 @@ export default function DashboardPage() {
             <RefreshCw className={`h-4 w-4 mr-1 ${isLoading ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Loading State */}
-      {isLoading && (
-        <div className='space-y-6'>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-            {[...Array(4)].map((_, i) => (
-              <Card key={i}>
-                <CardContent className='p-6'>
-                  <div className='space-y-2'>
-                    <Skeleton className='h-4 w-3/4' />
-                    <Skeleton className='h-8 w-1/2' />
-                    <Skeleton className='h-3 w-full' />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-            {[...Array(4)].map((_, i) => (
-              <Card key={i}>
-                <CardContent className='p-6'>
-                  <Skeleton className='h-64 w-full' />
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className='space-y-6'
+          >
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+              {[...Array(4)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: i * 0.1 }}
+                >
+                  <Card>
+                    <CardContent className='p-6'>
+                      <div className='space-y-2'>
+                        <Skeleton className='h-4 w-3/4' />
+                        <Skeleton className='h-8 w-1/2' />
+                        <Skeleton className='h-3 w-full' />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+              {[...Array(4)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: (i + 4) * 0.1 }}
+                >
+                  <Card>
+                    <CardContent className='p-6'>
+                      <Skeleton className='h-64 w-full' />
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Dashboard Content */}
       {analytics && (
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className='grid w-full grid-cols-4'>
-            <TabsTrigger value='overview' className='flex items-center gap-2'>
+          <TabsList className='grid w-full grid-cols-2 sm:grid-cols-4'>
+            <TabsTrigger value='overview' className='flex items-center gap-1 sm:gap-2'>
               <LayoutDashboard className='h-4 w-4' />
-              Overview
+              <span className='hidden sm:inline'>Overview</span>
             </TabsTrigger>
-            <TabsTrigger value='maintenance' className='flex items-center gap-2'>
+            <TabsTrigger value='maintenance' className='flex items-center gap-1 sm:gap-2'>
               <BarChart3 className='h-4 w-4' />
-              Maintenance
+              <span className='hidden sm:inline'>Maintenance</span>
             </TabsTrigger>
-            <TabsTrigger value='trends' className='flex items-center gap-2'>
+            <TabsTrigger value='trends' className='flex items-center gap-1 sm:gap-2'>
               <TrendingUp className='h-4 w-4' />
-              Trends
+              <span className='hidden sm:inline'>Trends</span>
             </TabsTrigger>
-            <TabsTrigger value='actions' className='flex items-center gap-2'>
+            <TabsTrigger value='actions' className='flex items-center gap-1 sm:gap-2'>
               <Zap className='h-4 w-4' />
-              Quick Actions
+              <span className='hidden sm:inline'>Quick Actions</span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value='overview' className='space-y-6'>
-            <DashboardOverview
-              propertyOverview={analytics.propertyOverview}
-              financialMetrics={analytics.financialMetrics}
-            />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              <DashboardOverview
+                propertyOverview={analytics.propertyOverview}
+                financialMetrics={analytics.financialMetrics}
+              />
+            </motion.div>
           </TabsContent>
 
           <TabsContent value='maintenance' className='space-y-6'>
-            <MaintenanceMetrics maintenanceMetrics={analytics.maintenanceMetrics} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              <MaintenanceMetrics maintenanceMetrics={analytics.maintenanceMetrics} />
+            </motion.div>
           </TabsContent>
 
           <TabsContent value='trends' className='space-y-6'>
-            <ActivityTrends trends={analytics.trends} />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              <ActivityTrends trends={analytics.trends} />
+            </motion.div>
           </TabsContent>
 
           <TabsContent value='actions' className='space-y-6'>
-            <QuickActions
-              unreadMessages={analytics.communicationMetrics.unreadMessages}
-              pendingVisitorRequests={analytics.visitorMetrics.pendingApprovals}
-              pendingDeliveries={analytics.deliveryMetrics.pendingCollections}
-              activeMaintenanceRequests={analytics.maintenanceMetrics.totalRequests}
-              emergencyRequests={analytics.maintenanceMetrics.emergencyRequests}
-            />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              <QuickActions
+                unreadMessages={analytics.communicationMetrics.unreadMessages}
+                pendingVisitorRequests={analytics.visitorMetrics.pendingApprovals}
+                pendingDeliveries={analytics.deliveryMetrics.pendingCollections}
+                activeMaintenanceRequests={analytics.maintenanceMetrics.totalRequests}
+                emergencyRequests={analytics.maintenanceMetrics.emergencyRequests}
+              />
+            </motion.div>
           </TabsContent>
         </Tabs>
       )}
-    </div>
+    </motion.div>
   );
 }

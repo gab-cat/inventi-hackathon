@@ -18,6 +18,7 @@ import { useAllUnits } from '@/features/noticeboard/hooks/useAllUnits';
 import { useManagerProperties } from '@/features/noticeboard/hooks/useManagerProperties';
 import { usePropertyStore } from '@/features/property';
 import { CreateNoticeForm, UpdateNoticeForm, NoticeWithDetails } from '@/features/noticeboard/types';
+import { motion } from 'framer-motion';
 
 export default function NoticeboardPage() {
   const { selectedPropertyId } = usePropertyStore();
@@ -134,8 +135,18 @@ export default function NoticeboardPage() {
   }
 
   return (
-    <div className='container mx-auto pb-6 space-y-6'>
-      <div className='flex items-center justify-between'>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className='container mx-auto pb-6 space-y-6'
+    >
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className='flex items-center justify-between'
+      >
         <div>
           <h1 className='text-xl font-bold'>Noticeboard Management</h1>
           <p className='text-muted-foreground'>Create and manage notices for the selected property</p>
@@ -147,10 +158,15 @@ export default function NoticeboardPage() {
           <Plus className='w-4 h-4' />
           Create Notice
         </Button>
-      </div>
+      </motion.div>
 
       {/* Stats Cards */}
-      <div className='grid grid-cols-1 md:grid-cols-4 gap-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+        className='grid grid-cols-1 md:grid-cols-4 gap-4'
+      >
         <StatCard
           title='Total Notices'
           value={notices.length}
@@ -170,9 +186,14 @@ export default function NoticeboardPage() {
           description='Across all notices'
           icon={MessageSquare}
         />
-      </div>
+      </motion.div>
 
-      <div className='space-y-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
+        className='space-y-4'
+      >
         <NoticeFilters filters={filters} onFiltersChange={setFilters} properties={properties} units={units} />
 
         <NoticeList
@@ -187,7 +208,7 @@ export default function NoticeboardPage() {
           itemsPerPage={itemsPerPage}
           totalItems={totalItems}
         />
-      </div>
+      </motion.div>
 
       {/* Modals and Sheets */}
       <NoticeCreateModal
@@ -256,6 +277,6 @@ export default function NoticeboardPage() {
           <p className='text-sm'>{mutationError}</p>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

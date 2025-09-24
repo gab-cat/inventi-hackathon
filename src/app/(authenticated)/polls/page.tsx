@@ -13,6 +13,7 @@ import { PollDetailSheet } from '@/features/polls/components/poll-detail-sheet';
 import { PollPagination } from '@/features/polls/components/poll-pagination';
 import { Poll, PollWithResponses } from '@/features/polls/types';
 import { Id } from '@convex/_generated/dataModel';
+import { motion } from 'framer-motion';
 
 export default function PollsPage() {
   const [showCreatePoll, setShowCreatePoll] = useState(false);
@@ -122,9 +123,19 @@ export default function PollsPage() {
   }
 
   return (
-    <div className='container mx-auto pb-6 space-y-4 md:space-y-6'>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className='container mx-auto pb-6 space-y-4 md:space-y-6'
+    >
       {/* Header */}
-      <div className='flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0'>
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className='flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0'
+      >
         <div className='space-y-1'>
           <h1 className='text-xl font-bold'>Polls</h1>
           <p className='text-sm md:text-base text-muted-foreground'>
@@ -138,10 +149,15 @@ export default function PollsPage() {
           <Plus className='h-4 w-4 mr-2' />
           Create Poll
         </Button>
-      </div>
+      </motion.div>
 
       {/* Main Content */}
-      <div className='space-y-4 md:space-y-6'>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+        className='space-y-4 md:space-y-6'
+      >
         {isLoading ? (
           <div className='space-y-4'>
             {[1, 2, 3].map(i => (
@@ -197,7 +213,7 @@ export default function PollsPage() {
             )}
           </>
         )}
-      </div>
+      </motion.div>
 
       {/* Poll Detail Sheet */}
       <PollDetailSheet
@@ -225,6 +241,6 @@ export default function PollsPage() {
         onOpenChange={setShowEditPoll}
         onPollUpdated={handlePollUpdated}
       />
-    </div>
+    </motion.div>
   );
 }

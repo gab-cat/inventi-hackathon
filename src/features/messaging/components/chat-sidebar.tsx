@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Badge } from '../../../components/ui/badge';
 import { ChatThreadList } from './chat-thread-list';
 import { ChatThreadWithDetails } from '../types';
+import { motion } from 'framer-motion';
 
 interface ChatSidebarProps {
   threads: ChatThreadWithDetails[];
@@ -20,6 +21,7 @@ interface ChatSidebarProps {
   onStartNewChat: () => void;
   onThreadTypeFilterChange: (value: string) => void;
   onArchivedFilterChange: (value: string) => void;
+  isMobile?: boolean;
 }
 
 export function ChatSidebar({
@@ -34,38 +36,66 @@ export function ChatSidebar({
   onStartNewChat,
   onThreadTypeFilterChange,
   onArchivedFilterChange,
+  isMobile = false,
 }: ChatSidebarProps) {
   return (
-    <div className='w-80 border-r flex flex-col'>
+    <div className={`${isMobile ? 'w-full' : 'w-full border-r'} flex flex-col h-full`}>
       {/* Header */}
-      <div className='p-4 border-b'>
-        <div className='flex mb-3 items-center justify-between'>
-          <h2 className='text-lg font-semibold flex items-center'>
-            <MessageCircle className='h-5 w-5 mr-2' />
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className={`${isMobile ? 'p-3' : 'p-4'} border-b`}
+      >
+        <div className={`flex ${isMobile ? 'mb-2' : 'mb-3'} items-center justify-between`}>
+          <motion.h2
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+            className={`${isMobile ? 'text-base' : 'text-lg'} font-semibold flex items-center`}
+          >
+            <MessageCircle className={`${isMobile ? 'h-4 w-4 mr-1' : 'h-5 w-5 mr-2'}`} />
             Messages
             {totalUnread > 0 && (
-              <Badge variant='destructive' className='ml-2'>
-                {totalUnread}
-              </Badge>
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.2, delay: 0.2 }}>
+                <Badge variant='destructive' className={`${isMobile ? 'ml-1 text-xs' : 'ml-2'}`}>
+                  {totalUnread}
+                </Badge>
+              </motion.div>
             )}
-          </h2>
-          <Button size='sm' onClick={onStartNewChat}>
-            <Plus className='h-4 w-4 mr-1' />
-            New
-          </Button>
+          </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
+            <Button
+              size={isMobile ? 'sm' : 'sm'}
+              onClick={onStartNewChat}
+              className={`bg-blue-500 text-white hover:bg-blue-600 ${isMobile ? 'px-2' : ''}`}
+            >
+              <Plus className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'} ${isMobile ? '' : 'mr-1'}`} />
+              {!isMobile && 'New'}
+            </Button>
+          </motion.div>
         </div>
 
-        <div className='space-y-3'>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+          className={isMobile ? 'space-y-2' : 'space-y-3'}
+        >
           <div className='flex space-x-2'>
-            <Input placeholder='Search conversations...' className='flex-1' />
-            <Button variant='outline' size='sm'>
-              <Search className='h-4 w-4' />
+            <Input placeholder={isMobile ? 'Search...' : 'Search conversations...'} className='flex-1 text-sm' />
+            <Button variant='outline' size='sm' className={isMobile ? 'px-2' : ''}>
+              <Search className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
             </Button>
           </div>
 
-          <div className='flex space-x-2'>
+          <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'space-x-2'}`}>
             <Select value={threadTypeFilter} onValueChange={onThreadTypeFilterChange}>
-              <SelectTrigger className='flex-1'>
+              <SelectTrigger className='flex-1 text-sm'>
                 <SelectValue placeholder='All types' />
               </SelectTrigger>
               <SelectContent>
@@ -81,7 +111,7 @@ export function ChatSidebar({
               value={isArchivedFilter === undefined ? 'all' : isArchivedFilter ? 'archived' : 'active'}
               onValueChange={onArchivedFilterChange}
             >
-              <SelectTrigger className='flex-1'>
+              <SelectTrigger className='flex-1 text-sm'>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -91,11 +121,16 @@ export function ChatSidebar({
               </SelectContent>
             </Select>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Thread List */}
-      <div className='flex-1 overflow-y-auto'>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
+        className='flex-1 overflow-y-auto'
+      >
         <ChatThreadList
           threads={threads}
           isLoading={threadsLoading}
@@ -103,7 +138,7 @@ export function ChatSidebar({
           selectedThreadId={selectedThreadId}
           currentUserId={currentUserId}
         />
-      </div>
+      </motion.div>
     </div>
   );
 }

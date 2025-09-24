@@ -141,24 +141,24 @@ export function MaintenanceMetrics({ maintenanceMetrics }: MaintenanceMetricsPro
   return (
     <div className='space-y-6'>
       {/* Main Metrics */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-        <Card>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+        <Card className='h-full flex flex-col'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Total Requests</CardTitle>
             <Wrench className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
-          <CardContent>
+          <CardContent className='flex-1 flex flex-col justify-between'>
             <div className='text-2xl font-bold'>{maintenanceMetrics.totalRequests}</div>
             <p className='text-xs text-muted-foreground'>All time requests</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className='h-full flex flex-col'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Completed This Month</CardTitle>
             <CheckCircle className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
-          <CardContent>
+          <CardContent className='flex-1 flex flex-col justify-between'>
             <div className='text-2xl font-bold'>{maintenanceMetrics.completedThisMonth}</div>
             <div className='mt-2'>
               <Progress value={completionRate} className='h-2' />
@@ -167,25 +167,27 @@ export function MaintenanceMetrics({ maintenanceMetrics }: MaintenanceMetricsPro
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className='h-full flex flex-col'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Avg Resolution Time</CardTitle>
             <Clock className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
-          <CardContent>
+          <CardContent className='flex-1 flex flex-col justify-between'>
             <div className='text-2xl font-bold'>{formatTime(maintenanceMetrics.averageResolutionTime)}</div>
             <p className='text-xs text-muted-foreground'>Average time to complete</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className='h-full flex flex-col'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Emergency Requests</CardTitle>
             <AlertTriangle className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold text-red-600'>{maintenanceMetrics.emergencyRequests}</div>
-            <p className='text-xs text-muted-foreground'>Urgent issues</p>
+          <CardContent className='flex-1 flex flex-col justify-between'>
+            <div>
+              <div className='text-2xl font-bold text-red-600'>{maintenanceMetrics.emergencyRequests}</div>
+              <p className='text-xs text-muted-foreground'>Urgent issues</p>
+            </div>
             {maintenanceMetrics.emergencyRequests > 0 && (
               <div className='flex items-center mt-2'>
                 <AlertTriangle className='h-3 w-3 text-red-500 mr-1' />
@@ -197,7 +199,7 @@ export function MaintenanceMetrics({ maintenanceMetrics }: MaintenanceMetricsPro
       </div>
 
       {/* Charts Section */}
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+      <div className='grid grid-cols-1 xl:grid-cols-2 gap-6'>
         {/* Completion Rate Chart */}
         <Card>
           <CardHeader>

@@ -1,5 +1,5 @@
 'use client';
-        
+
 import { SignInSkeleton } from '@/features/auth/components/skeletons';
 import { SignUp } from '@clerk/nextjs';
 import { useTheme } from 'next-themes';

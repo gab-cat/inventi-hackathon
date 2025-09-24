@@ -55,46 +55,46 @@ export function ActivityTrends({ trends }: ActivityTrendsProps) {
   return (
     <div className='space-y-6'>
       {/* Summary Cards */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-        <Card>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+        <Card className='h-full flex flex-col'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Maintenance (30d)</CardTitle>
             <Activity className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
-          <CardContent>
+          <CardContent className='flex-1 flex flex-col justify-between'>
             <div className='text-2xl font-bold'>{totalMaintenance}</div>
             <p className='text-xs text-muted-foreground'>Total requests</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className='h-full flex flex-col'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Revenue (30d)</CardTitle>
             <TrendingUp className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
-          <CardContent>
+          <CardContent className='flex-1 flex flex-col justify-between'>
             <div className='text-2xl font-bold'>{formatCurrency(totalRevenue)}</div>
             <p className='text-xs text-muted-foreground'>Total collected</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className='h-full flex flex-col'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Visitors (30d)</CardTitle>
             <Users className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
-          <CardContent>
+          <CardContent className='flex-1 flex flex-col justify-between'>
             <div className='text-2xl font-bold'>{totalVisitors}</div>
             <p className='text-xs text-muted-foreground'>Total visitors</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className='h-full flex flex-col'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Deliveries (30d)</CardTitle>
             <Package className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
-          <CardContent>
+          <CardContent className='flex-1 flex flex-col justify-between'>
             <div className='text-2xl font-bold'>{totalDeliveries}</div>
             <p className='text-xs text-muted-foreground'>Total deliveries</p>
           </CardContent>
@@ -102,19 +102,17 @@ export function ActivityTrends({ trends }: ActivityTrendsProps) {
       </div>
 
       {/* Charts */}
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-         {/* Maintenance Trend */}
-         <Card>
-           <CardHeader>
-             <CardTitle className='flex items-center gap-2'>
-               <Activity className='h-5 w-5' />
-               Maintenance Requests Trend
-             </CardTitle>
-             <p className='text-sm text-muted-foreground'>
-               Daily maintenance request volume over the last 30 days
-             </p>
-           </CardHeader>
-           <CardContent>
+      <div className='grid grid-cols-1 xl:grid-cols-2 gap-6'>
+        {/* Maintenance Trend */}
+        <Card>
+          <CardHeader>
+            <CardTitle className='flex items-center gap-2'>
+              <Activity className='h-5 w-5' />
+              Maintenance Requests Trend
+            </CardTitle>
+            <p className='text-sm text-muted-foreground'>Daily maintenance request volume over the last 30 days</p>
+          </CardHeader>
+          <CardContent>
             <div className='h-80'>
               <ResponsiveContainer width='100%' height='100%'>
                 <AreaChart data={trends.maintenanceTrend}>
@@ -149,18 +147,16 @@ export function ActivityTrends({ trends }: ActivityTrendsProps) {
           </CardContent>
         </Card>
 
-         {/* Revenue Trend */}
-         <Card>
-           <CardHeader>
-             <CardTitle className='flex items-center gap-2'>
-               <TrendingUp className='h-5 w-5' />
-               Revenue Trend
-             </CardTitle>
-             <p className='text-sm text-muted-foreground'>
-               Daily revenue collection trends over the last 30 days
-             </p>
-           </CardHeader>
-           <CardContent>
+        {/* Revenue Trend */}
+        <Card>
+          <CardHeader>
+            <CardTitle className='flex items-center gap-2'>
+              <TrendingUp className='h-5 w-5' />
+              Revenue Trend
+            </CardTitle>
+            <p className='text-sm text-muted-foreground'>Daily revenue collection trends over the last 30 days</p>
+          </CardHeader>
+          <CardContent>
             <div className='h-80'>
               <ResponsiveContainer width='100%' height='100%'>
                 <LineChart data={trends.revenueTrend}>
@@ -190,18 +186,16 @@ export function ActivityTrends({ trends }: ActivityTrendsProps) {
           </CardContent>
         </Card>
 
-         {/* Visitor Trend */}
-         <Card>
-           <CardHeader>
-             <CardTitle className='flex items-center gap-2'>
-               <Users className='h-5 w-5' />
-               Visitor Activity Trend
-             </CardTitle>
-             <p className='text-sm text-muted-foreground'>
-               Daily visitor check-ins and activity over the last 30 days
-             </p>
-           </CardHeader>
-           <CardContent>
+        {/* Visitor Trend */}
+        <Card>
+          <CardHeader>
+            <CardTitle className='flex items-center gap-2'>
+              <Users className='h-5 w-5' />
+              Visitor Activity Trend
+            </CardTitle>
+            <p className='text-sm text-muted-foreground'>Daily visitor check-ins and activity over the last 30 days</p>
+          </CardHeader>
+          <CardContent>
             <div className='h-80'>
               <ResponsiveContainer width='100%' height='100%'>
                 <AreaChart data={trends.visitorTrend}>
@@ -236,18 +230,16 @@ export function ActivityTrends({ trends }: ActivityTrendsProps) {
           </CardContent>
         </Card>
 
-         {/* Delivery Trend */}
-         <Card>
-           <CardHeader>
-             <CardTitle className='flex items-center gap-2'>
-               <Package className='h-5 w-5' />
-               Delivery Activity Trend
-             </CardTitle>
-             <p className='text-sm text-muted-foreground'>
-               Daily package and delivery volume over the last 30 days
-             </p>
-           </CardHeader>
-           <CardContent>
+        {/* Delivery Trend */}
+        <Card>
+          <CardHeader>
+            <CardTitle className='flex items-center gap-2'>
+              <Package className='h-5 w-5' />
+              Delivery Activity Trend
+            </CardTitle>
+            <p className='text-sm text-muted-foreground'>Daily package and delivery volume over the last 30 days</p>
+          </CardHeader>
+          <CardContent>
             <div className='h-80'>
               <ResponsiveContainer width='100%' height='100%'>
                 <LineChart data={trends.deliveryTrend}>

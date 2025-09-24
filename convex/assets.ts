@@ -1,6 +1,5 @@
 import { query, mutation } from './_generated/server';
 import {
-  // Web Queries
   webGetAssetsArgs,
   webGetAssetsHandler,
   webGetAssetsReturns,
@@ -31,56 +30,46 @@ import {
   webGetAssetReportsArgs,
   webGetAssetReportsHandler,
   webGetAssetReportsReturns,
-
-  // Web Mutations
+  webGetAssetsNearingMaintenanceArgs,
+  webGetAssetsNearingMaintenanceHandler,
+  webGetAssetsNearingMaintenanceReturns,
+  webGetTechniciansArgs,
+  webGetTechniciansHandler,
+  webGetTechniciansReturns,
   webAddAssetArgs,
   webAddAssetHandler,
-  webAddAssetReturns,
   webEditAssetDetailsArgs,
   webEditAssetDetailsHandler,
-  webEditAssetDetailsReturns,
   webUpdateAssetStatusArgs,
   webUpdateAssetStatusHandler,
-  webUpdateAssetStatusReturns,
   webAssignAssetToUserArgs,
   webAssignAssetToUserHandler,
-  webAssignAssetToUserReturns,
   webUnassignAssetFromUserArgs,
   webUnassignAssetFromUserHandler,
-  webUnassignAssetFromUserReturns,
   webTransferAssetArgs,
   webTransferAssetHandler,
-  webTransferAssetReturns,
   webCheckOutAssetArgs,
   webCheckOutAssetHandler,
-  webCheckOutAssetReturns,
   webCheckInAssetArgs,
   webCheckInAssetHandler,
-  webCheckInAssetReturns,
   webScheduleMaintenanceArgs,
   webScheduleMaintenanceHandler,
-  webScheduleMaintenanceReturns,
   webCompleteMaintenanceArgs,
   webCompleteMaintenanceHandler,
-  webCompleteMaintenanceReturns,
   webPerformAssetAuditArgs,
   webPerformAssetAuditHandler,
-  webPerformAssetAuditReturns,
   webReorderSuppliesArgs,
   webReorderSuppliesHandler,
-  webReorderSuppliesReturns,
   webBulkUpdateAssetsArgs,
   webBulkUpdateAssetsHandler,
-  webBulkUpdateAssetsReturns,
   webGenerateAssetBarcodeArgs,
   webGenerateAssetBarcodeHandler,
-  webGenerateAssetBarcodeReturns,
   webRetireAssetArgs,
   webRetireAssetHandler,
-  webRetireAssetReturns,
   webReactivateAssetArgs,
   webReactivateAssetHandler,
-  webReactivateAssetReturns,
+  webAssignAssetMaintenanceArgs,
+  webAssignAssetMaintenanceHandler,
 } from './assetDefinitions/index';
 
 // Web Queries
@@ -144,99 +133,100 @@ export const webGetAssetReports = query({
   handler: webGetAssetReportsHandler,
 });
 
+export const webGetAssetsNearingMaintenance = query({
+  args: webGetAssetsNearingMaintenanceArgs,
+  returns: webGetAssetsNearingMaintenanceReturns,
+  handler: webGetAssetsNearingMaintenanceHandler,
+});
+
+export const webGetTechnicians = query({
+  args: webGetTechniciansArgs,
+  returns: webGetTechniciansReturns,
+  handler: webGetTechniciansHandler,
+});
+
 // Web Mutations
 export const webAddAsset = mutation({
   args: webAddAssetArgs,
-  returns: webAddAssetReturns,
   handler: webAddAssetHandler,
 });
 
 export const webEditAssetDetails = mutation({
   args: webEditAssetDetailsArgs,
-  returns: webEditAssetDetailsReturns,
   handler: webEditAssetDetailsHandler,
 });
 
 export const webUpdateAssetStatus = mutation({
   args: webUpdateAssetStatusArgs,
-  returns: webUpdateAssetStatusReturns,
   handler: webUpdateAssetStatusHandler,
 });
 
 export const webAssignAssetToUser = mutation({
   args: webAssignAssetToUserArgs,
-  returns: webAssignAssetToUserReturns,
   handler: webAssignAssetToUserHandler,
 });
 
 export const webUnassignAssetFromUser = mutation({
   args: webUnassignAssetFromUserArgs,
-  returns: webUnassignAssetFromUserReturns,
   handler: webUnassignAssetFromUserHandler,
 });
 
 export const webTransferAsset = mutation({
   args: webTransferAssetArgs,
-  returns: webTransferAssetReturns,
   handler: webTransferAssetHandler,
 });
 
 export const webCheckOutAsset = mutation({
   args: webCheckOutAssetArgs,
-  returns: webCheckOutAssetReturns,
   handler: webCheckOutAssetHandler,
 });
 
 export const webCheckInAsset = mutation({
   args: webCheckInAssetArgs,
-  returns: webCheckInAssetReturns,
   handler: webCheckInAssetHandler,
 });
 
 export const webScheduleMaintenance = mutation({
   args: webScheduleMaintenanceArgs,
-  returns: webScheduleMaintenanceReturns,
   handler: webScheduleMaintenanceHandler,
 });
 
 export const webCompleteMaintenance = mutation({
   args: webCompleteMaintenanceArgs,
-  returns: webCompleteMaintenanceReturns,
   handler: webCompleteMaintenanceHandler,
 });
 
 export const webPerformAssetAudit = mutation({
   args: webPerformAssetAuditArgs,
-  returns: webPerformAssetAuditReturns,
   handler: webPerformAssetAuditHandler,
 });
 
 export const webReorderSupplies = mutation({
   args: webReorderSuppliesArgs,
-  returns: webReorderSuppliesReturns,
   handler: webReorderSuppliesHandler,
 });
 
 export const webBulkUpdateAssets = mutation({
   args: webBulkUpdateAssetsArgs,
-  returns: webBulkUpdateAssetsReturns,
   handler: webBulkUpdateAssetsHandler,
 });
 
 export const webGenerateAssetBarcode = mutation({
   args: webGenerateAssetBarcodeArgs,
-  returns: webGenerateAssetBarcodeReturns,
   handler: webGenerateAssetBarcodeHandler,
 });
 
 export const webRetireAsset = mutation({
   args: webRetireAssetArgs,
-  returns: webRetireAssetReturns,
   handler: webRetireAssetHandler,
 });
 
 export const webReactivateAsset = mutation({
   args: webReactivateAssetArgs,
-  returns: webReactivateAssetReturns,
   handler: webReactivateAssetHandler,
+});
+
+export const webAssignAssetMaintenance = mutation({
+  args: webAssignAssetMaintenanceArgs,
+  handler: webAssignAssetMaintenanceHandler,
 });

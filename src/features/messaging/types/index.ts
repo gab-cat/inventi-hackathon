@@ -140,6 +140,7 @@ export interface MessageListProps {
   onLoadMore?: () => void;
   hasMore?: boolean;
   currentUserId: string;
+  isMobile?: boolean;
 }
 
 export interface MessageItemProps {
@@ -162,6 +163,7 @@ export interface MessageInputProps {
   replyTo?: MessageWithDetails;
   onCancelReply?: () => void;
   disabled?: boolean;
+  isMobile?: boolean;
 }
 
 export interface ChatThreadDetailProps {

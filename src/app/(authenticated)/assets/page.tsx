@@ -9,7 +9,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Plus, BarChart3, Package, Wrench, AlertTriangle } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { AssetDashboard, AssetTable, AssetFilters, AddAssetDialog, AssetAlerts } from '@/features/assets';
+import { MaintenanceDueDashboard } from '@/features/assets/components/maintenance-due-dashboard';
 import { ReportsDashboard } from '@/features/reports';
 import { useAssetStore } from '@/stores/asset-store';
 import { usePropertyStore } from '@/features/property';
@@ -191,9 +193,19 @@ export default function AssetsPage() {
   }
 
   return (
-    <div className='container mx-auto space-y-6'>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className='container mx-auto space-y-6'
+    >
       {/* Header */}
-      <div className='flex items-center justify-between'>
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className='flex items-center justify-between'
+      >
         <div>
           <h1 className='text-xl font-bold tracking-tight'>Asset Management</h1>
           <p className='text-muted-foreground'>Manage materials, tools, and equipment across your properties</p>
@@ -202,22 +214,28 @@ export default function AssetsPage() {
           <Plus className='h-4 w-4' />
           Add Asset
         </Button>
-      </div>
+      </motion.div>
 
       {/* Property Selector */}
       {properties && properties.length > 1 ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className='text-lg'>Selected Property</CardTitle>
-            <CardDescription>Assets for the currently selected property</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className='flex items-center gap-2'>
-              <div className='w-3 h-3 bg-blue-500 rounded-full'></div>
-              <span className='font-medium'>{selectedProperty?.name || 'No property selected'}</span>
-            </div>
-          </CardContent>
-        </Card>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle className='text-lg'>Selected Property</CardTitle>
+              <CardDescription>Assets for the currently selected property</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className='flex items-center gap-2'>
+                <div className='w-3 h-3 bg-blue-500 rounded-full'></div>
+                <span className='font-medium'>{selectedProperty?.name || 'No property selected'}</span>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       ) : properties === undefined ? (
         <PropertySelectorSkeleton />
       ) : null}
@@ -226,110 +244,144 @@ export default function AssetsPage() {
       {alerts === undefined ? (
         <AssetAlertsSkeleton />
       ) : alerts && alerts.length > 0 ? (
-        <AssetAlerts alerts={alerts} />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+        >
+          <AssetAlerts alerts={alerts} />
+        </motion.div>
       ) : null}
 
       {/* Main Content */}
-      <Tabs value={selectedTab} onValueChange={setSelectedTab} className='space-y-6'>
-        <TabsList className='grid w-full grid-cols-3 '>
-          <TabsTrigger
-            value='dashboard'
-            className='gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:border-blue-500'
-          >
-            <BarChart3 className='h-4 w-4' />
-            Dashboard
-          </TabsTrigger>
-          <TabsTrigger
-            value='assets'
-            className='gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:border-blue-500'
-          >
-            <Package className='h-4 w-4' />
-            Assets
-          </TabsTrigger>
-          <TabsTrigger
-            value='reports'
-            className='gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:border-blue-500'
-          >
-            <AlertTriangle className='h-4 w-4' />
-            Reports
-          </TabsTrigger>
-        </TabsList>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.4 }}
+      >
+        <Tabs value={selectedTab} onValueChange={setSelectedTab} className='space-y-6'>
+          <TabsList className='grid w-full grid-cols-4 '>
+            <TabsTrigger
+              value='dashboard'
+              className='gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:border-blue-500'
+            >
+              <BarChart3 className='h-4 w-4' />
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger
+              value='assets'
+              className='gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:border-blue-500'
+            >
+              <Package className='h-4 w-4' />
+              Assets
+            </TabsTrigger>
+            <TabsTrigger
+              value='maintenance'
+              className='gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:border-blue-500'
+            >
+              <Wrench className='h-4 w-4' />
+              Maintenance
+            </TabsTrigger>
+            <TabsTrigger
+              value='reports'
+              className='gap-2 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:border-blue-500'
+            >
+              <AlertTriangle className='h-4 w-4' />
+              Reports
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value='dashboard' className='space-y-6'>
-          {dashboardData === undefined ? (
-            <AssetDashboardSkeleton />
-          ) : dashboardData ? (
-            <AssetDashboard data={dashboardData} propertyName={selectedProperty?.name || 'All Properties'} />
-          ) : null}
-        </TabsContent>
+          <TabsContent value='dashboard' className='space-y-6'>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              {dashboardData === undefined ? (
+                <AssetDashboardSkeleton />
+              ) : dashboardData ? (
+                <AssetDashboard data={dashboardData} propertyName={selectedProperty?.name || 'All Properties'} />
+              ) : null}
+            </motion.div>
+          </TabsContent>
 
-        <TabsContent value='assets' className='space-y-6'>
-          <div className='flex gap-4'>
-            <div className='w-80'>
-              {properties === undefined ? (
-                <AssetFiltersSkeleton />
-              ) : (
-                <AssetFilters
-                  filters={assetFilters}
-                  onFiltersChange={setAssetFilters}
-                  properties={properties}
-                  selectedPropertyId={selectedPropertyId as Id<'properties'> | undefined}
-                  onPropertyChange={() => {}}
-                />
-              )}
-            </div>
-            <div className='flex-1'>
-              {assets === undefined ? (
-                <AssetTableSkeleton />
-              ) : assets ? (
-                <AssetTable
-                  assets={assets.page as any}
-                  properties={properties}
+          <TabsContent value='assets' className='space-y-6'>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className='flex gap-4'
+            >
+              <div className='w-80'>
+                {properties === undefined ? (
+                  <AssetFiltersSkeleton />
+                ) : (
+                  <AssetFilters
+                    filters={assetFilters}
+                    onFiltersChange={setAssetFilters}
+                    properties={properties}
+                    selectedPropertyId={selectedPropertyId as Id<'properties'> | undefined}
+                    onPropertyChange={() => {}}
+                  />
+                )}
+              </div>
+              <div className='flex-1'>
+                {assets === undefined ? (
+                  <AssetTableSkeleton />
+                ) : assets ? (
+                  <AssetTable
+                    assets={assets.page as any}
+                    properties={properties}
+                    onRefresh={handleRefresh}
+                    currentPage={currentPage}
+                    totalPages={estimatedTotalPages}
+                    hasNextPage={hasNextPage}
+                    hasPreviousPage={hasPreviousPage}
+                    total={paginationTotal}
+                    limit={itemsPerPage}
+                    onPageChange={handlePageChange}
+                    onNextPage={handleNextPage}
+                    onPreviousPage={handlePreviousPage}
+                    onFirstPage={handleFirstPage}
+                    onLastPage={handleLastPage}
+                    isLoading={isLoading}
+                  />
+                ) : null}
+              </div>
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value='maintenance' className='space-y-6'>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              <MaintenanceDueDashboard propertyId={selectedPropertyId} />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value='reports' className='space-y-6'>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              {dashboardData === undefined ? (
+                <AssetDashboardSkeleton />
+              ) : dashboardData ? (
+                <ReportsDashboard
+                  dashboardData={dashboardData}
+                  assets={assets?.page || []}
+                  propertyName={selectedProperty?.name || 'All Properties'}
                   onRefresh={handleRefresh}
-                  currentPage={currentPage}
-                  totalPages={estimatedTotalPages}
-                  hasNextPage={hasNextPage}
-                  hasPreviousPage={hasPreviousPage}
-                  total={paginationTotal}
-                  limit={itemsPerPage}
-                  onPageChange={handlePageChange}
-                  onNextPage={handleNextPage}
-                  onPreviousPage={handlePreviousPage}
-                  onFirstPage={handleFirstPage}
-                  onLastPage={handleLastPage}
-                  isLoading={isLoading}
+                  loading={isLoading}
                 />
               ) : null}
-            </div>
-          </div>
-        </TabsContent>
-
-        <TabsContent value='maintenance' className='space-y-6'>
-          <Card>
-            <CardHeader>
-              <CardTitle>Maintenance Schedule</CardTitle>
-              <CardDescription>View and manage asset maintenance schedules</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className='text-muted-foreground'>Maintenance management coming soon...</p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value='reports' className='space-y-6'>
-          {dashboardData === undefined ? (
-            <AssetDashboardSkeleton />
-          ) : dashboardData ? (
-            <ReportsDashboard
-              dashboardData={dashboardData}
-              assets={assets?.page || []}
-              propertyName={selectedProperty?.name || 'All Properties'}
-              onRefresh={handleRefresh}
-              loading={isLoading}
-            />
-          ) : null}
-        </TabsContent>
-      </Tabs>
+            </motion.div>
+          </TabsContent>
+        </Tabs>
+      </motion.div>
 
       {/* Add Asset Dialog */}
       <AddAssetDialog
@@ -338,6 +390,6 @@ export default function AssetsPage() {
         properties={properties}
         selectedPropertyId={selectedPropertyId as Id<'properties'> | undefined}
       />
-    </div>
+    </motion.div>
   );
 }

@@ -21,6 +21,7 @@ interface ChatMainProps {
   onShowThreadDetail: () => void;
   replyToMessage?: MessageWithDetails | null;
   onCancelReply?: () => void;
+  isMobile?: boolean;
 }
 
 export function ChatMain({
@@ -35,11 +36,19 @@ export function ChatMain({
   onShowThreadDetail,
   replyToMessage,
   onCancelReply,
+  isMobile = false,
 }: ChatMainProps) {
   return (
-    <div className='flex-1 flex flex-col'>
-      {/* Chat Header */}
-      <ChatHeader thread={selectedThread} currentUserId={currentUserId} onShowDetails={onShowThreadDetail} />
+    <div className='h-full flex flex-col overflow-hidden'>
+      {/* Chat Header - Only show on desktop */}
+      {!isMobile && (
+        <ChatHeader
+          thread={selectedThread}
+          currentUserId={currentUserId}
+          onShowDetails={onShowThreadDetail}
+          isMobile={isMobile}
+        />
+      )}
 
       {/* Chat Area */}
       <ChatArea
@@ -53,6 +62,7 @@ export function ChatMain({
         onUploadAttachment={onUploadAttachment}
         replyToMessage={replyToMessage}
         onCancelReply={onCancelReply}
+        isMobile={isMobile}
       />
     </div>
   );

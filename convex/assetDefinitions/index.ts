@@ -9,6 +9,8 @@ export * from './web/queries/getInventoryLevels';
 export * from './web/queries/getMaintenanceSchedule';
 export * from './web/queries/getAssetUtilization';
 export * from './web/queries/getAssetReports';
+export * from './web/queries/getAssetsNearingMaintenance';
+export * from './web/queries/getTechnicians';
 
 // Web Mutations
 export * from './web/mutations/addAsset';
@@ -27,3 +29,4 @@ export * from './web/mutations/bulkUpdateAssets';
 export * from './web/mutations/generateAssetBarcode';
 export * from './web/mutations/retireAsset';
 export * from './web/mutations/reactivateAsset';
+export * from './web/mutations/assignAssetMaintenance';
