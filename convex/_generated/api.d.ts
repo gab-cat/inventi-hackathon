@@ -10,6 +10,7 @@
 
 import type * as assetDefinitions_index from "../assetDefinitions/index.js";
 import type * as assetDefinitions_web_mutations_addAsset from "../assetDefinitions/web/mutations/addAsset.js";
+import type * as assetDefinitions_web_mutations_assignAssetMaintenance from "../assetDefinitions/web/mutations/assignAssetMaintenance.js";
 import type * as assetDefinitions_web_mutations_assignAssetToUser from "../assetDefinitions/web/mutations/assignAssetToUser.js";
 import type * as assetDefinitions_web_mutations_bulkUpdateAssets from "../assetDefinitions/web/mutations/bulkUpdateAssets.js";
 import type * as assetDefinitions_web_mutations_checkInAsset from "../assetDefinitions/web/mutations/checkInAsset.js";
@@ -33,9 +34,11 @@ import type * as assetDefinitions_web_queries_getAssetHistory from "../assetDefi
 import type * as assetDefinitions_web_queries_getAssetReports from "../assetDefinitions/web/queries/getAssetReports.js";
 import type * as assetDefinitions_web_queries_getAssetUtilization from "../assetDefinitions/web/queries/getAssetUtilization.js";
 import type * as assetDefinitions_web_queries_getAssets from "../assetDefinitions/web/queries/getAssets.js";
+import type * as assetDefinitions_web_queries_getAssetsNearingMaintenance from "../assetDefinitions/web/queries/getAssetsNearingMaintenance.js";
 import type * as assetDefinitions_web_queries_getInventoryLevels from "../assetDefinitions/web/queries/getInventoryLevels.js";
 import type * as assetDefinitions_web_queries_getMaintenanceSchedule from "../assetDefinitions/web/queries/getMaintenanceSchedule.js";
 import type * as assetDefinitions_web_queries_getManagerProperties from "../assetDefinitions/web/queries/getManagerProperties.js";
+import type * as assetDefinitions_web_queries_getTechnicians from "../assetDefinitions/web/queries/getTechnicians.js";
 import type * as assets from "../assets.js";
 import type * as chatThreadDefinitions_index from "../chatThreadDefinitions/index.js";
 import type * as chatThreadDefinitions_mobile_index from "../chatThreadDefinitions/mobile/index.js";
@@ -322,6 +325,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   "assetDefinitions/index": typeof assetDefinitions_index;
   "assetDefinitions/web/mutations/addAsset": typeof assetDefinitions_web_mutations_addAsset;
+  "assetDefinitions/web/mutations/assignAssetMaintenance": typeof assetDefinitions_web_mutations_assignAssetMaintenance;
   "assetDefinitions/web/mutations/assignAssetToUser": typeof assetDefinitions_web_mutations_assignAssetToUser;
   "assetDefinitions/web/mutations/bulkUpdateAssets": typeof assetDefinitions_web_mutations_bulkUpdateAssets;
   "assetDefinitions/web/mutations/checkInAsset": typeof assetDefinitions_web_mutations_checkInAsset;
@@ -345,9 +349,11 @@ declare const fullApi: ApiFromModules<{
   "assetDefinitions/web/queries/getAssetReports": typeof assetDefinitions_web_queries_getAssetReports;
   "assetDefinitions/web/queries/getAssetUtilization": typeof assetDefinitions_web_queries_getAssetUtilization;
   "assetDefinitions/web/queries/getAssets": typeof assetDefinitions_web_queries_getAssets;
+  "assetDefinitions/web/queries/getAssetsNearingMaintenance": typeof assetDefinitions_web_queries_getAssetsNearingMaintenance;
   "assetDefinitions/web/queries/getInventoryLevels": typeof assetDefinitions_web_queries_getInventoryLevels;
   "assetDefinitions/web/queries/getMaintenanceSchedule": typeof assetDefinitions_web_queries_getMaintenanceSchedule;
   "assetDefinitions/web/queries/getManagerProperties": typeof assetDefinitions_web_queries_getManagerProperties;
+  "assetDefinitions/web/queries/getTechnicians": typeof assetDefinitions_web_queries_getTechnicians;
   assets: typeof assets;
   "chatThreadDefinitions/index": typeof chatThreadDefinitions_index;
   "chatThreadDefinitions/mobile/index": typeof chatThreadDefinitions_mobile_index;

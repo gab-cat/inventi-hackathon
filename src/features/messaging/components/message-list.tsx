@@ -14,6 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../../../components/ui/dropdown-menu';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function MessageItem({ message, currentUserId, onReply, onEdit, onDelete }: MessageItemProps) {
   const isOwnMessage = message.senderId === currentUserId;
@@ -89,7 +90,12 @@ function MessageItem({ message, currentUserId, onReply, onEdit, onDelete }: Mess
   }
 
   return (
-    <div className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-2`}>
+    <motion.div
+      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
+      className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-2`}
+    >
       <div className={`flex max-w-[70%] ${isOwnMessage ? 'flex-row-reverse' : 'flex-row'} space-x-2`}>
         {/* Only show avatar for other participants' messages */}
         {!isOwnMessage && (
@@ -174,7 +180,7 @@ function MessageItem({ message, currentUserId, onReply, onEdit, onDelete }: Mess
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -230,23 +236,36 @@ export function MessageList({
   return (
     <div className='space-y-4'>
       {hasMore && onLoadMore && (
-        <div className='text-center'>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+          className='text-center'
+        >
           <Button variant='outline' onClick={onLoadMore}>
             Load More Messages
           </Button>
-        </div>
+        </motion.div>
       )}
 
-      {messages.map(message => (
-        <MessageItem
-          key={message._id}
-          message={message}
-          currentUserId={currentUserId}
-          onReply={() => {}} // Will be implemented in parent component
-          onEdit={() => {}} // Will be implemented in parent component
-          onDelete={() => {}} // Will be implemented in parent component
-        />
-      ))}
+      <AnimatePresence>
+        {messages.map((message, index) => (
+          <motion.div
+            key={message._id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, delay: index * 0.05 }}
+          >
+            <MessageItem
+              message={message}
+              currentUserId={currentUserId}
+              onReply={() => {}} // Will be implemented in parent component
+              onEdit={() => {}} // Will be implemented in parent component
+              onDelete={() => {}} // Will be implemented in parent component
+            />
+          </motion.div>
+        ))}
+      </AnimatePresence>
 
       {/* Invisible element to scroll to */}
       <div ref={messagesEndRef} />

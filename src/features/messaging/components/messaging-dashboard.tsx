@@ -17,6 +17,7 @@ import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '../../../c
 import { Menu, X, ArrowLeft } from 'lucide-react';
 import { useProgress } from '@bprogress/next';
 import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   useChatThreads,
   useMessages,
@@ -246,48 +247,64 @@ export function MessagingDashboard({ propertyId, currentUserId }: MessagingDashb
 
         {/* Mobile Content - Scrollable */}
         <div className='flex-1 overflow-hidden flex flex-col'>
-          {currentView === 'sidebar' ? (
-            <div className='h-full overflow-hidden'>
-              <ChatSidebar
-                threads={threads}
-                threadsLoading={threadsLoading}
-                selectedThreadId={selectedThreadId}
-                currentUserId={currentUserId}
-                totalUnread={totalUnread}
-                threadTypeFilter={threadTypeFilter}
-                isArchivedFilter={isArchivedFilter}
-                onThreadSelect={handleThreadSelect}
-                onStartNewChat={() => setShowUserSelection(true)}
-                onThreadTypeFilterChange={setThreadTypeFilter}
-                onArchivedFilterChange={value => {
-                  if (value === 'all') setIsArchivedFilter(undefined);
-                  else setIsArchivedFilter(value === 'archived');
-                }}
-                isMobile={true}
-              />
-            </div>
-          ) : (
-            <div className='h-full overflow-hidden flex flex-col'>
-              {selectedThread ? (
-                <ChatMain
-                  selectedThread={selectedThread}
-                  messages={messages}
-                  messagesLoading={messagesLoading}
-                  hasMore={hasMore}
+          <AnimatePresence mode='wait'>
+            {currentView === 'sidebar' ? (
+              <motion.div
+                key='sidebar'
+                initial={{ x: -300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -300, opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className='h-full overflow-hidden'
+              >
+                <ChatSidebar
+                  threads={threads}
+                  threadsLoading={threadsLoading}
+                  selectedThreadId={selectedThreadId}
                   currentUserId={currentUserId}
-                  onLoadMore={hasMore ? loadMore : undefined}
-                  onSendMessage={handleSendMessage}
-                  onUploadAttachment={handleUploadAttachment}
-                  onShowThreadDetail={() => setShowThreadDetail(true)}
-                  replyToMessage={replyToMessage}
-                  onCancelReply={() => setReplyToMessage(null)}
+                  totalUnread={totalUnread}
+                  threadTypeFilter={threadTypeFilter}
+                  isArchivedFilter={isArchivedFilter}
+                  onThreadSelect={handleThreadSelect}
+                  onStartNewChat={() => setShowUserSelection(true)}
+                  onThreadTypeFilterChange={setThreadTypeFilter}
+                  onArchivedFilterChange={value => {
+                    if (value === 'all') setIsArchivedFilter(undefined);
+                    else setIsArchivedFilter(value === 'archived');
+                  }}
                   isMobile={true}
                 />
-              ) : (
-                <NoThreadSelected />
-              )}
-            </div>
-          )}
+              </motion.div>
+            ) : (
+              <motion.div
+                key='chat'
+                initial={{ x: 300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: 300, opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className='h-full overflow-hidden flex flex-col'
+              >
+                {selectedThread ? (
+                  <ChatMain
+                    selectedThread={selectedThread}
+                    messages={messages}
+                    messagesLoading={messagesLoading}
+                    hasMore={hasMore}
+                    currentUserId={currentUserId}
+                    onLoadMore={hasMore ? loadMore : undefined}
+                    onSendMessage={handleSendMessage}
+                    onUploadAttachment={handleUploadAttachment}
+                    onShowThreadDetail={() => setShowThreadDetail(true)}
+                    replyToMessage={replyToMessage}
+                    onCancelReply={() => setReplyToMessage(null)}
+                    isMobile={true}
+                  />
+                ) : (
+                  <NoThreadSelected />
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Mobile Modals */}
@@ -324,51 +341,82 @@ export function MessagingDashboard({ propertyId, currentUserId }: MessagingDashb
 
   // Desktop layout with resizable panels
   return (
-    <div className='h-[calc(100vh-100px)] border rounded-lg overflow-hidden'>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className='h-[calc(100vh-100px)] border rounded-lg overflow-hidden'
+    >
       <ResizablePanelGroup direction='horizontal' className='h-full'>
         {/* Thread List Sidebar */}
         <ResizablePanel defaultSize={20} minSize={15} maxSize={50}>
-          <ChatSidebar
-            threads={threads}
-            threadsLoading={threadsLoading}
-            selectedThreadId={selectedThreadId}
-            currentUserId={currentUserId}
-            totalUnread={totalUnread}
-            threadTypeFilter={threadTypeFilter}
-            isArchivedFilter={isArchivedFilter}
-            onThreadSelect={handleThreadSelect}
-            onStartNewChat={() => setShowUserSelection(true)}
-            onThreadTypeFilterChange={setThreadTypeFilter}
-            onArchivedFilterChange={value => {
-              if (value === 'all') setIsArchivedFilter(undefined);
-              else setIsArchivedFilter(value === 'archived');
-            }}
-            isMobile={false}
-          />
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
+            <ChatSidebar
+              threads={threads}
+              threadsLoading={threadsLoading}
+              selectedThreadId={selectedThreadId}
+              currentUserId={currentUserId}
+              totalUnread={totalUnread}
+              threadTypeFilter={threadTypeFilter}
+              isArchivedFilter={isArchivedFilter}
+              onThreadSelect={handleThreadSelect}
+              onStartNewChat={() => setShowUserSelection(true)}
+              onThreadTypeFilterChange={setThreadTypeFilter}
+              onArchivedFilterChange={value => {
+                if (value === 'all') setIsArchivedFilter(undefined);
+                else setIsArchivedFilter(value === 'archived');
+              }}
+              isMobile={false}
+            />
+          </motion.div>
         </ResizablePanel>
 
         <ResizableHandle withHandle />
 
         {/* Chat Area */}
         <ResizablePanel defaultSize={80} minSize={50}>
-          {selectedThread ? (
-            <ChatMain
-              selectedThread={selectedThread}
-              messages={messages}
-              messagesLoading={messagesLoading}
-              hasMore={hasMore}
-              currentUserId={currentUserId}
-              onLoadMore={hasMore ? loadMore : undefined}
-              onSendMessage={handleSendMessage}
-              onUploadAttachment={handleUploadAttachment}
-              onShowThreadDetail={() => setShowThreadDetail(true)}
-              replyToMessage={replyToMessage}
-              onCancelReply={() => setReplyToMessage(null)}
-              isMobile={false}
-            />
-          ) : (
-            <NoThreadSelected />
-          )}
+          <AnimatePresence mode='wait'>
+            {selectedThread ? (
+              <motion.div
+                key={selectedThread._id}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.2, ease: 'easeInOut' }}
+                className='h-full'
+              >
+                <ChatMain
+                  selectedThread={selectedThread}
+                  messages={messages}
+                  messagesLoading={messagesLoading}
+                  hasMore={hasMore}
+                  currentUserId={currentUserId}
+                  onLoadMore={hasMore ? loadMore : undefined}
+                  onSendMessage={handleSendMessage}
+                  onUploadAttachment={handleUploadAttachment}
+                  onShowThreadDetail={() => setShowThreadDetail(true)}
+                  replyToMessage={replyToMessage}
+                  onCancelReply={() => setReplyToMessage(null)}
+                  isMobile={false}
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key='no-thread'
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2, ease: 'easeInOut' }}
+                className='h-full'
+              >
+                <NoThreadSelected />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </ResizablePanel>
       </ResizablePanelGroup>
 
@@ -401,6 +449,6 @@ export function MessagingDashboard({ propertyId, currentUserId }: MessagingDashb
         currentUserId={currentUserId}
         allowMultiple={true}
       />
-    </div>
+    </motion.div>
   );
 }

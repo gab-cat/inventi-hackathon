@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatCard } from '@/components/ui/stat-card';
 import { Badge } from '@/components/ui/badge';
 import { Building2, Users, Wrench, UserCheck, Package, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 import {
   PieChart,
   Pie,
@@ -92,60 +93,100 @@ export function DashboardOverview({ propertyOverview, financialMetrics }: Dashbo
   };
 
   return (
-    <div className='space-y-6'>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className='space-y-6'
+    >
       {/* Property Overview Cards */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-        <StatCard
-          title='Total Units'
-          value={propertyOverview.totalUnits}
-          description={`${propertyOverview.occupiedUnits} occupied`}
-          icon={Building2}
-        />
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          className='h-full'
+        >
+          <StatCard
+            title='Total Units'
+            value={propertyOverview.totalUnits}
+            description={`${propertyOverview.occupiedUnits} occupied`}
+            icon={Building2}
+          />
+        </motion.div>
 
-        <Card>
-          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Occupancy Rate</CardTitle>
-            <Building2 className='h-4 w-4 text-muted-foreground' />
-          </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold'>{propertyOverview.occupancyRate.toFixed(1)}%</div>
-            <div className='flex items-center space-x-2 mt-1'>
-              <Badge className={occupancyStatus.color}>{occupancyStatus.label}</Badge>
-            </div>
-          </CardContent>
-        </Card>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+          className='h-full'
+        >
+          <Card className='h-full flex flex-col'>
+            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+              <CardTitle className='text-sm font-medium'>Occupancy Rate</CardTitle>
+              <Building2 className='h-4 w-4 text-muted-foreground' />
+            </CardHeader>
+            <CardContent className='flex-1 flex flex-col justify-between'>
+              <div className='text-2xl font-bold'>{propertyOverview.occupancyRate.toFixed(1)}%</div>
+              <div className='flex items-center space-x-2 mt-1'>
+                <Badge className={occupancyStatus.color}>{occupancyStatus.label}</Badge>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
 
-        <StatCard
-          title='Active Tenants'
-          value={propertyOverview.totalTenants}
-          description='Registered tenants'
-          icon={Users}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+          className='h-full'
+        >
+          <StatCard
+            title='Active Tenants'
+            value={propertyOverview.totalTenants}
+            description='Registered tenants'
+            icon={Users}
+          />
+        </motion.div>
 
-        <Card>
-          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Monthly Revenue</CardTitle>
-            <TrendingUp className='h-4 w-4 text-muted-foreground' />
-          </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold'>{formatCurrency(financialMetrics.monthlyRevenue)}</div>
-            <p className='text-xs text-muted-foreground'>
-              Collection rate: {financialMetrics.collectionRate.toFixed(1)}%
-            </p>
-          </CardContent>
-        </Card>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.4 }}
+          className='h-full'
+        >
+          <Card className='h-full flex flex-col'>
+            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+              <CardTitle className='text-sm font-medium'>Monthly Revenue</CardTitle>
+              <TrendingUp className='h-4 w-4 text-muted-foreground' />
+            </CardHeader>
+            <CardContent className='flex-1 flex flex-col justify-between'>
+              <div className='text-2xl font-bold'>{formatCurrency(financialMetrics.monthlyRevenue)}</div>
+              <p className='text-xs text-muted-foreground'>
+                Collection rate: {financialMetrics.collectionRate.toFixed(1)}%
+              </p>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
 
       {/* Operational Status Cards */}
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-        <Card>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.5 }}
+        className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'
+      >
+        <Card className='h-full flex flex-col'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Maintenance</CardTitle>
             <Wrench className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold'>{propertyOverview.activeMaintenanceRequests}</div>
-            <p className='text-xs text-muted-foreground'>Active requests</p>
+          <CardContent className='flex-1 flex flex-col justify-between'>
+            <div>
+              <div className='text-2xl font-bold'>{propertyOverview.activeMaintenanceRequests}</div>
+              <p className='text-xs text-muted-foreground'>Active requests</p>
+            </div>
             {propertyOverview.activeMaintenanceRequests > 0 && (
               <div className='flex items-center mt-2'>
                 <AlertTriangle className='h-3 w-3 text-orange-500 mr-1' />
@@ -155,14 +196,16 @@ export function DashboardOverview({ propertyOverview, financialMetrics }: Dashbo
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className='h-full flex flex-col'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Visitors</CardTitle>
             <UserCheck className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold'>{propertyOverview.pendingVisitorRequests}</div>
-            <p className='text-xs text-muted-foreground'>Pending approvals</p>
+          <CardContent className='flex-1 flex flex-col justify-between'>
+            <div>
+              <div className='text-2xl font-bold'>{propertyOverview.pendingVisitorRequests}</div>
+              <p className='text-xs text-muted-foreground'>Pending approvals</p>
+            </div>
             {propertyOverview.pendingVisitorRequests === 0 && (
               <div className='flex items-center mt-2'>
                 <CheckCircle className='h-3 w-3 text-green-500 mr-1' />
@@ -172,20 +215,27 @@ export function DashboardOverview({ propertyOverview, financialMetrics }: Dashbo
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className='h-full flex flex-col sm:col-span-2 lg:col-span-1'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Deliveries</CardTitle>
             <Package className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold'>{propertyOverview.pendingDeliveries}</div>
-            <p className='text-xs text-muted-foreground'>Awaiting collection</p>
+          <CardContent className='flex-1 flex flex-col justify-between'>
+            <div>
+              <div className='text-2xl font-bold'>{propertyOverview.pendingDeliveries}</div>
+              <p className='text-xs text-muted-foreground'>Awaiting collection</p>
+            </div>
           </CardContent>
         </Card>
-      </div>
+      </motion.div>
 
       {/* Charts Section */}
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.6 }}
+        className='grid grid-cols-1 xl:grid-cols-2 gap-6'
+      >
         {/* Occupancy Chart */}
         <Card>
           <CardHeader>
@@ -251,60 +301,68 @@ export function DashboardOverview({ propertyOverview, financialMetrics }: Dashbo
             </div>
           </CardContent>
         </Card>
-      </div>
 
-      {/* Financial Summary */}
-      <Card>
-        <CardHeader>
-          <CardTitle className='flex items-center gap-2'>
-            <TrendingUp className='h-5 w-5' />
-            Financial Overview
-          </CardTitle>
-          <p className='text-sm text-muted-foreground'>
-            Revenue collection status and payment tracking across all units
-          </p>
-        </CardHeader>
-        <CardContent>
-          <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-            {/* Financial Summary Cards */}
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-              <div className='text-center'>
-                <div className='text-2xl font-bold text-green-600'>{formatCurrency(financialMetrics.totalRevenue)}</div>
-                <p className='text-sm text-muted-foreground'>Total Revenue</p>
-              </div>
-              <div className='text-center'>
-                <div className='text-2xl font-bold text-blue-600'>
-                  {formatCurrency(financialMetrics.pendingPayments)}
+        {/* Financial Summary */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.7 }}
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle className='flex items-center gap-2'>
+                <TrendingUp className='h-5 w-5' />
+                Financial Overview
+              </CardTitle>
+              <p className='text-sm text-muted-foreground'>
+                Revenue collection status and payment tracking across all units
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+                {/* Financial Summary Cards */}
+                <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
+                  <div className='text-center'>
+                    <div className='text-2xl font-bold text-green-600'>
+                      {formatCurrency(financialMetrics.totalRevenue)}
+                    </div>
+                    <p className='text-sm text-muted-foreground'>Total Revenue</p>
+                  </div>
+                  <div className='text-center'>
+                    <div className='text-2xl font-bold text-blue-600'>
+                      {formatCurrency(financialMetrics.pendingPayments)}
+                    </div>
+                    <p className='text-sm text-muted-foreground'>Pending Payments</p>
+                  </div>
+                  <div className='text-center'>
+                    <div className='text-2xl font-bold text-red-600'>
+                      {formatCurrency(financialMetrics.overduePayments)}
+                    </div>
+                    <p className='text-sm text-muted-foreground'>Overdue Payments</p>
+                  </div>
                 </div>
-                <p className='text-sm text-muted-foreground'>Pending Payments</p>
-              </div>
-              <div className='text-center'>
-                <div className='text-2xl font-bold text-red-600'>
-                  {formatCurrency(financialMetrics.overduePayments)}
-                </div>
-                <p className='text-sm text-muted-foreground'>Overdue Payments</p>
-              </div>
-            </div>
 
-            {/* Financial Chart */}
-            <div className='h-48'>
-              <ResponsiveContainer width='100%' height='100%'>
-                <BarChart data={financialData}>
-                  <CartesianGrid strokeDasharray='3 3' stroke='#f0f0f0' />
-                  <XAxis dataKey='name' stroke='#666' fontSize={10} tickLine={false} axisLine={false} />
-                  <YAxis stroke='#666' fontSize={10} tickLine={false} axisLine={false} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Bar dataKey='value' radius={[4, 4, 0, 0]}>
-                    {financialData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+                {/* Financial Chart */}
+                <div className='h-48'>
+                  <ResponsiveContainer width='100%' height='100%'>
+                    <BarChart data={financialData}>
+                      <CartesianGrid strokeDasharray='3 3' stroke='#f0f0f0' />
+                      <XAxis dataKey='name' stroke='#666' fontSize={10} tickLine={false} axisLine={false} />
+                      <YAxis stroke='#666' fontSize={10} tickLine={false} axisLine={false} />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Bar dataKey='value' radius={[4, 4, 0, 0]}>
+                        {financialData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }

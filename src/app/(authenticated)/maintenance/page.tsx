@@ -19,6 +19,7 @@ import {
   AssignmentDialogSkeleton,
 } from '@/features/maintenance/components/skeletons';
 import { MaintenanceRequestStatus } from '../../../../mobile/lib/tech.types';
+import { motion } from 'framer-motion';
 
 export default function MaintenancePage() {
   const { selectedPropertyId } = usePropertyStore();
@@ -114,16 +115,30 @@ export default function MaintenancePage() {
   }
 
   return (
-    <div className='space-y-4 sm:space-y-6'>
-      <div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className='space-y-4 sm:space-y-6'
+    >
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+      >
         <h1 className='text-lg sm:text-xl font-bold tracking-tight'>Maintenance</h1>
         <p className='text-sm sm:text-base text-muted-foreground'>
           Manage and track maintenance requests for the selected property
         </p>
-      </div>
+      </motion.div>
 
       {/* View Mode Tabs */}
-      <div className='flex w-full items-center gap-2 sm:gap-4 overflow-x-auto'>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+        className='flex w-full items-center gap-2 sm:gap-4 overflow-x-auto'
+      >
         <div className='flex w-full border-b min-w-max'>
           <button
             className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border-b-2 transition-colors whitespace-nowrap cursor-pointer ${
@@ -146,10 +161,15 @@ export default function MaintenancePage() {
             Table View
           </button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Request Board Overview */}
-      <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
+        className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'
+      >
         <div>
           <h2 className='text-lg sm:text-xl font-semibold'>
             Request Board {requests ? requests.page.length : 0} total
@@ -165,108 +185,114 @@ export default function MaintenancePage() {
             />
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Main Content */}
-      {!requests ? (
-        // Show skeleton while loading
-        viewMode === 'kanban' ? (
-          <MaintenancePageSkeleton />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.4 }}
+      >
+        {!requests ? (
+          // Show skeleton while loading
+          viewMode === 'kanban' ? (
+            <MaintenancePageSkeleton />
+          ) : (
+            <MaintenanceTablePageSkeleton />
+          )
+        ) : viewMode === 'kanban' ? (
+          <div className='rounded-lg'>
+            <KanbanBoard
+              requests={requests.page}
+              onAssign={handleAssign}
+              onViewDetails={handleViewDetails}
+              onStatusChange={handleStatusChange}
+            />
+          </div>
         ) : (
-          <MaintenanceTablePageSkeleton />
-        )
-      ) : viewMode === 'kanban' ? (
-        <div className='rounded-lg'>
-          <KanbanBoard
-            requests={requests.page}
-            onAssign={handleAssign}
-            onViewDetails={handleViewDetails}
-            onStatusChange={handleStatusChange}
-          />
-        </div>
-      ) : (
-        /* Table View */
-        <div className='rounded-lg border bg-card'>
-          <div className='p-6'>
-            <h3 className='text-lg font-semibold mb-4'>Maintenance Requests</h3>
-            <div className='space-y-4'>
-              {requests.page.map(request => (
-                <div key={request._id} className='border rounded-lg p-4 hover:bg-muted/50 transition-colors'>
-                  <div className='flex items-start justify-between'>
-                    <div className='space-y-2'>
+          /* Table View */
+          <div className='rounded-lg border bg-card'>
+            <div className='p-6'>
+              <h3 className='text-lg font-semibold mb-4'>Maintenance Requests</h3>
+              <div className='space-y-4'>
+                {requests.page.map(request => (
+                  <div key={request._id} className='border rounded-lg p-4 hover:bg-muted/50 transition-colors'>
+                    <div className='flex items-start justify-between'>
+                      <div className='space-y-2'>
+                        <div className='flex items-center gap-2'>
+                          <h4 className='font-semibold'>{request.title}</h4>
+                        </div>
+                        <p className='text-sm text-muted-foreground'>{request.description}</p>
+                        <div className='flex items-center gap-4 text-sm text-muted-foreground'>
+                          <span>Tenant: {request.tenantName || 'Unknown'}</span>
+                          <span>Unit: {request.unitNumber || 'N/A'}</span>
+                          <span>Type: {request.requestType}</span>
+                          <span>Created: {new Date(request.createdAt).toLocaleDateString()}</span>
+                        </div>
+                      </div>
                       <div className='flex items-center gap-2'>
-                        <h4 className='font-semibold'>{request.title}</h4>
+                        <Button variant='outline' size='sm' onClick={() => handleViewDetails(request._id)}>
+                          View Details
+                        </Button>
+                        <Button
+                          variant='outline'
+                          size='sm'
+                          onClick={() => setAssignmentDialog({ isOpen: true, requestId: request._id })}
+                        >
+                          Assign
+                        </Button>
                       </div>
-                      <p className='text-sm text-muted-foreground'>{request.description}</p>
-                      <div className='flex items-center gap-4 text-sm text-muted-foreground'>
-                        <span>Tenant: {request.tenantName || 'Unknown'}</span>
-                        <span>Unit: {request.unitNumber || 'N/A'}</span>
-                        <span>Type: {request.requestType}</span>
-                        <span>Created: {new Date(request.createdAt).toLocaleDateString()}</span>
-                      </div>
-                    </div>
-                    <div className='flex items-center gap-2'>
-                      <Button variant='outline' size='sm' onClick={() => handleViewDetails(request._id)}>
-                        View Details
-                      </Button>
-                      <Button
-                        variant='outline'
-                        size='sm'
-                        onClick={() => setAssignmentDialog({ isOpen: true, requestId: request._id })}
-                      >
-                        Assign
-                      </Button>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
 
-              {requests.page.length === 0 && (
-                <div className='text-center py-8 text-muted-foreground'>No maintenance requests found</div>
-              )}
+                {requests.page.length === 0 && (
+                  <div className='text-center py-8 text-muted-foreground'>No maintenance requests found</div>
+                )}
 
-              {!requests.isDone && (
-                <div className='text-center pt-4'>
-                  <Button onClick={loadMore} variant='outline'>
-                    Load More
-                  </Button>
-                </div>
-              )}
+                {!requests.isDone && (
+                  <div className='text-center pt-4'>
+                    <Button onClick={loadMore} variant='outline'>
+                      Load More
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Assignment Dialog */}
-      {assignmentDialog.requestId && (
-        <AssignmentDialog
-          requestId={assignmentDialog.requestId}
-          isOpen={assignmentDialog.isOpen}
-          onClose={() => setAssignmentDialog({ isOpen: false, requestId: null })}
-          onSuccess={() => {
-            // Refresh the data or show success message
-            setPagination({ numItems: 20, cursor: null });
-          }}
-        />
-      )}
-
-      {/* Detail Sheet */}
-      {detailSheet.requestId &&
-        (requests ? (
-          <MaintenanceDetailSheet
-            request={requests.page.find(r => r._id === detailSheet.requestId) || null}
-            isOpen={detailSheet.isOpen}
-            onClose={() => setDetailSheet({ isOpen: false, requestId: null })}
-            onAssign={handleAssign}
-            onStatusChange={handleStatusChange}
+        {/* Assignment Dialog */}
+        {assignmentDialog.requestId && (
+          <AssignmentDialog
+            requestId={assignmentDialog.requestId}
+            isOpen={assignmentDialog.isOpen}
+            onClose={() => setAssignmentDialog({ isOpen: false, requestId: null })}
+            onSuccess={() => {
+              // Refresh the data or show success message
+              setPagination({ numItems: 20, cursor: null });
+            }}
           />
-        ) : (
-          <div className='fixed inset-0 z-50'>
-            <div className='fixed right-0 top-0 h-full w-full max-w-2xl bg-background border-l shadow-lg'>
-              <MaintenanceDetailSheetSkeleton />
+        )}
+
+        {/* Detail Sheet */}
+        {detailSheet.requestId &&
+          (requests ? (
+            <MaintenanceDetailSheet
+              request={requests.page.find(r => r._id === detailSheet.requestId) || null}
+              isOpen={detailSheet.isOpen}
+              onClose={() => setDetailSheet({ isOpen: false, requestId: null })}
+              onAssign={handleAssign}
+              onStatusChange={handleStatusChange}
+            />
+          ) : (
+            <div className='fixed inset-0 z-50'>
+              <div className='fixed right-0 top-0 h-full w-full max-w-2xl bg-background border-l shadow-lg'>
+                <MaintenanceDetailSheetSkeleton />
+              </div>
             </div>
-          </div>
-        ))}
-    </div>
+          ))}
+      </motion.div>
+    </motion.div>
   );
 }

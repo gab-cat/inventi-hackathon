@@ -9,11 +9,16 @@ interface UseDashboardAnalyticsProps {
 }
 
 export function useDashboardAnalytics({ propertyId, startDate, endDate }: UseDashboardAnalyticsProps) {
-  const analytics = useQuery(api.dashboard.getDashboardAnalytics, {
-    propertyId,
-    startDate,
-    endDate,
-  });
+  const analytics = useQuery(
+    api.dashboard.getDashboardAnalytics,
+    propertyId
+      ? {
+          propertyId,
+          startDate,
+          endDate,
+        }
+      : 'skip'
+  );
 
   return {
     analytics,

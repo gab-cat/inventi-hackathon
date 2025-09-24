@@ -17,6 +17,7 @@ import { useManagerProperties } from '@/features/noticeboard/hooks/useManagerPro
 import { useAllUnits } from '@/features/noticeboard/hooks/useAllUnits';
 import { Id } from '@convex/_generated/dataModel';
 import { api } from '@convex/_generated/api';
+import { motion } from 'framer-motion';
 
 export default function VisitorsPage() {
   const { selectedPropertyId } = usePropertyStore();
@@ -97,9 +98,19 @@ export default function VisitorsPage() {
   }
 
   return (
-    <div className='container mx-auto p-6 space-y-6'>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className='container mx-auto p-6 space-y-6'
+    >
       {/* Header */}
-      <div className='flex items-center justify-between'>
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className='flex items-center justify-between'
+      >
         <div>
           <h1 className='text-3xl font-bold'>Visitor Management</h1>
           <p className='text-muted-foreground'>Manage visitor requests and access for {selectedProperty.name}</p>
@@ -114,27 +125,53 @@ export default function VisitorsPage() {
             Create Visitor Entry
           </Button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Stats */}
-      {visitors && <VisitorStats visitors={visitors} activeVisitors={activeVisitors?.length || 0} />}
+      {visitors && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+        >
+          <VisitorStats visitors={visitors} activeVisitors={activeVisitors?.length || 0} />
+        </motion.div>
+      )}
 
       {/* Active Visitors */}
       {activeVisitors && activeVisitors.length > 0 && (
-        <ActiveVisitorsCard activeVisitors={activeVisitors} onRefresh={handleRefresh} />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+        >
+          <ActiveVisitorsCard activeVisitors={activeVisitors} onRefresh={handleRefresh} />
+        </motion.div>
       )}
 
       {/* Filters */}
-      <VisitorFilters onFiltersChange={handleFiltersChange} onClearFilters={handleClearFilters} />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.4 }}
+      >
+        <VisitorFilters onFiltersChange={handleFiltersChange} onClearFilters={handleClearFilters} />
+      </motion.div>
 
       {/* Visitor Table */}
-      {visitors ? (
-        <VisitorTable visitors={visitors} onRefresh={handleRefresh} />
-      ) : (
-        <div className='text-center py-12'>
-          <p className='text-muted-foreground'>Loading visitors...</p>
-        </div>
-      )}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.5 }}
+      >
+        {visitors ? (
+          <VisitorTable visitors={visitors} onRefresh={handleRefresh} />
+        ) : (
+          <div className='text-center py-12'>
+            <p className='text-muted-foreground'>Loading visitors...</p>
+          </div>
+        )}
+      </motion.div>
 
       {/* Create Visitor Modal */}
       {showCreateModal && selectedUnitId && selectedPropertyId && (
@@ -146,6 +183,6 @@ export default function VisitorsPage() {
           onSuccess={handleCreateSuccess}
         />
       )}
-    </div>
+    </motion.div>
   );
 }

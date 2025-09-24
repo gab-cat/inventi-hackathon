@@ -9,6 +9,7 @@ import { Card, CardContent } from '../../../components/ui/card';
 import { Badge } from '../../../components/ui/badge';
 import { useProgress } from '@bprogress/next';
 import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function MessageInput({
   threadId,
@@ -77,30 +78,44 @@ export function MessageInput({
 
   return (
     <div className={isMobile ? 'space-y-2' : 'space-y-3'}>
-      {replyTo && (
-        <Card className='bg-blue-50 border-blue-200'>
-          <CardContent className={isMobile ? 'p-2' : 'p-3'}>
-            <div className='flex items-center justify-between'>
-              <div className='flex-1'>
-                <Badge variant='outline' className={isMobile ? 'text-xs mb-1' : 'mb-1'}>
-                  Replying to {replyTo.sender.firstName} {replyTo.sender.lastName}
-                </Badge>
-                <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-gray-600 truncate`}>{replyTo.content}</p>
-              </div>
-              <Button
-                variant='ghost'
-                size='sm'
-                onClick={onCancelReply}
-                className={`${isMobile ? 'h-5 w-5' : 'h-6 w-6'} p-0`}
-              >
-                <X className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      <AnimatePresence>
+        {replyTo && (
+          <motion.div
+            initial={{ opacity: 0, height: 0, y: -10 }}
+            animate={{ opacity: 1, height: 'auto', y: 0 }}
+            exit={{ opacity: 0, height: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
+          >
+            <Card className='bg-blue-50 border-blue-200'>
+              <CardContent className={isMobile ? 'p-2' : 'p-3'}>
+                <div className='flex items-center justify-between'>
+                  <div className='flex-1'>
+                    <Badge variant='outline' className={isMobile ? 'text-xs mb-1' : 'mb-1'}>
+                      Replying to {replyTo.sender.firstName} {replyTo.sender.lastName}
+                    </Badge>
+                    <p className={`${isMobile ? 'text-xs' : 'text-sm'} text-gray-600 truncate`}>{replyTo.content}</p>
+                  </div>
+                  <Button
+                    variant='ghost'
+                    size='sm'
+                    onClick={onCancelReply}
+                    className={`${isMobile ? 'h-5 w-5' : 'h-6 w-6'} p-0`}
+                  >
+                    <X className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      <div className={`flex items-end ${isMobile ? 'space-x-1' : 'space-x-2'}`}>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2, delay: 0.1 }}
+        className={`flex items-end ${isMobile ? 'space-x-1' : 'space-x-2'}`}
+      >
         <div className='flex-1'>
           <Textarea
             value={message}
@@ -113,7 +128,12 @@ export function MessageInput({
           />
         </div>
 
-        <div className={`flex items-center ${isMobile ? 'space-x-0.5' : 'space-x-1'}`}>
+        <motion.div
+          initial={{ opacity: 0, x: 10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.2, delay: 0.2 }}
+          className={`flex items-center ${isMobile ? 'space-x-0.5' : 'space-x-1'}`}
+        >
           <input
             ref={fileInputRef}
             type='file'
@@ -148,12 +168,22 @@ export function MessageInput({
           >
             <Send className={`${isMobile ? 'h-3 w-3' : 'h-4 w-4'}`} />
           </Button>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      {isUploading && (
-        <div className={`${isMobile ? 'text-xs' : 'text-sm'} text-gray-500 text-center`}>Uploading file...</div>
-      )}
+      <AnimatePresence>
+        {isUploading && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className={`${isMobile ? 'text-xs' : 'text-sm'} text-gray-500 text-center`}
+          >
+            Uploading file...
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
