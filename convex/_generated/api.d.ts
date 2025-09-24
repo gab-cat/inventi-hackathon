@@ -51,12 +51,9 @@ import type * as chatThreadDefinitions_web_queries_getChatThreadsByProperty from
 import type * as chatThreadDefinitions_web_queries_getMessageAnalytics from "../chatThreadDefinitions/web/queries/getMessageAnalytics.js";
 import type * as chatThreadDefinitions_web_queries_index from "../chatThreadDefinitions/web/queries/index.js";
 import type * as chatThreads from "../chatThreads.js";
-<<<<<<< HEAD
 import type * as dashboard from "../dashboard.js";
 import type * as dashboardDefinitions_index from "../dashboardDefinitions/index.js";
 import type * as dashboardDefinitions_web_queries_getDashboardAnalytics from "../dashboardDefinitions/web/queries/getDashboardAnalytics.js";
-=======
->>>>>>> origin
 import type * as delivery from "../delivery.js";
 import type * as deliveryDefinitions_index from "../deliveryDefinitions/index.js";
 import type * as deliveryDefinitions_mobile_index from "../deliveryDefinitions/mobile/index.js";
@@ -331,12 +328,9 @@ declare const fullApi: ApiFromModules<{
   "chatThreadDefinitions/web/queries/getMessageAnalytics": typeof chatThreadDefinitions_web_queries_getMessageAnalytics;
   "chatThreadDefinitions/web/queries/index": typeof chatThreadDefinitions_web_queries_index;
   chatThreads: typeof chatThreads;
-<<<<<<< HEAD
   dashboard: typeof dashboard;
   "dashboardDefinitions/index": typeof dashboardDefinitions_index;
   "dashboardDefinitions/web/queries/getDashboardAnalytics": typeof dashboardDefinitions_web_queries_getDashboardAnalytics;
-=======
->>>>>>> origin
   delivery: typeof delivery;
   "deliveryDefinitions/index": typeof deliveryDefinitions_index;
   "deliveryDefinitions/mobile/index": typeof deliveryDefinitions_mobile_index;
