@@ -72,6 +72,7 @@ export default defineSchema({
       v.literal('house')
     ),
     floor: v.optional(v.number()),
+    maxVisitorCapacity: v.number(),
     bedrooms: v.optional(v.number()),
     bathrooms: v.optional(v.number()),
     squareFootage: v.optional(v.number()),
@@ -120,6 +121,8 @@ export default defineSchema({
     expectedArrival: v.number(), // Timestamp
     expectedDeparture: v.optional(v.number()),
     numberOfVisitors: v.number(),
+    piiHash: v.string(), // Hash of PII blob includes propertyId, unitId, requestedBy, visitorName, visitorEmail, visitorPhone, visitorIdNumber, visitorIdType, expectedArrival, expectedDeparture, numberOfVisitors
+    status: v.string(), // "pending", "approved", "denied", "cancelled", "expired"
     status: v.union(
       v.literal('pending'),
       v.literal('approved'),
@@ -162,9 +165,7 @@ export default defineSchema({
     location: v.optional(v.string()), // Specific location within property
     verifiedBy: v.optional(v.id('users')), // Security guard or system
     notes: v.optional(v.string()),
-    blockchainTxHash: v.string(), // Immutable blockchain record
-    blockNumber: v.optional(v.number()),
-    smartContractAddress: v.optional(v.string()),
+    blockchainTxHash: v.string(), // Immutable blockchain record URL
     createdAt: v.number(),
   })
     .index('by_visitor_request', ['visitorRequestId'])
