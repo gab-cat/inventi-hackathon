@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { ScrollView, RefreshControl, Alert, Modal, TextInput, TouchableOpacity, View, Text } from 'react-native';
-import { useQuery, useMutation } from 'convex/react';
+import { useQuery, useMutation, useAction } from 'convex/react';
+import { useRouter } from 'expo-router';
 import { api } from '@convex/_generated/api';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -10,7 +11,7 @@ import { useNotifications } from '@/providers/notification.provider';
 import { Id } from '@convex/_generated/dataModel';
 import { cn } from '@/lib/utils';
 
-type DeliveryStatus = 'pending' | 'in_transit' | 'delivered' | 'collected' | 'failed' | 'returned';
+type DeliveryStatus = 'registered' | 'arrived' | 'collected' | 'failed' | 'returned';
 
 interface Delivery {
   _id: Id<'deliveries'>;
@@ -35,24 +36,23 @@ interface Delivery {
 }
 
 const statusColors = {
-  pending: '#F59E0B',
-  in_transit: '#3B82F6',
-  delivered: '#10B981',
+  registered: '#F59E0B',
+  arrived: '#3B82F6',
   collected: '#059669',
   failed: '#EF4444',
   returned: '#6B7280',
 };
 
 const statusIcons = {
-  pending: 'time-outline',
-  in_transit: 'car-outline',
-  delivered: 'checkmark-circle-outline',
+  registered: 'document-outline',
+  arrived: 'cube-outline',
   collected: 'checkmark-done-outline',
   failed: 'close-circle-outline',
   returned: 'return-up-back-outline',
 } as const;
 
 export default function DeliveriesScreen() {
+  const router = useRouter();
   const [refreshing, setRefreshing] = useState(false);
   const [statusFilter, setStatusFilter] = useState<DeliveryStatus | 'all'>('all');
   const [showIssueModal, setShowIssueModal] = useState(false);
@@ -69,6 +69,8 @@ export default function DeliveriesScreen() {
     limit: 50,
   });
 
+  console.log('deliveriesData', deliveriesData);
+
   // Fetch delivery logs for selected delivery
   const deliveryLogsData = useQuery(
     api.delivery.getDeliveryLog,
@@ -76,7 +78,7 @@ export default function DeliveriesScreen() {
   );
 
   // Mutations
-  const confirmDeliveryReceipt = useMutation(api.delivery.confirmDeliveryReceipt);
+  const confirmDeliveryReceipt = useAction(api.delivery.confirmDeliveryReceipt);
   const reportDeliveryIssue = useMutation(api.delivery.reportDeliveryIssue);
 
   const onRefresh = useCallback(() => {
@@ -142,8 +144,8 @@ export default function DeliveriesScreen() {
   const renderDeliveryCard = (delivery: Delivery) => {
     const statusColor = statusColors[delivery.status];
     const statusIcon = statusIcons[delivery.status];
-    const canConfirm = ['delivered', 'in_transit'].includes(delivery.status);
-    const canReportIssue = !['collected', 'returned'].includes(delivery.status);
+    const canConfirm = ['arrived'].includes(delivery.status);
+    const canReportIssue = !['collected', 'returned', 'failed'].includes(delivery.status);
 
     const cardContent = (
       <View className='bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-3'>
@@ -248,30 +250,49 @@ export default function DeliveriesScreen() {
   const statusFilters = [
     { key: 'all' as const, label: 'All', count: deliveriesData?.deliveries?.length || 0 },
     {
-      key: 'pending' as const,
-      label: 'Pending',
-      count: deliveriesData?.deliveries?.filter(d => d.status === 'pending').length || 0,
+      key: 'registered' as const,
+      label: 'Registered',
+      count: deliveriesData?.deliveries?.filter(d => d.status === 'registered').length || 0,
     },
     {
-      key: 'in_transit' as const,
-      label: 'In Transit',
-      count: deliveriesData?.deliveries?.filter(d => d.status === 'in_transit').length || 0,
-    },
-    {
-      key: 'delivered' as const,
-      label: 'Delivered',
-      count: deliveriesData?.deliveries?.filter(d => d.status === 'delivered').length || 0,
+      key: 'arrived' as const,
+      label: 'Arrived',
+      count: deliveriesData?.deliveries?.filter(d => d.status === 'arrived').length || 0,
     },
     {
       key: 'collected' as const,
       label: 'Collected',
       count: deliveriesData?.deliveries?.filter(d => d.status === 'collected').length || 0,
     },
+    {
+      key: 'failed' as const,
+      label: 'Failed',
+      count: deliveriesData?.deliveries?.filter(d => d.status === 'failed').length || 0,
+    },
+    {
+      key: 'returned' as const,
+      label: 'Returned',
+      count: deliveriesData?.deliveries?.filter(d => d.status === 'returned').length || 0,
+    },
   ];
 
   return (
     <View className='flex-1 bg-gray-50'>
-      <PageHeader title='My Deliveries' type='back' icon='cube' subtitle='Track your deliveries' className='mb-4' />
+      <PageHeader
+        title='My Deliveries'
+        type='back'
+        icon='cube'
+        subtitle='Track your deliveries'
+        className='mb-4'
+        rightSlot={
+          <TouchableOpacity
+            onPress={() => router.push('/deliveries/register')}
+            className='bg-white/20 border border-white/25 rounded-lg px-3 py-2'
+          >
+            <Text className='text-white text-sm font-medium'>Register</Text>
+          </TouchableOpacity>
+        }
+      />
 
       {!isTokenRegistered && (
         <View className='bg-yellow-50 border border-yellow-200 rounded-lg p-3 mx-4 mb-4'>
@@ -658,8 +679,8 @@ export default function DeliveriesScreen() {
 
                 {/* Action Buttons */}
                 {(() => {
-                  const canConfirm = ['delivered', 'in_transit'].includes(selectedDelivery.status);
-                  const canReportIssue = !['collected', 'returned'].includes(selectedDelivery.status);
+                  const canConfirm = ['arrived'].includes(selectedDelivery.status);
+                  const canReportIssue = !['collected', 'returned', 'failed'].includes(selectedDelivery.status);
 
                   return (
                     (canConfirm || canReportIssue) && (

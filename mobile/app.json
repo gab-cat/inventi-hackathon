@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.gab-cat.mobile"
+      "bundleIdentifier": "com.inventi.mobile"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,11 +21,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.gabcat.mobile",
-      "permissions": [
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-      ]
+      "package": "com.inventi.mobile",
+      "permissions": ["android.permission.CAMERA", "android.permission.RECORD_AUDIO"]
     },
     "web": {
       "output": "static",
@@ -33,6 +30,7 @@
       "bundler": "metro"
     },
     "plugins": [
+      "./queries.js",
       [
         "expo-camera",
         {
@@ -63,6 +61,6 @@
         "projectId": "c880eb19-eacb-4c65-ad50-2641598efc0d"
       }
     },
-    "owner": "gab-cat"
+    "owner": "inventi"
   }
 }

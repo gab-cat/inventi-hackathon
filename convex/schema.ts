@@ -195,6 +195,7 @@ export default defineSchema({
   deliveries: defineTable({
     propertyId: v.id('properties'),
     unitId: v.optional(v.id('units')), // Optional for common area deliveries
+    piiHash: v.optional(v.string()), // Hash of personally identifiable information for blockchain operations
     deliveryType: v.union(
       v.literal('package'),
       v.literal('food'),
@@ -227,6 +228,7 @@ export default defineSchema({
   })
     .index('by_property', ['propertyId'])
     .index('by_unit', ['unitId'])
+    .index('by_pii_hash', ['piiHash'])
     .index('by_status', ['status'])
     .index('by_delivery_date', ['estimatedDelivery'])
     .index('by_tracking', ['trackingNumber'])
@@ -236,7 +238,13 @@ export default defineSchema({
   deliveryLogs: defineTable({
     deliveryId: v.id('deliveries'),
     propertyId: v.id('properties'),
-    action: v.union(v.literal('registered'), v.literal('arrived'), v.literal('collected'), v.literal('failed')), // "registered", "arrived", "collected", "failed"
+    action: v.union(
+      v.literal('registered'),
+      v.literal('arrived'),
+      v.literal('collected'),
+      v.literal('failed'),
+      v.literal('returned')
+    ), // "registered", "arrived", "collected", "failed", "returned"
     timestamp: v.number(),
     performedBy: v.optional(v.id('users')),
     notes: v.optional(v.string()),

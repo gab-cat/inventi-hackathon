@@ -27,6 +27,28 @@ import {
   webDeleteMessageHandler,
   webDeleteMessageReturns,
 } from './messageDefinitions/web/mutations';
+import {
+  mobileGetChatThreadsArgs,
+  mobileGetChatThreadsHandler,
+  mobileGetChatThreadsReturns,
+  mobileGetMessagesByThreadIdArgs,
+  mobileGetMessagesByThreadIdHandler,
+  mobileGetMessagesByThreadIdReturns,
+} from './messageDefinitions/mobile/queries/index';
+import {
+  mobileSendMessageArgs,
+  mobileSendMessageHandler,
+  mobileSendMessageReturns,
+  mobileMarkMessageReadArgs,
+  mobileMarkMessageReadHandler,
+  mobileMarkMessageReadReturns,
+  mobileUploadChatAttachmentArgs,
+  mobileUploadChatAttachmentHandler,
+  mobileUploadChatAttachmentReturns,
+  mobileStartChatWithManagerArgs,
+  mobileStartChatWithManagerHandler,
+  mobileStartChatWithManagerReturns,
+} from './messageDefinitions/mobile/mutations';
 
 // Web Message Queries
 export const webGetMessagesByThreadId = query({
@@ -76,4 +98,42 @@ export const webDeleteMessage = mutation({
   args: webDeleteMessageArgs,
   returns: webDeleteMessageReturns,
   handler: webDeleteMessageHandler,
+});
+
+// Mobile Message Queries
+export const mobileGetChatThreads = query({
+  args: mobileGetChatThreadsArgs,
+  returns: mobileGetChatThreadsReturns,
+  handler: mobileGetChatThreadsHandler,
+});
+
+export const mobileGetMessagesByThreadId = query({
+  args: mobileGetMessagesByThreadIdArgs,
+  returns: mobileGetMessagesByThreadIdReturns,
+  handler: mobileGetMessagesByThreadIdHandler,
+});
+
+// Mobile Message Mutations
+export const mobileSendMessage = mutation({
+  args: mobileSendMessageArgs,
+  returns: mobileSendMessageReturns,
+  handler: mobileSendMessageHandler,
+});
+
+export const mobileMarkMessageRead = mutation({
+  args: mobileMarkMessageReadArgs,
+  returns: mobileMarkMessageReadReturns,
+  handler: mobileMarkMessageReadHandler,
+});
+
+export const mobileUploadChatAttachment = mutation({
+  args: mobileUploadChatAttachmentArgs,
+  returns: mobileUploadChatAttachmentReturns,
+  handler: mobileUploadChatAttachmentHandler,
+});
+
+export const mobileStartChatWithManager = mutation({
+  args: mobileStartChatWithManagerArgs,
+  returns: mobileStartChatWithManagerReturns,
+  handler: mobileStartChatWithManagerHandler,
 });

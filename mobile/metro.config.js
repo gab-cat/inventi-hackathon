@@ -16,7 +16,13 @@ config.resolver = {
     ...(config.resolver?.extraNodeModules || {}),
     '@convex': path.resolve(__dirname, '../convex'),
   },
+  // Fix for AppKit module resolution issues
+  resolverMainFields: ['react-native', 'browser', 'main'],
+  platforms: ['ios', 'android', 'native', 'web'],
 };
+
+// Add resolver cache reset configuration
+config.resetCache = true;
 
 // Allow Metro to watch files outside the app directory (the monorepo root/convex)
 config.watchFolders = Array.from(new Set([

@@ -1,4 +1,4 @@
-import { query, mutation } from './_generated/server';
+import { query, mutation, action, internalMutation, internalQuery } from './_generated/server';
 import {
   webRegisterDeliveryArgs,
   webRegisterDeliveryHandler,
@@ -39,6 +39,39 @@ import {
   reportDeliveryIssueArgs,
   reportDeliveryIssueHandler,
   reportDeliveryIssueReturns,
+  // Internal mutations for contract operations
+  mobileUpdateDeliveryStatusArgs,
+  mobileUpdateDeliveryStatusHandler,
+  mobileUpdateDeliveryStatusReturns,
+  mobileLogDeliveryActionArgs,
+  mobileLogDeliveryActionHandler,
+  mobileLogDeliveryActionReturns,
+  // Query for getting delivery by piiHash
+  mobileGetDeliveryByPiiHashArgs,
+  mobileGetDeliveryByPiiHashHandler,
+  mobileGetDeliveryByPiiHashReturns,
+  // Mutation for updating delivery actual time
+  mobileUpdateDeliveryActualTimeArgs,
+  mobileUpdateDeliveryActualTimeHandler,
+  mobileUpdateDeliveryActualTimeReturns,
+  // Mutation for registering delivery
+  mobileRegisterDeliveryArgs,
+  mobileRegisterDeliveryHandler,
+  mobileRegisterDeliveryReturns,
+  // Internal mutation for database delivery registration
+  mobileRegisterDeliveryDbArgs,
+  mobileRegisterDeliveryDbHandler,
+  mobileRegisterDeliveryDbReturns,
+  // Contract actions
+  registerDeliveryContractArgs,
+  registerDeliveryContractHandler,
+  registerDeliveryContractReturns,
+  updateDeliveryStatusContractArgs,
+  updateDeliveryStatusContractHandler,
+  updateDeliveryStatusContractReturns,
+  getDeliveryContractArgs,
+  getDeliveryContractHandler,
+  getDeliveryContractReturns,
 } from './deliveryDefinitions/index';
 
 // Web Mutations
@@ -115,7 +148,7 @@ export const notifyIncomingDelivery = mutation({
   handler: notifyIncomingDeliveryHandler,
 });
 
-export const confirmDeliveryReceipt = mutation({
+export const confirmDeliveryReceipt = action({
   args: confirmDeliveryReceiptArgs,
   returns: confirmDeliveryReceiptReturns,
   handler: confirmDeliveryReceiptHandler,
@@ -125,4 +158,62 @@ export const reportDeliveryIssue = mutation({
   args: reportDeliveryIssueArgs,
   returns: reportDeliveryIssueReturns,
   handler: reportDeliveryIssueHandler,
+});
+
+export const registerDelivery = action({
+  args: mobileRegisterDeliveryArgs,
+  returns: mobileRegisterDeliveryReturns,
+  handler: mobileRegisterDeliveryHandler,
+});
+
+// Internal mutations for contract operations
+export const updateDeliveryStatus = internalMutation({
+  args: mobileUpdateDeliveryStatusArgs,
+  returns: mobileUpdateDeliveryStatusReturns,
+  handler: mobileUpdateDeliveryStatusHandler,
+});
+
+export const logDeliveryAction = internalMutation({
+  args: mobileLogDeliveryActionArgs,
+  returns: mobileLogDeliveryActionReturns,
+  handler: mobileLogDeliveryActionHandler,
+});
+
+export const registerDeliveryDb = internalMutation({
+  args: mobileRegisterDeliveryDbArgs,
+  returns: mobileRegisterDeliveryDbReturns,
+  handler: mobileRegisterDeliveryDbHandler,
+});
+
+// Internal query for getting delivery by piiHash
+export const mobileGetDeliveryByPiiHash = internalQuery({
+  args: mobileGetDeliveryByPiiHashArgs,
+  returns: mobileGetDeliveryByPiiHashReturns,
+  handler: mobileGetDeliveryByPiiHashHandler,
+});
+
+// Internal mutation for updating delivery actual time
+export const updateDeliveryActualTime = internalMutation({
+  args: mobileUpdateDeliveryActualTimeArgs,
+  returns: mobileUpdateDeliveryActualTimeReturns,
+  handler: mobileUpdateDeliveryActualTimeHandler,
+});
+
+// Mobile Contract Actions
+export const registerDeliveryContract = action({
+  args: registerDeliveryContractArgs,
+  returns: registerDeliveryContractReturns,
+  handler: registerDeliveryContractHandler,
+});
+
+export const updateDeliveryStatusContract = action({
+  args: updateDeliveryStatusContractArgs,
+  returns: updateDeliveryStatusContractReturns,
+  handler: updateDeliveryStatusContractHandler,
+});
+
+export const getDeliveryContract = action({
+  args: getDeliveryContractArgs,
+  returns: getDeliveryContractReturns,
+  handler: getDeliveryContractHandler,
 });

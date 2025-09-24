@@ -5,9 +5,8 @@ import { Infer, v } from 'convex/values';
 export const mobileGetMyDeliveriesArgs = v.object({
   status: v.optional(
     v.union(
-      v.literal('pending'),
-      v.literal('in_transit'),
-      v.literal('delivered'),
+      v.literal('registered'),
+      v.literal('arrived'),
       v.literal('collected'),
       v.literal('failed'),
       v.literal('returned')
@@ -110,7 +109,7 @@ export const mobileGetMyDeliveriesHandler = async (ctx: QueryCtx, args: Infer<ty
         }
       }
     } else if (currentUser.role === 'tenant') {
-      // Tenants can only see deliveries for their units
+      // Tenants can see deliveries for their units and all deliveries for properties they belong to
       const userUnits = await ctx.db
         .query('units')
         .filter(q => q.eq(q.field('tenantId'), currentUser._id))
@@ -128,12 +127,11 @@ export const mobileGetMyDeliveriesHandler = async (ctx: QueryCtx, args: Infer<ty
             .collect()
         );
 
-        // Get deliveries for properties (without specific unit) where tenant has units
+        // Get ALL deliveries for properties where tenant has units (both unit-specific and general property deliveries)
         const propertyDeliveryPromises = propertyIds.map(propertyId =>
           ctx.db
             .query('deliveries')
             .withIndex('by_property', q => q.eq('propertyId', propertyId))
-            .filter(q => q.eq(q.field('unitId'), undefined))
             .collect()
         );
 
@@ -142,7 +140,13 @@ export const mobileGetMyDeliveriesHandler = async (ctx: QueryCtx, args: Infer<ty
           Promise.all(propertyDeliveryPromises),
         ]);
 
-        deliveries = [...unitDeliveriesArrays.flat(), ...propertyDeliveriesArrays.flat()];
+        // Combine and deduplicate deliveries (some might appear in both unit and property queries)
+        const allDeliveries = [...unitDeliveriesArrays.flat(), ...propertyDeliveriesArrays.flat()];
+        const deliveryMap = new Map();
+        allDeliveries.forEach(delivery => {
+          deliveryMap.set(delivery._id, delivery);
+        });
+        deliveries = Array.from(deliveryMap.values());
       }
 
       // Filter by property if specified (must be a property the tenant has access to)
