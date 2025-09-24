@@ -128,7 +128,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
           <SidebarLabel>Delivery</SidebarLabel>
           <NavItems items={data.deliveryLinks} />
-        
+
           <SidebarLabel>Engagement</SidebarLabel>
           <NavItems items={data.engagementLinks} />
         </div>

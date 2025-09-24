@@ -212,13 +212,12 @@ export default defineSchema({
     estimatedDelivery: v.number(), // Timestamp
     actualDelivery: v.optional(v.number()),
     status: v.union(
-      v.literal('pending'),
-      v.literal('in_transit'),
-      v.literal('delivered'),
+      v.literal('registered'),
+      v.literal('arrived'),
       v.literal('collected'),
       v.literal('failed'),
       v.literal('returned')
-    ), // "pending", "in_transit", "delivered", "collected", "failed", "returned"
+    ), // "registered", "arrived", "collected", "failed", "returned"
     deliveryLocation: v.optional(v.string()), // "unit", "lobby", "mailroom", "storage"
     deliveryNotes: v.optional(v.string()),
     photos: v.optional(v.array(v.string())), // Photo URLs
@@ -237,13 +236,7 @@ export default defineSchema({
   deliveryLogs: defineTable({
     deliveryId: v.id('deliveries'),
     propertyId: v.id('properties'),
-    action: v.union(
-      v.literal('registered'),
-      v.literal('assigned'),
-      v.literal('delivered'),
-      v.literal('collected'),
-      v.literal('failed')
-    ), // "registered", "assigned", "delivered", "collected", "failed"
+    action: v.union(v.literal('registered'), v.literal('arrived'), v.literal('collected'), v.literal('failed')), // "registered", "arrived", "collected", "failed"
     timestamp: v.number(),
     performedBy: v.optional(v.id('users')),
     notes: v.optional(v.string()),

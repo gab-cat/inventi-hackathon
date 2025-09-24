@@ -12,9 +12,8 @@ export const webSearchDeliveryHistoryArgs = {
   ),
   status: v.optional(
     v.union(
-      v.literal('pending'),
-      v.literal('in_transit'),
-      v.literal('delivered'),
+      v.literal('registered'),
+      v.literal('arrived'),
       v.literal('collected'),
       v.literal('failed'),
       v.literal('returned')
@@ -43,7 +42,13 @@ export const webSearchDeliveryHistoryReturns = v.object({
       description: v.string(),
       estimatedDelivery: v.number(),
       actualDelivery: v.optional(v.number()),
-      status: v.string(),
+      status: v.union(
+        v.literal('registered'),
+        v.literal('arrived'),
+        v.literal('collected'),
+        v.literal('failed'),
+        v.literal('returned')
+      ),
       deliveryLocation: v.optional(v.string()),
       deliveryNotes: v.optional(v.string()),
       photos: v.optional(v.array(v.string())),
@@ -73,7 +78,7 @@ type Args = {
   propertyId?: Id<'properties'>;
   unitId?: Id<'units'>;
   deliveryType?: 'package' | 'food' | 'grocery' | 'mail' | 'other';
-  status?: 'pending' | 'in_transit' | 'delivered' | 'collected' | 'failed' | 'returned';
+  status?: 'registered' | 'arrived' | 'collected' | 'failed' | 'returned';
   dateFrom?: number;
   dateTo?: number;
   search?: string;

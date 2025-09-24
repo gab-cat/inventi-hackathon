@@ -59,8 +59,8 @@ export const webMarkDeliveryAsCollectedHandler = async (ctx: MutationCtx, args: 
   if (property.managerId !== currentUser._id) throw new Error('Access denied to this property');
 
   // Check if delivery can be marked as collected
-  if (!['in_transit', 'delivered'].includes(delivery.status)) {
-    throw new Error('Only in-transit or delivered deliveries can be marked as collected');
+  if (!['arrived'].includes(delivery.status)) {
+    throw new Error('Only arrived deliveries can be marked as collected');
   }
 
   const now = Date.now();

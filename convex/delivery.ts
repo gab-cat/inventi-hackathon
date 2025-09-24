@@ -24,13 +24,12 @@ import {
   webExportDeliveryReportsArgs,
   webExportDeliveryReportsHandler,
   webExportDeliveryReportsReturns,
-  // Mobile imports
   getMyDeliveriesArgs,
   getMyDeliveriesHandler,
-  getMyDeliveriesReturns,
   getDeliveryStatusArgs,
   getDeliveryStatusHandler,
-  getDeliveryStatusReturns,
+  getDeliveryLogArgs,
+  getDeliveryLogHandler,
   notifyIncomingDeliveryArgs,
   notifyIncomingDeliveryHandler,
   notifyIncomingDeliveryReturns,
@@ -40,9 +39,6 @@ import {
   reportDeliveryIssueArgs,
   reportDeliveryIssueHandler,
   reportDeliveryIssueReturns,
-  getDeliveryLogArgs,
-  getDeliveryLogHandler,
-  getDeliveryLogReturns,
 } from './deliveryDefinitions/index';
 
 // Web Mutations

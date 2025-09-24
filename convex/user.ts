@@ -9,6 +9,9 @@ import {
   webGetUsersArgs,
   webGetUsersReturns,
   webGetUsersHandler,
+  webGetUsersByPropertyAndUnitArgs,
+  webGetUsersByPropertyAndUnitReturns,
+  webGetUsersByPropertyAndUnitHandler,
 } from './userDefinitions/web/index';
 
 // Web Queries
@@ -26,6 +29,12 @@ export const webGetUsers = query({
   args: webGetUsersArgs,
   returns: webGetUsersReturns,
   handler: webGetUsersHandler,
+});
+
+export const webGetUsersByPropertyAndUnit = query({
+  args: webGetUsersByPropertyAndUnitArgs,
+  returns: webGetUsersByPropertyAndUnitReturns,
+  handler: webGetUsersByPropertyAndUnitHandler,
 });
 
 // Mobile Queries

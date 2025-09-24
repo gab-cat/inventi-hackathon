@@ -112,7 +112,7 @@ export const mobileNotifyIncomingDeliveryHandler = async (
       trackingNumber: args.trackingNumber,
       description: args.description,
       estimatedDelivery: args.estimatedDelivery,
-      status: 'pending',
+      status: 'registered',
       deliveryLocation: args.deliveryLocation,
       deliveryNotes: args.deliveryNotes,
       photos: args.photos,

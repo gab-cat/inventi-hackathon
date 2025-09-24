@@ -42,17 +42,13 @@ export function DeliveryLogsList({
     });
   };
 
-  const hasActiveFilters = Object.entries(filters).some(([key, value]) => 
-    key !== 'propertyId' && value !== undefined && value !== ''
+  const hasActiveFilters = Object.entries(filters).some(
+    ([key, value]) => key !== 'propertyId' && value !== undefined && value !== ''
   );
 
   const getActionBadge = (action: string) => {
     const colorClass = actionColors[action as keyof typeof actionColors] || 'bg-gray-100 text-gray-800';
-    return (
-      <Badge className={colorClass}>
-        {action.toUpperCase()}
-      </Badge>
-    );
+    return <Badge className={colorClass}>{action.toUpperCase()}</Badge>;
   };
 
   if (isLoading && logs.length === 0) {
@@ -86,11 +82,7 @@ export function DeliveryLogsList({
                   Clear Filters
                 </Button>
               )}
-              <Button
-                variant='outline'
-                size='sm'
-                onClick={() => setShowAdvanced(!showAdvanced)}
-              >
+              <Button variant='outline' size='sm' onClick={() => setShowAdvanced(!showAdvanced)}>
                 {showAdvanced ? 'Hide' : 'Show'} Advanced
               </Button>
             </div>
@@ -100,7 +92,7 @@ export function DeliveryLogsList({
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <Select
               value={filters.action || undefined}
-              onValueChange={(value) => handleFilterChange('action', value === 'all' ? undefined : value)}
+              onValueChange={value => handleFilterChange('action', value === 'all' ? undefined : value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder='All actions' />
@@ -108,8 +100,7 @@ export function DeliveryLogsList({
               <SelectContent>
                 <SelectItem value='all'>All actions</SelectItem>
                 <SelectItem value='registered'>Registered</SelectItem>
-                <SelectItem value='assigned'>Assigned</SelectItem>
-                <SelectItem value='delivered'>Delivered</SelectItem>
+                <SelectItem value='arrived'>Arrived</SelectItem>
                 <SelectItem value='collected'>Collected</SelectItem>
                 <SelectItem value='failed'>Failed</SelectItem>
               </SelectContent>
@@ -121,13 +112,23 @@ export function DeliveryLogsList({
                   type='date'
                   placeholder='From date'
                   value={filters.dateFrom ? new Date(filters.dateFrom).toISOString().split('T')[0] : ''}
-                  onChange={(e) => handleFilterChange('dateFrom', e.target.value ? new Date(e.target.value).getTime().toString() : undefined)}
+                  onChange={e =>
+                    handleFilterChange(
+                      'dateFrom',
+                      e.target.value ? new Date(e.target.value).getTime().toString() : undefined
+                    )
+                  }
                 />
                 <Input
                   type='date'
                   placeholder='To date'
                   value={filters.dateTo ? new Date(filters.dateTo).toISOString().split('T')[0] : ''}
-                  onChange={(e) => handleFilterChange('dateTo', e.target.value ? new Date(e.target.value).getTime().toString() : undefined)}
+                  onChange={e =>
+                    handleFilterChange(
+                      'dateTo',
+                      e.target.value ? new Date(e.target.value).getTime().toString() : undefined
+                    )
+                  }
                 />
               </div>
             )}
@@ -152,9 +153,7 @@ export function DeliveryLogsList({
                 </div>
                 <div>
                   <h3 className='text-lg font-semibold text-muted-foreground'>No logs found</h3>
-                  <p className='text-sm text-muted-foreground'>
-                    No delivery logs match your current filters.
-                  </p>
+                  <p className='text-sm text-muted-foreground'>No delivery logs match your current filters.</p>
                 </div>
               </div>
             </div>
@@ -173,11 +172,9 @@ export function DeliveryLogsList({
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {logs.map((log) => (
+                    {logs.map(log => (
                       <TableRow key={log._id}>
-                        <TableCell>
-                          {getActionBadge(log.action)}
-                        </TableCell>
+                        <TableCell>{getActionBadge(log.action)}</TableCell>
                         <TableCell>
                           <div className='space-y-1'>
                             <div className='flex items-center gap-2'>
@@ -188,9 +185,7 @@ export function DeliveryLogsList({
                               {log.delivery.senderName} → {log.delivery.recipientName}
                             </p>
                             {log.delivery.trackingNumber && (
-                              <p className='text-xs text-muted-foreground'>
-                                {log.delivery.trackingNumber}
-                              </p>
+                              <p className='text-xs text-muted-foreground'>{log.delivery.trackingNumber}</p>
                             )}
                           </div>
                         </TableCell>
@@ -226,7 +221,7 @@ export function DeliveryLogsList({
 
               {/* Mobile Card View */}
               <div className='md:hidden space-y-4'>
-                {logs.map((log) => (
+                {logs.map(log => (
                   <Card key={log._id} className='p-4'>
                     <div className='space-y-3'>
                       <div className='flex items-start justify-between'>
@@ -255,9 +250,7 @@ export function DeliveryLogsList({
                         </div>
                         <div>
                           <p className='font-medium'>Timestamp</p>
-                          <p className='text-muted-foreground'>
-                            {format(new Date(log.timestamp), 'MMM dd, HH:mm')}
-                          </p>
+                          <p className='text-muted-foreground'>{format(new Date(log.timestamp), 'MMM dd, HH:mm')}</p>
                         </div>
                       </div>
 
@@ -282,11 +275,7 @@ export function DeliveryLogsList({
               {/* Load More Button */}
               {hasMore && (
                 <div className='flex justify-center pt-4'>
-                  <Button
-                    variant='outline'
-                    onClick={onLoadMore}
-                    disabled={isLoading}
-                  >
+                  <Button variant='outline' onClick={onLoadMore} disabled={isLoading}>
                     {isLoading ? 'Loading...' : 'Load More'}
                   </Button>
                 </div>

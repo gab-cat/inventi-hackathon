@@ -88,9 +88,8 @@ export function DeliveryFilters({ filters, onFiltersChange, properties, units }:
             </SelectTrigger>
             <SelectContent>
               <SelectItem value='all'>All statuses</SelectItem>
-              <SelectItem value='pending'>Pending</SelectItem>
-              <SelectItem value='in_transit'>In Transit</SelectItem>
-              <SelectItem value='delivered'>Delivered</SelectItem>
+              <SelectItem value='registered'>Registered</SelectItem>
+              <SelectItem value='arrived'>Arrived</SelectItem>
               <SelectItem value='collected'>Collected</SelectItem>
               <SelectItem value='failed'>Failed</SelectItem>
               <SelectItem value='returned'>Returned</SelectItem>
