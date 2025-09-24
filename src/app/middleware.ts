@@ -6,7 +6,7 @@ const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)', '/', '
 export default clerkMiddleware(async (auth, req) => {
   const url = req.nextUrl.clone();
 
-  // Redirect root '/' to '/dashboard'
+  // Redirect root '/' to '/sign-in'
   if (url.pathname === '/') {
     url.pathname = '/sign-in';
     return NextResponse.redirect(url);

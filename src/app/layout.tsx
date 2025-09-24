@@ -36,6 +36,7 @@ export default function RootLayout({
       signUpForceRedirectUrl='/dashboard'
       signInForceRedirectUrl='/dashboard'
       afterSignOutUrl='/sign-in'
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
       appearance={{
         variables: {
           colorPrimary: '#1d5096',
@@ -48,7 +49,6 @@ export default function RootLayout({
           theme: 'auto',
           size: 'flexible',
         },
-
         elements: {
           footer: '!bg-red-500 !shadow-none !rounded-none',
           card: '!bg-transparent !shadow-none',

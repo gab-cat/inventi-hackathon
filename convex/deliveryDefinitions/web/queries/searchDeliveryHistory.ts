@@ -32,6 +32,7 @@ export const webSearchDeliveryHistoryReturns = v.object({
       _creationTime: v.number(),
       propertyId: v.id('properties'),
       unitId: v.optional(v.id('units')),
+      piiHash: v.optional(v.string()),
       deliveryType: v.string(),
       senderName: v.string(),
       senderCompany: v.optional(v.string()),
@@ -116,14 +117,14 @@ export const webSearchDeliveryHistoryHandler = async (ctx: QueryCtx, args: Args)
     base = ctx.db.query('deliveries');
   }
 
-  // Apply additional filters
-  if (args.unitId && !args.unitId) {
+  // Apply additional filters (only if not already used in base query)
+  if (args.unitId && !args.propertyId) {
     base = base.filter(q => q.eq(q.field('unitId'), args.unitId!));
   }
-  if (args.deliveryType && !args.deliveryType) {
+  if (args.deliveryType && !args.propertyId) {
     base = base.filter(q => q.eq(q.field('deliveryType'), args.deliveryType!));
   }
-  if (args.status && !args.status) {
+  if (args.status && !args.propertyId) {
     base = base.filter(q => q.eq(q.field('status'), args.status!));
   }
   if (args.dateFrom) {

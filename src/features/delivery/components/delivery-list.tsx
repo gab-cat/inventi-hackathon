@@ -16,9 +16,8 @@ import {
 import { DeliveryListProps } from '../types';
 
 const statusColors = {
-  pending: 'bg-yellow-100 text-yellow-800',
-  in_transit: 'bg-blue-100 text-blue-800',
-  delivered: 'bg-green-100 text-green-800',
+  registered: 'bg-yellow-100 text-yellow-800',
+  arrived: 'bg-blue-100 text-blue-800',
   collected: 'bg-emerald-100 text-emerald-800',
   failed: 'bg-red-100 text-red-800',
   returned: 'bg-gray-100 text-gray-800',
@@ -170,13 +169,13 @@ export function DeliveryList({
                             <Edit className='w-4 h-4 mr-2' />
                             Edit Delivery
                           </DropdownMenuItem>
-                          {delivery.status === 'pending' && (
+                          {delivery.status === 'registered' && (
                             <DropdownMenuItem onClick={() => onDeliveryAction('assign', delivery)}>
                               <User className='w-4 h-4 mr-2' />
                               Assign to Unit
                             </DropdownMenuItem>
                           )}
-                          {['in_transit', 'delivered'].includes(delivery.status) && (
+                          {['arrived'].includes(delivery.status) && (
                             <DropdownMenuItem onClick={() => onDeliveryAction('collect', delivery)}>
                               <Package className='w-4 h-4 mr-2' />
                               Mark as Collected
@@ -254,7 +253,7 @@ export function DeliveryList({
                       <Eye className='w-4 h-4 mr-1' />
                       View
                     </Button>
-                    {delivery.status === 'pending' && (
+                    {delivery.status === 'registered' && (
                       <Button
                         variant='outline'
                         size='sm'
@@ -265,7 +264,7 @@ export function DeliveryList({
                         Assign
                       </Button>
                     )}
-                    {['in_transit', 'delivered'].includes(delivery.status) && (
+                    {['arrived'].includes(delivery.status) && (
                       <Button
                         variant='outline'
                         size='sm'

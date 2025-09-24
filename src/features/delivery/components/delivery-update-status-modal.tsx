@@ -14,7 +14,7 @@ import { Textarea } from '../../../components/ui/textarea';
 import { Id } from '@convex/_generated/dataModel';
 
 const updateStatusSchema = z.object({
-  status: z.enum(['pending', 'in_transit', 'delivered', 'collected', 'failed', 'returned']),
+  status: z.enum(['registered', 'arrived', 'collected', 'failed', 'returned']),
   notes: z.string().optional(),
   actualDelivery: z.string().optional(),
 });

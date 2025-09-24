@@ -13,6 +13,7 @@ export const webGetDeliveryByIdReturns = v.union(
     _creationTime: v.number(),
     propertyId: v.id('properties'),
     unitId: v.optional(v.id('units')),
+    piiHash: v.optional(v.string()),
     deliveryType: v.union(
       v.literal('package'),
       v.literal('food'),
