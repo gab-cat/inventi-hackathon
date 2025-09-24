@@ -27,7 +27,7 @@ export function PageHeader({ title, subtitle, type, icon, rightSlot, className =
               <Ionicons size={28} name={icon || 'home'} color='#FFFFFF' />
             </View>
             <View>
-              <Text className='text-3xl font-bold text-white tracking-tight'>{title}</Text>
+              <Text className='text-lg font-bold text-white tracking-tight'>{title}</Text>
               {subtitle && <Text className='text-sm text-white/80 mt-0.5'>{subtitle}</Text>}
             </View>
           </View>
@@ -43,7 +43,7 @@ export function PageHeader({ title, subtitle, type, icon, rightSlot, className =
         {/* Center content for back type headers */}
         {type === 'back' && (
           <View className='flex-1 ml-4'>
-            <Text className='text-3xl font-bold text-white tracking-tight'>{title}</Text>
+            <Text className='text-lg font-bold text-white tracking-tight'>{title}</Text>
             {subtitle && <Text className='text-sm text-white/80 mt-0.5'>{subtitle}</Text>}
           </View>
         )}
