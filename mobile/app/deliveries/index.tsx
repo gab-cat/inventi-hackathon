@@ -69,8 +69,6 @@ export default function DeliveriesScreen() {
     limit: 50,
   });
 
-  console.log('deliveriesData', deliveriesData);
-
   // Fetch delivery logs for selected delivery
   const deliveryLogsData = useQuery(
     api.delivery.getDeliveryLog,
@@ -513,7 +511,7 @@ export default function DeliveriesScreen() {
               <View className='absolute top-8 left-12 w-4 h-4 rounded-full bg-white' />
             </View>
 
-            <View className='relative pt-14 pb-6 px-6 bg-blue-800'>
+            <View className='relative pt-6 pb-6 px-6 bg-blue-800'>
               <View className='flex-row items-center justify-between'>
                 <View className='flex-1'>
                   <View className='flex-row items-center mb-2'>
