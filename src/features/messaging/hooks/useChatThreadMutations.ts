@@ -2,11 +2,14 @@ import { useMutation } from 'convex/react';
 import { api } from '@convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
 import { useState } from 'react';
+import { useProgress } from '@bprogress/next';
+import { toast } from 'sonner';
 import { UseChatThreadMutationsReturn, CreateChatThreadForm, SendGroupMessageForm } from '../types';
 
 export function useChatThreadMutations(): UseChatThreadMutationsReturn {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { start, stop } = useProgress();
 
   const createThreadMutation = useMutation(api.chatThreads.webCreateChatThread);
   const assignThreadMutation = useMutation(api.chatThreads.webAssignThreadToEmployee);
@@ -18,6 +21,7 @@ export function useChatThreadMutations(): UseChatThreadMutationsReturn {
     try {
       setIsLoading(true);
       setError(null);
+      start();
 
       const result = await createThreadMutation({
         propertyId: data.propertyId as Id<'properties'>,
@@ -28,12 +32,15 @@ export function useChatThreadMutations(): UseChatThreadMutationsReturn {
         initialMessage: data.initialMessage,
       });
 
+      toast.success('Conversation created successfully');
       return result.threadId;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create thread');
+      toast.error('Failed to create conversation. Please try again.');
       throw err;
     } finally {
       setIsLoading(false);
+      stop();
     }
   };
 

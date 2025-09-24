@@ -191,7 +191,14 @@ function MessageSkeleton() {
   );
 }
 
-export function MessageList({ messages, isLoading, onLoadMore, hasMore, currentUserId }: MessageListProps) {
+export function MessageList({
+  messages,
+  isLoading,
+  onLoadMore,
+  hasMore,
+  currentUserId,
+  isMobile = false,
+}: MessageListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {

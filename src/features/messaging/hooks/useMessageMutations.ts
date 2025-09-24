@@ -2,11 +2,14 @@ import { useMutation } from 'convex/react';
 import { api } from '@convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
 import { useState } from 'react';
+import { useProgress } from '@bprogress/next';
+import { toast } from 'sonner';
 import { UseMessageMutationsReturn, SendMessageForm } from '../types';
 
 export function useMessageMutations(): UseMessageMutationsReturn {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { start, stop } = useProgress();
 
   const sendMessageMutation = useMutation(api.messages.webSendMessage);
   const markAsReadMutation = useMutation(api.messages.webMarkMessageRead);
@@ -18,6 +21,7 @@ export function useMessageMutations(): UseMessageMutationsReturn {
     try {
       setIsLoading(true);
       setError(null);
+      start();
 
       await sendMessageMutation({
         threadId: data.threadId as Id<'chatThreads'>,
@@ -26,11 +30,15 @@ export function useMessageMutations(): UseMessageMutationsReturn {
         attachments: data.attachments,
         replyTo: data.replyTo as Id<'messages'> | undefined,
       });
+
+      toast.success('Message sent successfully');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to send message');
+      toast.error('Failed to send message. Please try again.');
       throw err;
     } finally {
       setIsLoading(false);
+      stop();
     }
   };
 
@@ -88,6 +96,7 @@ export function useMessageMutations(): UseMessageMutationsReturn {
     try {
       setIsLoading(true);
       setError(null);
+      start();
 
       // In a real implementation, you would upload the file to a storage service first
       // For now, we'll simulate this with a mock URL
@@ -101,12 +110,15 @@ export function useMessageMutations(): UseMessageMutationsReturn {
         fileSize: file.size,
       });
 
+      toast.success('File uploaded successfully');
       return mockFileUrl;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to upload attachment');
+      toast.error('Failed to upload file. Please try again.');
       throw err;
     } finally {
       setIsLoading(false);
+      stop();
     }
   };
 

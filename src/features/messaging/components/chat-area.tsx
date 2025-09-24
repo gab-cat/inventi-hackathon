@@ -20,6 +20,7 @@ interface ChatAreaProps {
   onUploadAttachment: (file: File) => Promise<string>;
   replyToMessage?: MessageWithDetails | null;
   onCancelReply?: () => void;
+  isMobile?: boolean;
 }
 
 export function ChatArea({
@@ -33,22 +34,24 @@ export function ChatArea({
   onUploadAttachment,
   replyToMessage,
   onCancelReply,
+  isMobile = false,
 }: ChatAreaProps) {
   return (
-    <>
+    <div className='flex-1 flex flex-col overflow-hidden'>
       {/* Messages */}
-      <div className='flex-1 overflow-y-auto p-4'>
+      <div className={`flex-1 overflow-y-auto ${isMobile ? 'p-3' : 'p-4'}`}>
         <MessageList
           messages={messages}
           isLoading={messagesLoading}
           onLoadMore={hasMore ? onLoadMore : undefined}
           hasMore={hasMore}
           currentUserId={currentUserId}
+          isMobile={isMobile}
         />
       </div>
 
       {/* Message Input */}
-      <div className='p-4 border-t'>
+      <div className={`${isMobile ? 'p-3' : 'p-4'} border-t flex-shrink-0`}>
         <MessageInput
           threadId={selectedThreadId}
           onSendMessage={onSendMessage}
@@ -56,8 +59,9 @@ export function ChatArea({
           replyTo={replyToMessage || undefined}
           onCancelReply={onCancelReply}
           disabled={!selectedThreadId}
+          isMobile={isMobile}
         />
       </div>
-    </>
+    </div>
   );
 }
