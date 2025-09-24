@@ -32,7 +32,7 @@ const CONTRACT_FUNCTIONS: Record<DeliveryStatus, string> = {
 
 const VALID_TRANSITIONS: Record<DeliveryStatus, DeliveryStatus[]> = {
   registered: ['arrived', 'failed', 'registered'], // Can only move to arrived or failed
-  arrived: ['collected', 'failed', 'returned', 'arrived'], // Can be collected, fail, or returned
+  arrived: ['collected', 'failed', 'returned'], // Can be collected, fail, or returned
   collected: [], // Terminal state - cannot change
   failed: [], // Terminal state - cannot change
   returned: [], // Terminal state - cannot change
