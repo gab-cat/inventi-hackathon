@@ -1,7 +1,6 @@
 import { v } from 'convex/values';
 import { ActionCtx } from '../../../_generated/server';
 import { internal } from '../../../_generated/api';
-import { mobileGetDeliveryByPiiHashArgs, mobileGetDeliveryByPiiHashHandler } from '../queries/getDeliveryByPiiHash';
 
 export const mobileUpdateDeliveryStatusContractArgs = v.object({
   piiHash: v.string(), // Will be converted to bytes32
@@ -32,8 +31,8 @@ const CONTRACT_FUNCTIONS: Record<DeliveryStatus, string> = {
 };
 
 const VALID_TRANSITIONS: Record<DeliveryStatus, DeliveryStatus[]> = {
-  registered: ['arrived', 'failed'], // Can only move to arrived or failed
-  arrived: ['collected', 'failed', 'returned'], // Can be collected, fail, or returned
+  registered: ['arrived', 'failed', 'registered'], // Can only move to arrived or failed
+  arrived: ['collected', 'failed', 'returned', 'arrived'], // Can be collected, fail, or returned
   collected: [], // Terminal state - cannot change
   failed: [], // Terminal state - cannot change
   returned: [], // Terminal state - cannot change

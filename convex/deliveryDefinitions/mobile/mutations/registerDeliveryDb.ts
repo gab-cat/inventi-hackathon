@@ -24,6 +24,8 @@ export const mobileRegisterDeliveryDbArgs = v.object({
   deliveryLocation: v.optional(v.string()), // "unit", "lobby", "mailroom", "storage"
   deliveryNotes: v.optional(v.string()),
   photos: v.optional(v.array(v.string())), // Photo URLs
+  blockchainTxHash: v.optional(v.string()),
+  blockNumber: v.optional(v.number()),
 });
 
 export const mobileRegisterDeliveryDbReturns = v.object({
@@ -48,6 +50,8 @@ type Args = {
   deliveryLocation?: string;
   deliveryNotes?: string;
   photos?: string[];
+  blockchainTxHash?: string;
+  blockNumber?: number;
 };
 
 export const mobileRegisterDeliveryDbHandler = async (
@@ -112,6 +116,7 @@ export const mobileRegisterDeliveryDbHandler = async (
       deliveryLocation: args.deliveryLocation,
       deliveryNotes: args.deliveryNotes,
       photos: args.photos,
+      blockchainTxHash: args.blockchainTxHash,
       createdAt: now,
       updatedAt: now,
     });
@@ -123,7 +128,10 @@ export const mobileRegisterDeliveryDbHandler = async (
       action: 'registered',
       timestamp: now,
       performedBy: undefined, // Mobile delivery personnel - no user ID
-      notes: `Delivery registered via mobile app`,
+      notes: args.blockchainTxHash
+        ? `Delivery registered via mobile app and blockchain (tx: ${args.blockchainTxHash})`
+        : `Delivery registered via mobile app`,
+      blockchainTxHash: args.blockchainTxHash,
       createdAt: now,
     });
 

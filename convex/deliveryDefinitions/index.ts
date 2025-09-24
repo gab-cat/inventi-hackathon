@@ -10,6 +10,9 @@ export * from './web/mutations/assignDeliveryToRecipient';
 export * from './web/mutations/markDeliveryAsCollected';
 export * from './web/mutations/updateDeliveryStatus';
 
+// Web Actions
+export * from './web/actions/updateDeliveryStatusWithContract';
+
 // Mobile Queries
 export {
   mobileGetMyDeliveriesArgs as getMyDeliveriesArgs,
