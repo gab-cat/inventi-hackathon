@@ -1,4 +1,4 @@
-import { query, mutation } from './_generated/server';
+import { query, mutation, action } from './_generated/server';
 import {
   webGetActiveVisitorsArgs,
   webGetActiveVisitorsHandler,
@@ -80,6 +80,19 @@ import {
   getVisitorStatusArgs,
   getVisitorStatusHandler,
   getVisitorStatusReturns,
+  // Contract actions
+  checkInVisitorContractArgs,
+  checkInVisitorContractHandler,
+  checkInVisitorContractReturns,
+  checkOutVisitorContractArgs,
+  checkOutVisitorContractHandler,
+  checkOutVisitorContractReturns,
+  createVisitorEntryContractArgs,
+  createVisitorEntryContractHandler,
+  createVisitorEntryContractReturns,
+  getVisitorLogContractArgs,
+  getVisitorLogContractHandler,
+  getVisitorLogContractReturns,
 } from './visitorRequestDefinitions';
 
 export const requestVisitorPass = mutation({
@@ -112,4 +125,29 @@ export const getMyVisitors = query({
 export const getVisitorStatus = query({
   args: getVisitorStatusArgs,
   handler: getVisitorStatusHandler,
+});
+
+// Mobile Contract Actions
+export const checkInVisitorContract = action({
+  args: checkInVisitorContractArgs,
+  returns: checkInVisitorContractReturns,
+  handler: checkInVisitorContractHandler,
+});
+
+export const checkOutVisitorContract = action({
+  args: checkOutVisitorContractArgs,
+  returns: checkOutVisitorContractReturns,
+  handler: checkOutVisitorContractHandler,
+});
+
+export const createVisitorEntryContract = action({
+  args: createVisitorEntryContractArgs,
+  returns: createVisitorEntryContractReturns,
+  handler: createVisitorEntryContractHandler,
+});
+
+export const getVisitorLogContract = action({
+  args: getVisitorLogContractArgs,
+  returns: getVisitorLogContractReturns,
+  handler: getVisitorLogContractHandler,
 });

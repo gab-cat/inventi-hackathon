@@ -30,6 +30,16 @@ import {
   webCreateChatThreadHandler,
   webCreateChatThreadReturns,
 } from './chatThreadDefinitions/web/mutations/index';
+import {
+  mobileGetChatThreadsArgs,
+  mobileGetChatThreadsHandler,
+  mobileGetChatThreadsReturns,
+} from './chatThreadDefinitions/mobile/queries/index';
+import {
+  mobileStartChatWithManagerArgs,
+  mobileStartChatWithManagerHandler,
+  mobileStartChatWithManagerReturns,
+} from './chatThreadDefinitions/mobile/mutations/index';
 
 // Web Chat Thread Queries
 export const webGetAllChatThreads = query({
@@ -85,4 +95,18 @@ export const webCreateChatThread = mutation({
   args: webCreateChatThreadArgs,
   returns: webCreateChatThreadReturns,
   handler: webCreateChatThreadHandler,
+});
+
+// Mobile Chat Thread Queries
+export const mobileGetChatThreads = query({
+  args: mobileGetChatThreadsArgs,
+  returns: mobileGetChatThreadsReturns,
+  handler: mobileGetChatThreadsHandler,
+});
+
+// Mobile Chat Thread Mutations
+export const mobileStartChatWithManager = mutation({
+  args: mobileStartChatWithManagerArgs,
+  returns: mobileStartChatWithManagerReturns,
+  handler: mobileStartChatWithManagerHandler,
 });

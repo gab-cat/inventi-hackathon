@@ -9,6 +9,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useQuery } from 'convex/react';
 import { api } from '@convex/_generated/api';
 import { router } from 'expo-router';
+import { FixedAppKitButton } from '@/components/FixedAppKitButton';
 
 export default function SettingsScreen() {
   const { user } = useUser();
@@ -49,12 +50,7 @@ export default function SettingsScreen() {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: isDark ? '#0b0d12' : '#f8fafc' }}>
-      <PageHeader
-        title="Settings"
-        subtitle="Manage your account and preferences"
-        type="root"
-        icon="settings"
-      />
+      <PageHeader title='Settings' subtitle='Manage your account and preferences' type='root' icon='settings' />
 
       {/* Profile Section */}
       <ThemedView className='bg-white dark:bg-gray-800 p-6  border-gray-200 dark:border-gray-700'>
@@ -129,6 +125,8 @@ export default function SettingsScreen() {
             </ThemedView>
             <Ionicons name='chevron-forward' size={20} color={isDark ? '#94a3b8' : '#6b7280'} />
           </ThemedView>
+
+          <FixedAppKitButton />
 
           <ThemedView className='flex-row items-center py-3 border-b border-gray-200 dark:border-gray-700'>
             <Ionicons name='shield-checkmark' size={20} color={isDark ? '#94a3b8' : '#6b7280'} className='mr-3' />

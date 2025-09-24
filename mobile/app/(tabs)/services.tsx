@@ -68,8 +68,8 @@ export default function ServicesScreen() {
       icon: MessageCircle,
       iconColor: '#EC4899',
       bgColor: 'bg-pink-50',
-      route: '/chat',
-      available: false,
+      route: '/messaging',
+      available: true,
     },
   ];
 
@@ -100,7 +100,8 @@ export default function ServicesScreen() {
         service.id === 'visitor-management' ||
         service.id === 'deliveries' ||
         service.id === 'payment-gateway' ||
-        service.id === 'iot')
+        service.id === 'iot' ||
+        service.id === 'chat')
     ) {
       return (
         // @ts-expect-error TODO: fix this
