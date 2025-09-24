@@ -465,7 +465,7 @@ export default function HomeScreen() {
 
   return (
     <ScrollView
-      className='flex-1 bg-gray-50'
+      className='flex-1 bg-white'
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
       {/* Hero Section */}
