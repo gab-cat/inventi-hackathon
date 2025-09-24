@@ -316,10 +316,10 @@ export default function PropertiesScreen() {
   return (
     <ThemedView style={{ flex: 1 }} className='bg-background'>
       <PageHeader
-        title="Properties"
-        subtitle="Manage your real estate portfolio"
-        type="root"
-        icon="business"
+        title='Properties'
+        subtitle='Manage your real estate portfolio'
+        type='root'
+        icon='business'
         rightSlot={
           <Dialog open={showUnitForm} onOpenChange={setShowUnitForm}>
             <DialogTrigger asChild>

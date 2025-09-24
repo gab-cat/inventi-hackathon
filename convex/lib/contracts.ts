@@ -2,7 +2,7 @@
 
 import { createWalletClient, createPublicClient, http, type Address, type WalletClient, type PublicClient } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { mainnet, sepolia } from 'viem/chains';
+import { mainnet, polygonAmoy } from 'viem/chains';
 
 // Contract addresses - same as mobile
 export const PROPERTY_CONTRACT_ADDRESS = '0x3Dd34b0c2a53CFedb8A6DE1890787BfDEB44C371' as Address;
@@ -498,7 +498,38 @@ export const DELIVERY_MANAGEMENT_CONTRACT_ABI = [
 // Chain configuration
 const getChain = () => {
   const env = process.env.CONVEX_ENVIRONMENT || 'development';
-  return env === 'production' ? mainnet : sepolia;
+  // For this project, we're using Polygon Amoy testnet
+  // You can still override for production if needed
+  return env === 'polygon-mainnet' ? mainnet : polygonAmoy;
+};
+
+// Private key formatting utility
+const formatPrivateKey = (privateKey: string): `0x${string}` => {
+  // Remove any whitespace
+  const cleanKey = privateKey.trim();
+
+  // Check if already has 0x prefix
+  if (cleanKey.startsWith('0x')) {
+    // Validate length (should be 66 characters: '0x' + 64 hex chars)
+    if (cleanKey.length !== 66) {
+      throw new Error(
+        `Invalid private key length: expected 66 characters (including 0x prefix), got ${cleanKey.length}`
+      );
+    }
+    return cleanKey as `0x${string}`;
+  }
+
+  // Add 0x prefix if missing
+  if (cleanKey.length !== 64) {
+    throw new Error(`Invalid private key length: expected 64 hex characters, got ${cleanKey.length}`);
+  }
+
+  // Validate that it's all hex characters
+  if (!/^[0-9a-fA-F]+$/.test(cleanKey)) {
+    throw new Error('Invalid private key: must contain only hexadecimal characters');
+  }
+
+  return `0x${cleanKey}` as `0x${string}`;
 };
 
 // Client creation utilities
@@ -511,8 +542,11 @@ export const createClients = () => {
     throw new Error('BACKEND_WALLET_PRIVATE_KEY environment variable not set');
   }
 
+  // Format private key properly
+  const formattedPrivateKey = formatPrivateKey(privateKey);
+
   // Create account from private key
-  const account = privateKeyToAccount(privateKey as `0x${string}`);
+  const account = privateKeyToAccount(formattedPrivateKey);
 
   // Create public client for read operations
   const publicClient: PublicClient = createPublicClient({
@@ -558,18 +592,14 @@ export const readContract = async (options: ContractCallOptions) => {
 export const writeContract = async (options: ContractWriteOptions) => {
   const { walletClient } = createClients();
 
-  const contractOptions: any = {
+  const hash = await walletClient.writeContract({
     address: options.address,
     abi: options.abi,
     functionName: options.functionName,
     args: options.args,
-  };
-
-  if (options.value !== undefined) {
-    contractOptions.value = options.value;
-  }
-
-  const hash = await walletClient.writeContract(contractOptions);
+    ...(options.value !== undefined && { value: options.value }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any);
 
   return hash;
 };

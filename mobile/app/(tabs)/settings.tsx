@@ -9,7 +9,6 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useQuery } from 'convex/react';
 import { api } from '@convex/_generated/api';
 import { router } from 'expo-router';
-import { FixedAppKitButton } from '@/components/FixedAppKitButton';
 
 export default function SettingsScreen() {
   const { user } = useUser();
@@ -125,8 +124,6 @@ export default function SettingsScreen() {
             </ThemedView>
             <Ionicons name='chevron-forward' size={20} color={isDark ? '#94a3b8' : '#6b7280'} />
           </ThemedView>
-
-          <FixedAppKitButton />
 
           <ThemedView className='flex-row items-center py-3 border-b border-gray-200 dark:border-gray-700'>
             <Ionicons name='shield-checkmark' size={20} color={isDark ? '#94a3b8' : '#6b7280'} className='mr-3' />

@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useSignUp, useSSO } from '@clerk/clerk-expo';
 import { Link, useRouter } from 'expo-router';
-import { AuthCard } from '@/components/ui/AuthCard';
 import { TextField } from '@/components/ui/TextField';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
+import { PageHeader } from '@/components/ui/page-header';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function SignUpScreen() {
@@ -69,10 +69,19 @@ export default function SignUpScreen() {
 
   if (pendingVerification) {
     return (
-      <View style={{ flex: 1, padding: 24, backgroundColor: isDark ? '#0b0d12' : '#f8fafc' }}>
-        <View style={{ alignItems: 'center', marginTop: 36 }}>
-          <AuthCard title='Check your inbox' subtitle='We sent a 6-digit code to verify your email'>
-            <View style={{ gap: 12 }}>
+      <View className='flex-1 bg-gray-50'>
+        <PageHeader
+          title='Check Your Inbox'
+          subtitle='We sent a 6-digit code to verify your email'
+          type='root'
+          icon='mail'
+          className='mb-6'
+        />
+
+        <View style={{ flex: 1, padding: 20, paddingTop: 0 }}>
+          {/* Verification Form */}
+          <View className='bg-white rounded-2xl p-6 mb-4 shadow-sm border border-gray-100'>
+            <View className='space-y-4'>
               <TextField
                 label='Verification code'
                 value={code}
@@ -80,46 +89,39 @@ export default function SignUpScreen() {
                 keyboardType='number-pad'
                 onChangeText={setCode}
               />
-              <PrimaryButton title={verifying ? 'Verifying…' : 'Verify'} onPress={onVerifyPress} loading={verifying} />
+              <PrimaryButton
+                title={verifying ? 'Verifying…' : 'Verify'}
+                onPress={onVerifyPress}
+                loading={verifying}
+                style={{ marginTop: 12 }}
+              />
             </View>
-          </AuthCard>
-        </View>
-        <View style={{ flex: 1 }} />
-        <View style={{ height: 140, position: 'relative' }}>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: -40,
-              left: -20,
-              width: 160,
-              height: 160,
-              backgroundColor: isDark ? '#0f172a' : '#e2e8f0',
-              borderRadius: 9999,
-              opacity: 0.5,
-            }}
-          />
-          <View
-            style={{
-              position: 'absolute',
-              bottom: -60,
-              right: -30,
-              width: 220,
-              height: 220,
-              backgroundColor: isDark ? '#1f2937' : '#cbd5e1',
-              borderRadius: 9999,
-              opacity: 0.35,
-            }}
-          />
+          </View>
+
+          {/* Footer */}
+          <View className='items-center py-8'>
+            <Text className='text-xs text-gray-500 text-center mb-1'>Inventi Property Management System</Text>
+            <Text className='text-xs text-gray-500 text-center'>Secure verification powered by Clerk</Text>
+          </View>
         </View>
       </View>
     );
   }
 
   return (
-    <View style={{ flex: 1, padding: 24, gap: 16, backgroundColor: isDark ? '#0b0d12' : '#f8fafc' }}>
-      <View style={{ alignItems: 'center', marginTop: 36 }}>
-        <AuthCard title='Create account' subtitle='Start your journey with us'>
-          <View style={{ gap: 12 }}>
+    <View className='flex-1 bg-gray-50'>
+      <PageHeader
+        title='Create Account'
+        subtitle='Start your journey with us'
+        type='root'
+        icon='person-add'
+        className='mb-6'
+      />
+
+      <View style={{ flex: 1, padding: 20, paddingTop: 0 }}>
+        {/* Sign Up Form */}
+        <View className='bg-white rounded-2xl p-6 mb-4 shadow-sm border border-gray-100'>
+          <View className='space-y-4'>
             <TextField
               label='Email'
               autoCapitalize='none'
@@ -137,22 +139,30 @@ export default function SignUpScreen() {
               autoComplete='password-new'
               onChangeText={setPassword}
             />
-            <PrimaryButton title={loading ? 'Creating…' : 'Continue'} onPress={onSignUpPress} loading={loading} />
-            <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 4 }}>
-              <Text style={{ color: isDark ? '#94a3b8' : '#475569' }}>Already have an account?</Text>
+            <PrimaryButton
+              title={loading ? 'Creating…' : 'Continue'}
+              onPress={onSignUpPress}
+              loading={loading}
+              style={{ marginTop: 12 }}
+            />
+
+            {/* Sign In Link */}
+            <View className='flex-row justify-center items-center mt-4'>
+              <Text className='text-gray-600 text-sm'>Already have an account?</Text>
               <Link href='/sign-in'>
-                <Text style={{ color: isDark ? '#60a5fa' : '#2563eb', fontWeight: '700' }}>Sign in</Text>
+                <Text className='text-blue-800 font-semibold text-sm ml-1'>Sign in</Text>
               </Link>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12 }}>
-              <View style={{ flex: 1, height: 1, backgroundColor: isDark ? '#1f2937' : '#e5e7eb' }} />
-              <Text style={{ marginHorizontal: 10, color: isDark ? '#94a3b8' : '#6b7280', fontSize: 12 }}>
-                or continue with
-              </Text>
-              <View style={{ flex: 1, height: 1, backgroundColor: isDark ? '#1f2937' : '#e5e7eb' }} />
+
+            {/* Divider */}
+            <View className='flex-row items-center my-4'>
+              <View className='flex-1 h-px bg-gray-200' />
+              <Text className='px-4 text-sm text-gray-500'>or</Text>
+              <View className='flex-1 h-px bg-gray-200' />
             </View>
-            <PrimaryButton
-              title='Continue with Google'
+
+            {/* Google Sign Up */}
+            <TouchableOpacity
               onPress={async () => {
                 try {
                   const { createdSessionId, setActive: setActiveFromSSO } = await startSSOFlow({
@@ -160,7 +170,6 @@ export default function SignUpScreen() {
                   });
                   if (createdSessionId) {
                     await setActiveFromSSO?.({ session: createdSessionId });
-                    // Navigate safely with error handling
                     setTimeout(() => {
                       try {
                         router.replace('/');
@@ -173,37 +182,18 @@ export default function SignUpScreen() {
                   console.error('Google SSO error', err);
                 }
               }}
-              style={{ backgroundColor: isDark ? '#ea4335' : '#ea4335' }}
-            />
+              className='flex-row items-center justify-center gap-3 rounded-xl py-4 px-4 bg-blue-600'
+            >
+              <Text className='text-white text-base font-semibold'>Continue with Google</Text>
+            </TouchableOpacity>
           </View>
-        </AuthCard>
-      </View>
-      <View style={{ flex: 1 }} />
-      <View style={{ height: 140, position: 'relative' }}>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: -40,
-            left: -20,
-            width: 160,
-            height: 160,
-            backgroundColor: isDark ? '#0f172a' : '#e2e8f0',
-            borderRadius: 9999,
-            opacity: 0.5,
-          }}
-        />
-        <View
-          style={{
-            position: 'absolute',
-            bottom: -60,
-            right: -30,
-            width: 220,
-            height: 220,
-            backgroundColor: isDark ? '#1f2937' : '#cbd5e1',
-            borderRadius: 9999,
-            opacity: 0.35,
-          }}
-        />
+        </View>
+
+        {/* Footer */}
+        <View className='items-center py-8'>
+          <Text className='text-xs text-gray-500 text-center mb-1'>Inventi Property Management System</Text>
+          <Text className='text-xs text-gray-500 text-center'>Secure sign-up powered by Clerk</Text>
+        </View>
       </View>
     </View>
   );

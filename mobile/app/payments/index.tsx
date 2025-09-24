@@ -312,36 +312,21 @@ export default function PaymentsScreen() {
 
       {/* Payment Modal */}
       <Modal visible={showPaymentModal} animationType='slide' presentationStyle='pageSheet'>
-        <View className='flex-1 bg-gradient-to-br from-slate-50 to-blue-50'>
-          <View className='relative'>
-            <View className='absolute inset-0 bg-gradient-to-r from-green-500 via-green-600 to-blue-600' />
-            <View className='absolute inset-0 opacity-10'>
-              <View className='absolute top-6 right-6 w-12 h-12 rounded-full bg-white' />
-              <View className='absolute bottom-4 left-8 w-6 h-6 rounded-full bg-white' />
-            </View>
-
-            <View className='relative pt-12 pb-4 px-4 bg-blue-800'>
-              <View className='flex-row items-center justify-between'>
-                <View className='flex-1'>
-                  <View className='flex-row items-center mb-1'>
-                    <View className='w-8 h-8 rounded-lg bg-white/20 items-center justify-center mr-2'>
-                      <Ionicons name='card' size={16} color='white' />
-                    </View>
-                    <Text className='text-xl font-bold text-white'>Make Payment</Text>
-                  </View>
-                  <Text className='text-blue-100 text-xs font-medium'>Secure blockchain-verified transaction</Text>
+        <View className='flex-1 bg-slate-50'>
+          <PageHeader
+            title='Make Payment'
+            subtitle='Secure blockchain-verified transaction'
+            type='back'
+            icon='card'
+            rightSlot={
+              <TouchableOpacity onPress={() => setShowPaymentModal(false)}>
+                <View className='bg-blue-800/10 border border-blue-800/20 rounded-lg px-3 py-2'>
+                  <Ionicons name='close' size={16} color='#1e40af' />
                 </View>
-                <Button
-                  onPress={() => setShowPaymentModal(false)}
-                  variant='default'
-                  size='icon'
-                  className='h-8 w-8 rounded-full bg-white/10 border border-white/20'
-                >
-                  <Ionicons name='close' size={14} color='white' />
-                </Button>
-              </View>
-            </View>
-          </View>
+              </TouchableOpacity>
+            }
+            className='mb-4'
+          />
 
           <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
             <View className='px-4 py-4'>
@@ -466,37 +451,21 @@ export default function PaymentsScreen() {
 
       {/* Invoice Detail Modal */}
       <Modal visible={showInvoiceDetailModal} animationType='slide' presentationStyle='pageSheet'>
-        <View className='flex-1'>
-          <View className='relative'>
-            <View className='absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800' />
-            <View className='absolute inset-0 opacity-10'>
-              <View className='absolute top-4 right-8 w-16 h-16 rounded-full bg-white' />
-              <View className='absolute bottom-6 left-6 w-8 h-8 rounded-full bg-white' />
-              <View className='absolute top-8 left-12 w-4 h-4 rounded-full bg-white' />
-            </View>
-
-            <View className='relative pt-14 pb-6 px-6 bg-blue-800'>
-              <View className='flex-row items-center justify-between'>
-                <View className='flex-1'>
-                  <View className='flex-row items-center mb-2'>
-                    <View className='w-10 h-10 rounded-xl bg-white/20 items-center justify-center mr-3'>
-                      <Ionicons name='document-text' size={20} color='white' />
-                    </View>
-                    <Text className='text-2xl font-bold text-white'>Invoice Details</Text>
-                  </View>
-                  <Text className='text-blue-100 text-sm font-medium'>Complete invoice information</Text>
+        <View className='flex-1 bg-slate-50'>
+          <PageHeader
+            title='Invoice Details'
+            subtitle='Complete invoice information'
+            type='back'
+            icon='document-text'
+            rightSlot={
+              <TouchableOpacity onPress={() => setShowInvoiceDetailModal(false)}>
+                <View className='bg-blue-800/10 border border-blue-800/20 rounded-lg px-3 py-2'>
+                  <Ionicons name='close' size={18} color='#1e40af' />
                 </View>
-                <Button
-                  onPress={() => setShowInvoiceDetailModal(false)}
-                  variant='ghost'
-                  size='icon'
-                  className='h-10 w-10 rounded-full bg-white/10 border border-white/20'
-                >
-                  <Ionicons name='close' size={18} color='white' />
-                </Button>
-              </View>
-            </View>
-          </View>
+              </TouchableOpacity>
+            }
+            className='mb-4'
+          />
 
           <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
             {selectedInvoice && (

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMutation } from 'convex/react';
+import { useAction, useMutation } from 'convex/react';
 import { api } from '@convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
 import { useProgress } from '@bprogress/next';
@@ -15,7 +15,7 @@ export function useDeliveryMutations() {
   const registerDeliveryMutation = useMutation(api.delivery.webRegisterDelivery);
   const assignDeliveryMutation = useMutation(api.delivery.webAssignDeliveryToRecipient);
   const collectDeliveryMutation = useMutation(api.delivery.webMarkDeliveryAsCollected);
-  const updateStatusMutation = useMutation(api.delivery.webUpdateDeliveryStatus);
+  const updateStatusMutation = useAction(api.delivery.webUpdateDeliveryStatusWithContract);
 
   const registerDelivery = async (data: CreateDeliveryForm) => {
     setIsLoading(true);

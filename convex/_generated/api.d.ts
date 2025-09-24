@@ -82,6 +82,7 @@ import type * as deliveryDefinitions_mobile_queries_getDeliveryByPiiHash from ".
 import type * as deliveryDefinitions_mobile_queries_getDeliveryLog from "../deliveryDefinitions/mobile/queries/getDeliveryLog.js";
 import type * as deliveryDefinitions_mobile_queries_getDeliveryStatus from "../deliveryDefinitions/mobile/queries/getDeliveryStatus.js";
 import type * as deliveryDefinitions_mobile_queries_getMyDeliveries from "../deliveryDefinitions/mobile/queries/getMyDeliveries.js";
+import type * as deliveryDefinitions_web_actions_updateDeliveryStatusWithContract from "../deliveryDefinitions/web/actions/updateDeliveryStatusWithContract.js";
 import type * as deliveryDefinitions_web_mutations_assignDeliveryToRecipient from "../deliveryDefinitions/web/mutations/assignDeliveryToRecipient.js";
 import type * as deliveryDefinitions_web_mutations_markDeliveryAsCollected from "../deliveryDefinitions/web/mutations/markDeliveryAsCollected.js";
 import type * as deliveryDefinitions_web_mutations_registerDelivery from "../deliveryDefinitions/web/mutations/registerDelivery.js";
@@ -397,6 +398,7 @@ declare const fullApi: ApiFromModules<{
   "deliveryDefinitions/mobile/queries/getDeliveryLog": typeof deliveryDefinitions_mobile_queries_getDeliveryLog;
   "deliveryDefinitions/mobile/queries/getDeliveryStatus": typeof deliveryDefinitions_mobile_queries_getDeliveryStatus;
   "deliveryDefinitions/mobile/queries/getMyDeliveries": typeof deliveryDefinitions_mobile_queries_getMyDeliveries;
+  "deliveryDefinitions/web/actions/updateDeliveryStatusWithContract": typeof deliveryDefinitions_web_actions_updateDeliveryStatusWithContract;
   "deliveryDefinitions/web/mutations/assignDeliveryToRecipient": typeof deliveryDefinitions_web_mutations_assignDeliveryToRecipient;
   "deliveryDefinitions/web/mutations/markDeliveryAsCollected": typeof deliveryDefinitions_web_mutations_markDeliveryAsCollected;
   "deliveryDefinitions/web/mutations/registerDelivery": typeof deliveryDefinitions_web_mutations_registerDelivery;

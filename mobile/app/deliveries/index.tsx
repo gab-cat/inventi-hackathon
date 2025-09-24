@@ -287,7 +287,7 @@ export default function DeliveriesScreen() {
             onPress={() => router.push('/deliveries/register')}
             className='bg-white/20 border border-white/25 rounded-lg px-3 py-2'
           >
-            <Text className='text-white text-sm font-medium'>Register</Text>
+            <Text className='text-blue-800 text-sm font-medium'>Register</Text>
           </TouchableOpacity>
         }
       />
@@ -356,37 +356,21 @@ export default function DeliveriesScreen() {
 
       {/* Issue Report Modal */}
       <Modal visible={showIssueModal} animationType='slide' presentationStyle='pageSheet'>
-        <View className='flex-1 bg-gradient-to-br from-slate-50 to-blue-50'>
-          {/* Sleek Header */}
-          <View className='relative'>
-            <View className='absolute inset-0 bg-gradient-to-r from-red-500 via-red-600 to-pink-600' />
-            <View className='absolute inset-0 opacity-10'>
-              <View className='absolute top-6 right-6 w-12 h-12 rounded-full bg-white' />
-              <View className='absolute bottom-4 left-8 w-6 h-6 rounded-full bg-white' />
-            </View>
-
-            <View className='relative pt-12 pb-4 px-4 bg-blue-800'>
-              <View className='flex-row items-center justify-between'>
-                <View className='flex-1'>
-                  <View className='flex-row items-center mb-1'>
-                    <View className='w-8 h-8 rounded-lg bg-white/20 items-center justify-center mr-2'>
-                      <Ionicons name='warning' size={16} color='white' />
-                    </View>
-                    <Text className='text-xl font-bold text-white'>Report Issue</Text>
-                  </View>
-                  <Text className='text-red-100 text-xs font-medium'>Help us resolve delivery problems</Text>
+        <View className='flex-1 bg-slate-50'>
+          <PageHeader
+            title='Report Issue'
+            subtitle='Help us resolve delivery problems'
+            type='back'
+            icon='warning'
+            rightSlot={
+              <TouchableOpacity onPress={() => setShowIssueModal(false)}>
+                <View className='bg-blue-800/10 border border-blue-800/20 rounded-lg px-3 py-2'>
+                  <Ionicons name='close' size={16} color='#1e40af' />
                 </View>
-                <Button
-                  onPress={() => setShowIssueModal(false)}
-                  variant='default'
-                  size='icon'
-                  className='h-8 w-8 rounded-full bg-white/10 border border-white/20'
-                >
-                  <Ionicons name='close' size={14} color='white' />
-                </Button>
-              </View>
-            </View>
-          </View>
+              </TouchableOpacity>
+            }
+            className='mb-4'
+          />
 
           <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
             <View className='px-4 py-4'>
@@ -499,40 +483,21 @@ export default function DeliveriesScreen() {
 
       {/* Delivery Details Modal */}
       <Modal visible={showDetailModal} animationType='slide' presentationStyle='pageSheet'>
-        <View className='flex-1'>
-          {/* Sleek Header */}
-          <View className='relative'>
-            {/* Background gradient */}
-            <View className='absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800' />
-            {/* Decorative pattern */}
-            <View className='absolute inset-0 opacity-10'>
-              <View className='absolute top-4 right-8 w-16 h-16 rounded-full bg-white' />
-              <View className='absolute bottom-6 left-6 w-8 h-8 rounded-full bg-white' />
-              <View className='absolute top-8 left-12 w-4 h-4 rounded-full bg-white' />
-            </View>
-
-            <View className='relative pt-6 pb-6 px-6 bg-blue-800'>
-              <View className='flex-row items-center justify-between'>
-                <View className='flex-1'>
-                  <View className='flex-row items-center mb-2'>
-                    <View className='w-10 h-10 rounded-xl bg-white/20 items-center justify-center mr-3'>
-                      <Ionicons name='cube' size={20} color='white' />
-                    </View>
-                    <Text className='text-2xl font-bold text-white'>Delivery Details</Text>
-                  </View>
-                  <Text className='text-blue-100 text-sm font-medium'>Track your package journey</Text>
+        <View className='flex-1 bg-slate-50'>
+          <PageHeader
+            title='Delivery Details'
+            subtitle='Track your package journey'
+            type='back'
+            icon='cube'
+            rightSlot={
+              <TouchableOpacity onPress={() => setShowDetailModal(false)}>
+                <View className='bg-blue-800/10 border border-blue-800/20 rounded-lg px-3 py-2'>
+                  <Ionicons name='close' size={18} color='#1e40af' />
                 </View>
-                <Button
-                  onPress={() => setShowDetailModal(false)}
-                  variant='ghost'
-                  size='icon'
-                  className='h-10 w-10 rounded-full bg-white/10 border border-white/20'
-                >
-                  <Ionicons name='close' size={18} color='white' />
-                </Button>
-              </View>
-            </View>
-          </View>
+              </TouchableOpacity>
+            }
+            className='mb-4'
+          />
 
           <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
             {selectedDelivery && (

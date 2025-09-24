@@ -12,6 +12,9 @@ import {
   webUpdateDeliveryStatusArgs,
   webUpdateDeliveryStatusHandler,
   webUpdateDeliveryStatusReturns,
+  webUpdateDeliveryStatusWithContractArgs,
+  webUpdateDeliveryStatusWithContractHandler,
+  webUpdateDeliveryStatusWithContractReturns,
   webGetDeliveryByIdArgs,
   webGetDeliveryByIdHandler,
   webGetDeliveryByIdReturns,
@@ -97,6 +100,12 @@ export const webUpdateDeliveryStatus = mutation({
   args: webUpdateDeliveryStatusArgs,
   returns: webUpdateDeliveryStatusReturns,
   handler: webUpdateDeliveryStatusHandler,
+});
+
+export const webUpdateDeliveryStatusWithContract = action({
+  args: webUpdateDeliveryStatusWithContractArgs,
+  returns: webUpdateDeliveryStatusWithContractReturns,
+  handler: webUpdateDeliveryStatusWithContractHandler,
 });
 
 // Web Queries

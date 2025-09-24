@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { ScrollView, RefreshControl, Alert, TouchableOpacity, View, Text } from 'react-native';
+import { ScrollView, RefreshControl, Alert, TouchableOpacity, View, Text, Image } from 'react-native';
 import { useQuery, useMutation } from 'convex/react';
 import { useRouter } from 'expo-router';
 import { api } from '@convex/_generated/api';
@@ -114,9 +114,17 @@ export default function MessagingScreen() {
         <View className='flex-row items-center'>
           {/* Avatar */}
           <View className='w-12 h-12 rounded-full bg-blue-100 items-center justify-center mr-3'>
-            <Text className='text-blue-600 font-bold text-lg'>
-              {otherParticipant?.firstName?.[0]?.toUpperCase() || 'U'}
-            </Text>
+            {otherParticipant?.profileImage ? (
+              <Image
+                source={{ uri: otherParticipant.profileImage }}
+                className='w-12 h-12 rounded-full'
+                resizeMode='cover'
+              />
+            ) : (
+              <Text className='text-blue-600 font-bold text-lg'>
+                {otherParticipant?.firstName?.[0]?.toUpperCase() || 'U'}
+              </Text>
+            )}
           </View>
 
           {/* Content */}

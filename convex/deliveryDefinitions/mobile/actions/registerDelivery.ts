@@ -72,13 +72,46 @@ export const mobileRegisterDeliveryHandler = async (
       };
     }
 
-    // Register delivery in database using the hash
-    const dbResult = await ctx.runMutation(internal.delivery.registerDeliveryDb, {
-      ...args,
-      piiHash: hashResult.piiHash,
-    });
+    // Call smart contract to register delivery first
+    try {
+      // Import contract utilities (need to be imported inside the handler for Node.js modules)
+      const { writeContract, deliveryManagementContract, waitForTransactionReceipt } = await import(
+        '../../../lib/contracts'
+      );
 
-    return dbResult;
+      // Convert string to bytes32 format
+      const piiHashBytes32 = hashResult.piiHash as `0x${string}`;
+
+      console.log(`Registering delivery on blockchain with piiHash: ${hashResult.piiHash}`);
+
+      // Call smart contract registerDelivery function
+      const hash = await writeContract({
+        address: deliveryManagementContract.address,
+        abi: deliveryManagementContract.abi,
+        functionName: 'registerDelivery',
+        args: [piiHashBytes32],
+      });
+
+      // Wait for transaction confirmation
+      const receipt = await waitForTransactionReceipt(hash);
+
+      console.log(`Delivery registered on blockchain: tx ${hash}, block ${receipt.blockNumber}`);
+
+      // Register delivery in database with blockchain transaction details
+      const dbResult = await ctx.runMutation(internal.delivery.registerDeliveryDb, {
+        ...args,
+        piiHash: hashResult.piiHash,
+        blockchainTxHash: hash,
+      });
+
+      return dbResult;
+    } catch (contractError) {
+      console.error('Blockchain registration failed:', contractError);
+      return {
+        success: false,
+        message: `Blockchain registration failed: ${contractError instanceof Error ? contractError.message : 'Unknown error'}`,
+      };
+    }
   } catch (error) {
     console.error('Delivery registration failed:', error);
     return {

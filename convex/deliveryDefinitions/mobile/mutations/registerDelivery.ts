@@ -1,5 +1,5 @@
 import { v } from 'convex/values';
-import { ActionCtx } from '../../../_generated/server';
+import { ActionCtx, MutationCtx } from '../../../_generated/server';
 import { Id } from '../../../_generated/dataModel';
 import { internal, api } from '../../../_generated/api';
 
@@ -51,7 +51,7 @@ type Args = {
 
 // Database-only mutation for delivery registration
 export const mobileRegisterDeliveryDb = async (
-  ctx: any,
+  ctx: MutationCtx,
   args: Args & { piiHash: string }
 ): Promise<{
   success: boolean;
