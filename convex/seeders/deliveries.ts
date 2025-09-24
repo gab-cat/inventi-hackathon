@@ -36,7 +36,31 @@ export const seedDeliveries = mutation({
 
     // Get some sample properties and units
     const sampleProperties = properties.slice(0, 3); // Take first 3 properties
-    const sampleUnits = units.filter(u => sampleProperties.some(p => p._id === u.propertyId)).slice(0, 5); // Take first 5 units from those properties
+
+    // Ensure the target user has units assigned for deliveries
+    const targetUserUnits = units.filter(u => u.tenantId === targetUser._id);
+    let sampleUnits: typeof units = [];
+
+    if (targetUserUnits.length >= 2) {
+      // Use the target user's units if they have enough
+      sampleUnits = targetUserUnits.slice(0, 5);
+    } else {
+      // Assign some units to the target user and use those
+      const availableUnits = units
+        .filter(u => !u.tenantId && sampleProperties.some(p => p._id === u.propertyId))
+        .slice(0, 5);
+
+      // Assign units to target user
+      for (let i = 0; i < Math.min(availableUnits.length, 5); i++) {
+        await ctx.db.patch(availableUnits[i]._id, {
+          tenantId: targetUser._id,
+          isOccupied: true,
+          updatedAt: Date.now(),
+        });
+      }
+
+      sampleUnits = availableUnits.slice(0, 5);
+    }
 
     // Create comprehensive delivery data
     const deliveries = [

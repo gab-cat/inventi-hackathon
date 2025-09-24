@@ -1,0 +1,264 @@
+---
+description: Standardized conventions for creating contract read/write hooks using wagmi
+globs: ['**/use-*-contracts.ts']
+alwaysApply: true
+---
+
+# Contract Hooks Convention
+
+This document outlines the standardized pattern for creating contract interaction hooks using wagmi. Follow this convention to ensure consistency across projects.
+
+## File Structure and Naming
+
+### File Naming
+
+- Use use-{contract-name}-contract.ts format
+- Always use kebab-case for contract names
+- Place in /hooks/ directory
+
+### Hook Naming
+
+- Export a single hook function named use{ContractName}Contract
+- Use PascalCase for the contract name portion
+
+## Import Structure
+
+Always import in this order:
+
+1. Wagmi hooks
+2. Viem utilities
+3. Contract constants (address, ABI, config values)
+
+import {
+useReadContract,
+useWriteContract,
+useWaitForTransactionReceipt,
+useAccount,
+} from "wagmi";
+import { parseEther, formatEther } from "viem";
+import { CONTRACT_ADDRESS, CONTRACT_ABI, CONFIG_VALUE } from "@/lib/contract";
+
+## Hook Structure
+
+### Core Setup
+
+export function useContractNameContract() {
+// Write operations hook
+const { writeContract, data: hash, isPending, error } = useWriteContract()
+
+// Account hook for address-specific operations
+const { address } = useAccount()
+
+// Transaction confirmation hook
+const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+hash,
+})
+
+## Read Contract Hooks Pattern
+
+### Individual Read Hooks
+
+- Use separate useReadContract for each contract function
+- Include refetch function for each read operation
+- Use descriptive variable names that match the contract function
+- Add refetch prefix for refetch functions
+
+const { data: participantsCount, refetch: refetchParticipants } =
+useReadContract({
+address: CONTRACT_ADDRESS,
+abi: CONTRACT_ABI,
+functionName: "participantsCount",
+});
+
+### Address-Specific Reads
+
+For functions that require the user's address as a parameter:
+
+const { data: userBalance, refetch: refetchUserBalance } = useReadContract({
+address: CONTRACT_ADDRESS,
+abi: CONTRACT_ABI,
+functionName: "balanceOf",
+args: address ? [address] : undefined,
+query: { enabled: Boolean(address) },
+});
+
+### Conditional Reads
+
+Use query: { enabled: condition } for reads that should only execute under certain conditions.
+
+## Write Contract Functions Pattern
+
+### Basic Write Function
+
+const performAction = () => {
+writeContract({
+address: CONTRACT_ADDRESS,
+abi: CONTRACT_ABI,
+functionName: "actionName",
+});
+};
+
+### Write with Parameters
+
+const performActionWithParam = (param: string) => {
+writeContract({
+address: CONTRACT_ADDRESS,
+abi: CONTRACT_ABI,
+functionName: "actionWithParam",
+args: [param],
+});
+};
+
+### Write with ETH Value
+
+const performActionWithValue = (amount: string) => {
+writeContract({
+address: CONTRACT_ADDRESS,
+abi: CONTRACT_ABI,
+functionName: "payableAction",
+value: parseEther(amount),
+});
+};
+
+## Data Normalization and Type Safety
+
+### BigInt to Number/String Conversion
+
+// For counts, durations, timestamps
+count: data ? Number(data) : 0;
+
+// For ETH amounts
+amount: data ? formatEther(data) : "0";
+
+// For boolean flags
+flag: Boolean(data);
+
+### Address Handling
+
+userAddress: data as string;
+
+### Complex Return Types
+
+For functions returning tuples or structs:
+
+isEligible: data ? Boolean(data[0]) : false;
+errorCode: data ? Number(data[1]) : 0;
+claimableAmount: data ? formatEther(data[2]) : "0";
+
+## Return Object Organization
+
+Organize the return object in this order:
+
+return {
+// Contract constants and computed values
+CONSTANT_VALUE: data ? Number(data) : 0,
+computedValue,
+
+// Raw contract state
+participantsCount: data ? Number(data) : 0,
+isActive: Boolean(data),
+
+// User-specific state
+userBalance: data ? formatEther(data) : "0",
+hasParticipated: Boolean(data),
+
+// Transaction state
+hash,
+isPending,
+isConfirming,
+isConfirmed,
+error,
+
+// Contract functions
+performAction,
+performActionWithParam,
+performActionWithValue,
+
+// Utility functions
+refetchAll,
+};
+
+## Utility Functions
+
+### Refetch All Function
+
+Always include a refetchAll function that calls all individual refetch functions:
+
+const refetchAll = () => {
+refetchParticipants();
+refetchBalance();
+refetchStatus();
+// ... all refetch functions
+};
+
+## Error Handling
+
+### Transaction Errors
+
+The error from useWriteContract contains transaction errors. Always expose this in the return object.
+
+### Read Errors
+
+Individual useReadContract hooks have their own error states. Consider exposing critical read errors if needed.
+
+## Type Safety Considerations
+
+### ABI Types
+
+Use proper TypeScript types from the contract ABI when possible.
+
+### Parameter Types
+
+- Use string for ETH amounts (parse with parseEther)
+- Use string for addresses
+- Use appropriate types for other parameters
+
+### Return Types
+
+Document the return types clearly in comments or type definitions.
+
+## Testing Considerations
+
+### Hook Testing
+
+- Test read operations return expected data
+- Test write operations call writeContract with correct parameters
+- Test transaction states (pending, confirming, confirmed)
+- Test error handling
+
+### Mock Data
+
+Use wagmi's testing utilities or mock the contract calls for unit tests.
+
+## Usage Example
+
+// In a component
+const {
+participantsCount,
+userBalance,
+isPending,
+isConfirmed,
+enterGame,
+claimPrize,
+refetchAll,
+} = useGameContract();
+
+// Call write functions
+const handleEnter = () => enterGame();
+
+// Refetch data after state changes
+useEffect(() => {
+if (isConfirmed) {
+refetchAll();
+}
+}, [isConfirmed]);
+
+## Migration Notes
+
+When updating existing hooks to follow this convention:
+
+1. Ensure all read operations have corresponding refetch functions
+2. Normalize all return data appropriately
+3. Organize return object in the specified order
+4. Add refetchAll utility function
+5. Update any dependent components if return object structure changes
