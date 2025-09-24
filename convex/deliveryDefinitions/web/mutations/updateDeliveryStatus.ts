@@ -20,6 +20,7 @@ export const webUpdateDeliveryStatusReturns = v.object({
   _creationTime: v.number(),
   propertyId: v.id('properties'),
   unitId: v.optional(v.id('units')),
+  piiHash: v.optional(v.string()),
   deliveryType: v.string(),
   senderName: v.string(),
   senderCompany: v.optional(v.string()),

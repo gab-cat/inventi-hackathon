@@ -29,13 +29,35 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider
-      signInUrl={`/sign-in`}
-      signUpUrl={`/sign-up`}
-      signInFallbackRedirectUrl={`/dashboard`}
-      signUpFallbackRedirectUrl={`/dashboard`}
-      signUpForceRedirectUrl={`/dashboard`}
-      signInForceRedirectUrl={`/dashboard`}
-      afterSignOutUrl={`/sign-in`}
+      signInUrl='/sign-in'
+      signUpUrl='/sign-up'
+      signInFallbackRedirectUrl='/dashboard'
+      signUpFallbackRedirectUrl='/dashboard'
+      signUpForceRedirectUrl='/dashboard'
+      signInForceRedirectUrl='/dashboard'
+      afterSignOutUrl='/sign-in'
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      appearance={{
+        variables: {
+          colorPrimary: '#1d5096',
+        },
+        layout: {
+          socialButtonsPlacement: 'bottom',
+          shimmer: true,
+        },
+        captcha: {
+          theme: 'auto',
+          size: 'flexible',
+        },
+        elements: {
+          footer: '!bg-red-500 !shadow-none !rounded-none',
+          card: '!bg-transparent !shadow-none',
+          cardBox: '!bg-transparent !shadow-none',
+          input: '!p-2.5',
+          formButtonPrimary: '!p-2.5',
+          socialButtonsBlockButton: '!p-2.5',
+        },
+      }}
     >
       <ConvexClientProvider>
         <html lang='en' suppressHydrationWarning>

@@ -15,8 +15,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { SignOutButton, useUser } from '@clerk/nextjs';
+import { useUser } from '@clerk/nextjs';
 import { Skeleton } from '../ui/skeleton';
+import { SignOutButton } from '../custom/sign-out-btn';
 
 function NavUserContent() {
   const { user } = useUser();
@@ -87,16 +88,12 @@ function NavUserContent() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup className='w-full'>
-              <DropdownMenuItem className='w-full cursor-pointer'>
-                <span className='w-full'>
-                  <SignOutButton>
-                    <button className='w-full flex items-center gap-2'>
-                      <IconLogout />
-                      Sign out
-                    </button>
-                  </SignOutButton>
-                </span>
-              </DropdownMenuItem>
+              <SignOutButton />
+              {/* <DropdownMenuItem className='w-full cursor-pointer'>
+                  <IconLogout />
+                  Sign out
+                </DropdownMenuItem>
+              </SignOutButton> */}
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
