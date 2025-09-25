@@ -14,6 +14,9 @@ import {
   assignTenantToUnitArgs,
   createAndAssignUnitHandler,
   createAndAssignUnitArgs,
+  // Web queries
+  webGetUnitsByPropertyArgs,
+  webGetUnitsByPropertyHandler,
 } from './unitDefinitions';
 
 export const getMyUnits = query({
@@ -49,4 +52,10 @@ export const assignTenantToUnit = mutation({
 export const createAndAssignUnit = mutation({
   args: createAndAssignUnitArgs,
   handler: createAndAssignUnitHandler,
+});
+
+// Web Queries
+export const webGetUnitsByProperty = query({
+  args: webGetUnitsByPropertyArgs,
+  handler: webGetUnitsByPropertyHandler,
 });
