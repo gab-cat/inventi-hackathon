@@ -1,4 +1,4 @@
-import { useQuery } from 'convex/react';
+import { useAuthenticatedQuery } from '@/hooks/use-authenticated-query';
 import { api } from '@convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
 import { UseMessagesReturn, MessageWithDetails } from '../types';
@@ -10,7 +10,10 @@ interface UseMessagesProps {
 }
 
 export function useMessages({ threadId, limit = 50, cursor }: UseMessagesProps): UseMessagesReturn {
-  const result = useQuery(api.messages.webGetMessagesByThreadId, threadId ? { threadId, limit, cursor } : 'skip');
+  const result = useAuthenticatedQuery(
+    api.messages.webGetMessagesByThreadId,
+    threadId ? { threadId, limit, cursor } : 'skip'
+  );
 
   const messages = result?.messages as MessageWithDetails[] | undefined;
   const hasMore = result?.hasMore || false;

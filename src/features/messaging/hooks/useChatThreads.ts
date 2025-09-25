@@ -1,4 +1,4 @@
-import { useQuery } from 'convex/react';
+import { useAuthenticatedQuery } from '@/hooks/use-authenticated-query';
 import { api } from '@convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
 import { UseChatThreadsReturn, ChatThreadWithDetails } from '../types';
@@ -16,7 +16,7 @@ export function useChatThreads({
   isArchived,
   limit = 50,
 }: UseChatThreadsProps): UseChatThreadsReturn {
-  const threads = useQuery(api.chatThreads.webGetAllChatThreads, {
+  const threads = useAuthenticatedQuery(api.chatThreads.webGetAllChatThreads, {
     propertyId,
     threadType,
     isArchived,

@@ -1,4 +1,4 @@
-import { useQuery } from 'convex/react';
+import { useAuthenticatedQuery } from '@/hooks/use-authenticated-query';
 import { api } from '@convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
 
@@ -9,7 +9,7 @@ interface UseDashboardAnalyticsProps {
 }
 
 export function useDashboardAnalytics({ propertyId, startDate, endDate }: UseDashboardAnalyticsProps) {
-  const analytics = useQuery(
+  const analytics = useAuthenticatedQuery(
     api.dashboard.getDashboardAnalytics,
     propertyId
       ? {

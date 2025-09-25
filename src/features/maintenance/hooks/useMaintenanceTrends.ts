@@ -1,4 +1,4 @@
-import { useQuery } from 'convex/react';
+import { useAuthenticatedQuery } from '@/hooks/use-authenticated-query';
 import { MaintenanceTrends } from '../types';
 import { Id } from '@convex/_generated/dataModel';
 import { api } from '@convex/_generated/api';
@@ -9,5 +9,5 @@ export function useMaintenanceTrends(filters?: {
   dateFrom?: number;
   dateTo?: number;
 }) {
-  return useQuery(api.maintenance.webGetMaintenanceTrends, filters || {}) as MaintenanceTrends | undefined;
+  return useAuthenticatedQuery(api.maintenance.webGetMaintenanceTrends, filters || {}) as MaintenanceTrends | undefined;
 }

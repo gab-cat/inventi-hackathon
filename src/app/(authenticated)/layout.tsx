@@ -2,6 +2,7 @@ import { AppSidebar } from '@/components/layouts/sidebar';
 import { SiteHeader } from '@/components/layouts/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { requireAuth } from '@/lib/auth/require-auth';
+import { AuthStoreCleanup } from '@/components/auth-store-cleanup';
 import { ReactNode } from 'react';
 
 interface ServicesLayoutProps {
@@ -20,6 +21,7 @@ export default async function AuthenticatedLayout({ children }: ServicesLayoutPr
         } as React.CSSProperties
       }
     >
+      <AuthStoreCleanup />
       <AppSidebar variant='inset' />
       <SidebarInset>
         <SiteHeader />

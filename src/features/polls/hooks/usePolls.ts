@@ -1,10 +1,10 @@
-import { useQuery } from 'convex/react';
+import { useAuthenticatedQuery } from '@/hooks/use-authenticated-query';
 import { api } from '../../../../convex/_generated/api';
 import { Id } from '../../../../convex/_generated/dataModel';
 import { Poll, PollFilters, UsePollsReturn } from '../types';
 
-export function usePolls(propertyId: Id<'properties'>): UsePollsReturn {
-  const polls = useQuery(api.noticeboard.webGetPollsByProperty, { propertyId });
+export function usePolls(propertyId: Id<'properties'> | undefined): UsePollsReturn {
+  const polls = useAuthenticatedQuery(api.noticeboard.webGetPollsByProperty, propertyId ? { propertyId } : 'skip');
 
   const isLoading = polls === undefined;
   const error = polls === null ? 'Failed to load polls' : undefined;
@@ -20,7 +20,10 @@ export function usePolls(propertyId: Id<'properties'>): UsePollsReturn {
 }
 
 export function usePollWithResponses(pollId: Id<'polls'> | null | undefined) {
-  const pollWithResponses = useQuery(api.noticeboard.webGetPollWithResponses, pollId ? { pollId } : 'skip');
+  const pollWithResponses = useAuthenticatedQuery(
+    api.noticeboard.webGetPollWithResponses,
+    pollId ? { pollId } : 'skip'
+  );
 
   const isLoading = pollWithResponses === undefined;
   const error = pollWithResponses === null ? 'Failed to load poll' : undefined;
@@ -33,7 +36,7 @@ export function usePollWithResponses(pollId: Id<'polls'> | null | undefined) {
 }
 
 export function usePollStats(pollId: Id<'polls'> | null | undefined) {
-  const stats = useQuery(api.noticeboard.webGetPollStats, pollId ? { pollId } : 'skip');
+  const stats = useAuthenticatedQuery(api.noticeboard.webGetPollStats, pollId ? { pollId } : 'skip');
 
   const isLoading = stats === undefined;
   const error = stats === null ? 'Failed to load poll stats' : undefined;
@@ -46,7 +49,10 @@ export function usePollStats(pollId: Id<'polls'> | null | undefined) {
 }
 
 export function usePollResponseCounts(propertyId: Id<'properties'> | null | undefined) {
-  const responseCounts = useQuery(api.noticeboard.webGetPollResponseCounts, propertyId ? { propertyId } : 'skip');
+  const responseCounts = useAuthenticatedQuery(
+    api.noticeboard.webGetPollResponseCounts,
+    propertyId ? { propertyId } : 'skip'
+  );
 
   const isLoading = responseCounts === undefined;
   const error = responseCounts === null ? 'Failed to load response counts' : undefined;
