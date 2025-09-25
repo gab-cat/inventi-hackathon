@@ -25,6 +25,7 @@ import {
   BarChart3,
   Users,
   Truck,
+  FileText,
 } from 'lucide-react';
 import { Label } from '../ui/label';
 
@@ -84,6 +85,13 @@ const data = {
       icon: <MessageSquare className='h-5 w-5' />,
     },
   ],
+  paymentLinks: [
+    {
+      title: 'Invoices',
+      url: '/invoices',
+      icon: <FileText className='h-5 w-5' />,
+    },
+  ],
 };
 
 // Component to conditionally show labels based on sidebar state
@@ -131,6 +139,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
           <SidebarLabel>Engagement</SidebarLabel>
           <NavItems items={data.engagementLinks} />
+
+          <SidebarLabel>Payment</SidebarLabel>
+          <NavItems items={data.paymentLinks} />
         </div>
         {/* <NavDocuments items={data.documents} />
                 <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
