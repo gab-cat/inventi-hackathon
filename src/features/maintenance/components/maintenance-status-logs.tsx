@@ -10,12 +10,13 @@ import { useMaintenanceUpdates } from '../hooks/useMaintenanceUpdates';
 import { MaintenanceUpdate, Status } from '../types';
 import { TablePagination } from '@/components/ui/table-pagination';
 import { Search, Filter, Download, RefreshCw } from 'lucide-react';
+import { Id } from '@convex/_generated/dataModel';
 
 interface MaintenanceStatusLogsProps {
-  propertyId?: string;
+  propertyId?: Id<'properties'>;
   initialFilters?: {
     status?: Status;
-    updatedBy?: string;
+    updatedBy?: Id<'users'>;
     dateFrom?: number;
     dateTo?: number;
   };

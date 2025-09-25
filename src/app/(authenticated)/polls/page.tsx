@@ -23,7 +23,7 @@ export default function PollsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const { selectedPropertyId } = usePropertyStore();
 
-  const { polls, isLoading, error, refetch } = usePolls(selectedPropertyId!);
+  const { polls, isLoading, error, refetch } = usePolls(selectedPropertyId);
 
   // Check if the selected poll still exists in the polls list
   const selectedPollExists = selectedPoll && polls.some(p => p._id === selectedPoll._id);

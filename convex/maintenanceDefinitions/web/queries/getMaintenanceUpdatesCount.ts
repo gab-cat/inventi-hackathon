@@ -49,7 +49,10 @@ export const webGetMaintenanceUpdatesCountHandler = async (ctx: QueryCtx, args: 
       .query('userProperties')
       .withIndex('by_user_property', q => q.eq('userId', currentUser._id).eq('propertyId', args.propertyId!))
       .first();
-    if (!userProperty) throw new Error('Access denied to property');
+    if (!userProperty) {
+      // No access -> return zero instead of throwing to avoid runtime errors
+      return { count: 0 };
+    }
   }
 
   // Apply filters
@@ -61,7 +64,19 @@ export const webGetMaintenanceUpdatesCountHandler = async (ctx: QueryCtx, args: 
   } else if (args.updatedBy) {
     query = ctx.db.query('maintenanceUpdates').withIndex('by_updated_by', q => q.eq('updatedBy', args.updatedBy!));
   } else {
-    query = ctx.db.query('maintenanceUpdates').withIndex('by_timestamp');
+    // Restrict to only user's accessible properties when no specific property is provided
+    const userProperties = await ctx.db
+      .query('userProperties')
+      .withIndex('by_user', q => q.eq('userId', currentUser._id))
+      .collect();
+    const accessiblePropertyIds = userProperties.map(up => up.propertyId);
+    if (accessiblePropertyIds.length === 0) {
+      return { count: 0 };
+    }
+    query = ctx.db
+      .query('maintenanceUpdates')
+      .withIndex('by_timestamp')
+      .filter(q => q.or(...accessiblePropertyIds.map(propertyId => q.eq(q.field('propertyId'), propertyId))));
   }
 
   // Count with filters

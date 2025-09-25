@@ -1,4 +1,4 @@
-import { useQuery } from 'convex/react';
+import { useAuthenticatedQuery } from '@/hooks/use-authenticated-query';
 import { api } from '@convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
 
@@ -8,7 +8,7 @@ interface UseUnreadMessageCountProps {
 }
 
 export function useUnreadMessageCount({ propertyId, threadId }: UseUnreadMessageCountProps) {
-  const result = useQuery(api.messages.webGetUnreadMessageCount, {
+  const result = useAuthenticatedQuery(api.messages.webGetUnreadMessageCount, {
     propertyId,
     threadId,
   });

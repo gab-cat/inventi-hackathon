@@ -6,14 +6,16 @@ interface PropertyStore {
   selectedPropertyId: Id<'properties'> | undefined;
   setSelectedPropertyId: (propertyId: Id<'properties'> | undefined) => void;
   clearSelectedProperty: () => void;
+  reset: () => void;
 }
 
 export const usePropertyStore = create<PropertyStore>()(
   persist(
-    set => ({
+    (set, get) => ({
       selectedPropertyId: undefined,
       setSelectedPropertyId: propertyId => set({ selectedPropertyId: propertyId }),
       clearSelectedProperty: () => set({ selectedPropertyId: undefined }),
+      reset: () => set({ selectedPropertyId: undefined }),
     }),
     {
       name: 'property-store',
@@ -21,4 +23,3 @@ export const usePropertyStore = create<PropertyStore>()(
     }
   )
 );
-

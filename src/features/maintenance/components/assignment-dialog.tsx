@@ -14,7 +14,7 @@ import {
 import { useMaintenanceMutations } from '../hooks/useMaintenanceMutations';
 import { api } from '@convex/_generated/api';
 import { Id } from '@convex/_generated/dataModel';
-import { useQuery } from 'convex/react';
+import { useAuthenticatedQuery } from '@/hooks/use-authenticated-query';
 
 interface AssignmentDialogProps {
   requestId: Id<'maintenanceRequests'>;
@@ -25,7 +25,7 @@ interface AssignmentDialogProps {
 
 export function AssignmentDialog({ requestId, isOpen, onClose, onSuccess }: AssignmentDialogProps) {
   const [selectedTechnician, setSelectedTechnician] = useState<Id<'users'> | null>(null);
-  const technicians = useQuery(api.maintenance.webGetTechnicians, {});
+  const technicians = useAuthenticatedQuery(api.maintenance.webGetTechnicians, {});
   const { assignTechnician } = useMaintenanceMutations();
 
   const handleAssign = async () => {

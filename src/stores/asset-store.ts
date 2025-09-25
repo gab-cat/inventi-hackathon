@@ -26,11 +26,14 @@ interface AssetStore {
   // Selected property
   selectedPropertyId: Id<'properties'> | undefined;
   setSelectedPropertyId: (propertyId: Id<'properties'> | undefined) => void;
+
+  // Reset store
+  reset: () => void;
 }
 
 export const useAssetStore = create<AssetStore>()(
   persist(
-    set => ({
+    (set, get) => ({
       // Tab state
       selectedTab: 'dashboard',
       setSelectedTab: tab => set({ selectedTab: tab }),
@@ -49,6 +52,18 @@ export const useAssetStore = create<AssetStore>()(
       // Selected property
       selectedPropertyId: undefined,
       setSelectedPropertyId: propertyId => set({ selectedPropertyId: propertyId }),
+
+      // Reset store
+      reset: () =>
+        set({
+          selectedTab: 'dashboard',
+          assetPagination: {
+            cursor: null,
+            hasMore: true,
+          },
+          assetFilters: {},
+          selectedPropertyId: undefined,
+        }),
     }),
     {
       name: 'asset-store',

@@ -77,13 +77,24 @@ export const webGetMaintenanceUpdatesHandler = async (ctx: QueryCtx, args: Args)
     .unique();
   if (!currentUser) throw new Error('User not found');
 
-  // Check if user has access to the property
+  // Get user's accessible properties
+  const userProperties = await ctx.db
+    .query('userProperties')
+    .withIndex('by_user', q => q.eq('userId', currentUser._id))
+    .collect();
+
+  const accessiblePropertyIds = userProperties.map(up => up.propertyId);
+
+  // Check if user has access to the specific property
   if (args.propertyId) {
-    const userProperty = await ctx.db
-      .query('userProperties')
-      .withIndex('by_user_property', q => q.eq('userId', currentUser._id).eq('propertyId', args.propertyId!))
-      .first();
-    if (!userProperty) throw new Error('Access denied to property');
+    if (!accessiblePropertyIds.includes(args.propertyId)) {
+      // Return empty page instead of throwing to avoid breaking UI
+      return {
+        page: [],
+        isDone: true,
+        continueCursor: null,
+      } as any;
+    }
   }
 
   // Apply filters
@@ -95,11 +106,27 @@ export const webGetMaintenanceUpdatesHandler = async (ctx: QueryCtx, args: Args)
   } else if (args.updatedBy) {
     query = ctx.db.query('maintenanceUpdates').withIndex('by_updated_by', q => q.eq('updatedBy', args.updatedBy!));
   } else {
+    // Only return maintenance updates for properties the user has access to
     query = ctx.db.query('maintenanceUpdates').withIndex('by_timestamp');
   }
 
   // Apply additional filters
   let filteredQuery = query;
+
+  // Filter by accessible properties when no specific property is requested
+  if (!args.propertyId && !args.requestId && !args.updatedBy) {
+    if (accessiblePropertyIds.length === 0) {
+      // Return empty page early
+      return {
+        page: [],
+        isDone: true,
+        continueCursor: null,
+      } as any;
+    }
+    filteredQuery = filteredQuery.filter(q =>
+      q.or(...accessiblePropertyIds.map(propertyId => q.eq(q.field('propertyId'), propertyId)))
+    );
+  }
 
   if (args.status) {
     filteredQuery = filteredQuery.filter(q => q.eq(q.field('status'), args.status));

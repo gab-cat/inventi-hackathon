@@ -1,4 +1,4 @@
-import { useQuery } from 'convex/react';
+import { useAuthenticatedQuery } from '@/hooks/use-authenticated-query';
 import { useCallback, useState, useEffect, useMemo } from 'react';
 import { api } from '@convex/_generated/api';
 import { MaintenanceUpdateFilters, MaintenanceUpdate, UseMaintenanceUpdatesReturn } from '../types';
@@ -27,13 +27,16 @@ export function useMaintenanceUpdates(initialFilters: MaintenanceUpdateFilters =
     cursor: cursors[currentPage - 1] || null,
   };
 
-  const paginatedResult = useQuery(api.maintenance.webGetMaintenanceUpdates, {
+  // Filter out undefined values to avoid backend errors
+  const cleanFilters = Object.fromEntries(Object.entries(filters).filter(([_, value]) => value !== undefined));
+
+  const paginatedResult = useAuthenticatedQuery(api.maintenance.webGetMaintenanceUpdates, {
     paginationOpts,
-    ...filters,
+    ...cleanFilters,
   });
 
   // Get total count with the same filters
-  const countResult = useQuery(api.maintenance.webGetMaintenanceUpdatesCount, filters);
+  const countResult = useAuthenticatedQuery(api.maintenance.webGetMaintenanceUpdatesCount, cleanFilters);
 
   const updates = paginatedResult?.page || [];
   const isLoading = paginatedResult === undefined;
