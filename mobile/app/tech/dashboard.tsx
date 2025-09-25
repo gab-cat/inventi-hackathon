@@ -168,7 +168,7 @@ export default function TechDashboardScreen() {
       <PageHeader
         title='Tech Dashboard'
         subtitle='Field technician overview'
-        type='back'
+        type='root'
         rightSlot={
           <TouchableOpacity onPress={onRefresh} disabled={refreshing}>
             <Icon as={RefreshCw} size={20} className={`text-white ${refreshing ? 'opacity-50' : ''}`} />

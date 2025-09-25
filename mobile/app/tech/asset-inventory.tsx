@@ -160,9 +160,9 @@ export default function TechAssetInventoryScreen() {
       {/* Search */}
       <View className='px-5 pb-5 pt-4'>
         <View className='relative'>
-          <Icon as={Search} size={20} className='absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60' />
+          <Icon as={Search} size={20} className='absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-800/60' />
           <TextInput
-            className='w-full h-12 pl-12 pr-4 bg-blue-800 rounded-xl placeholder:text-white/60 text-white'
+            className='w-full h-12 pl-12 pr-4 bg-white rounded-xl placeholder:text-blue-800/60 text-black'
             placeholder='Search assets...'
             value={searchQuery}
             onChangeText={setSearchQuery}
